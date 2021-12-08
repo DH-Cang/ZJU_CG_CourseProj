@@ -12,10 +12,10 @@ public:
 
 class PerspectiveCamera : public Camera {
 public:
-	float fovy;
-	float aspect;
-	float znear;
-	float zfar;
+	float fovy;	//视角
+	float aspect;	// 宽高比
+	float znear;	// 近平面距离
+	float zfar;		// 远平面距离
 public:
 	PerspectiveCamera(float fovy, float aspect, float znear, float zfar);
 

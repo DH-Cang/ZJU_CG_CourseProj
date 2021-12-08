@@ -142,8 +142,10 @@
   <ItemGroup>
     <ClCompile Include="base\application.cpp" />
     <ClCompile Include="base\camera.cpp" />
+    <ClCompile Include="base\mesh.cpp" />
     <ClCompile Include="base\object3d.cpp" />
     <ClCompile Include="base\shader.cpp" />
+    <ClCompile Include="base\test.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -151,9 +153,12 @@
     <ClInclude Include="base\camera.h" />
     <ClInclude Include="base\input.h" />
     <ClInclude Include="base\light.h" />
+    <ClInclude Include="base\mesh.h" />
+    <ClInclude Include="base\model.h" />
     <ClInclude Include="base\object3d.h" />
     <ClInclude Include="base\shader.h" />
     <ClInclude Include="base\stb_image.h" />
+    <ClInclude Include="base\test.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

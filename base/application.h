@@ -21,9 +21,9 @@ public:
 
 protected:
 	/* window info */
-	GLFWwindow* _window = nullptr;
+	GLFWwindow* _window = nullptr;	// window object
 	std::string _windowTitle;
-	int _windowWidth = 1080;		// 1280 origin
+	int _windowWidth = 1280;
 	int _windowHeight = 720;
 	bool _windowReized = false;
 

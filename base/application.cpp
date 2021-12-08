@@ -5,6 +5,7 @@ Application::Application() {
 		throw std::runtime_error("init glfw failure");
 	}
 
+	// GLFW: Opengl version 3.3
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -22,21 +23,24 @@ Application::Application() {
 	}
 
 	glfwMakeContextCurrent(_window);
-	glfwSetWindowUserPointer(_window, this);
+	glfwSetWindowUserPointer(_window, this);	// may use glfwGetWindowUserPointer for callback
 	
-
+	// initializing glad
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		throw std::runtime_error("initialize glad failure");
 	}
 
+	// set the whole window as viewport
 	glViewport(0, 0, _windowWidth, _windowHeight);
 
-	glfwSetFramebufferSizeCallback(_window, framebufferResizeCallback);
+	// set callback function (may be added later)
+	glfwSetFramebufferSizeCallback(_window, framebufferResizeCallback);	// when window size is changed
 	glfwSetKeyCallback(_window, keyboardCallback);
 	glfwSetMouseButtonCallback(_window, mouseClickedCallback);
 	glfwSetCursorPosCallback(_window, cursorMovedCallback);
 	glfwSetScrollCallback(_window, scrollCallback);
 
+	// maintain time stamp
 	_lastTimeStamp = std::chrono::high_resolution_clock::now();
 }
 

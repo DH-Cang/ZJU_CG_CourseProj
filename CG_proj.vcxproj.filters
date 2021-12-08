@@ -30,6 +30,12 @@
     <ClCompile Include="base\shader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="base\mesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="base\test.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\application.h">
@@ -51,6 +57,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="base\stb_image.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="base\model.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="base\mesh.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="base\test.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
