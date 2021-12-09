@@ -23,3 +23,9 @@ vcpkg install glfw3 glad glm assimp
 main函数创建了一个空窗口，导入了部分通用类。shader类不用修改；model类被删除了，因为助教使用的tiny_obj_loader好像会报错。按照learnopengl的教程，我们可以用assimp库实现obj文件的读取
 
 添加了一个test类，作为样例演示如何渲染一个简单的矩形
+
+#### 12.9
+
+添加了读取obj文件的部分，还有bug需要修改
+
+在test::test()中采用了绝对路径，如果要跑的话记得修改，目前还没摸索出相对路径的用法
