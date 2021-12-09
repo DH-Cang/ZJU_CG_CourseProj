@@ -29,3 +29,5 @@ main函数创建了一个空窗口，导入了部分通用类。shader类不用�
 添加了读取obj文件的部分，还有bug需要修改
 
 在test::test()中采用了绝对路径，如果要跑的话记得修改，目前还没摸索出相对路径的用法
+
+参考代码 https://blog.csdn.net/manipu1a/article/details/85340045
