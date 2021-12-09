@@ -143,6 +143,7 @@
     <ClCompile Include="base\application.cpp" />
     <ClCompile Include="base\camera.cpp" />
     <ClCompile Include="base\mesh.cpp" />
+    <ClCompile Include="base\model.cpp" />
     <ClCompile Include="base\object3d.cpp" />
     <ClCompile Include="base\shader.cpp" />
     <ClCompile Include="base\test.cpp" />

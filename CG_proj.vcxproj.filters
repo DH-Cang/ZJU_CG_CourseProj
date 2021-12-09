@@ -36,6 +36,9 @@
     <ClCompile Include="base\test.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="base\model.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\application.h">
