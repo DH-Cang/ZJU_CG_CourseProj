@@ -1,65 +1,53 @@
 #pragma once
-#include <glad/glad.h> // holds all OpenGL type declarations
-
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-
-#include "shader.h"
-
 #include <string>
 #include <vector>
-using namespace std;
 
-struct Vertex {
-	// position
-	glm::vec3 Position;
-	// normal
-	glm::vec3 Normal;
-	// texCoords
-	glm::vec2 TexCoords;
-	// tangent
-	glm::vec3 Tangent;
-	// bitangent
-	glm::vec3 Bitangent;
-};
+#include <glad/glad.h>
+
+#include "vertex.h"
+#include "texture.h"
+#include "shader.h"
+
 
 struct Material {
-	//材质颜色光照
-	glm::vec4 Ka;
-	//漫反射
-	glm::vec4 Kd;
-	//镜反射
-	glm::vec4 Ks;
-};
-
-struct Texture {
-	unsigned int id;
-	string type;
-	string path;
+	glm::vec3 ambient;
+	glm::vec3 diffuse;
+	glm::vec3 specular;
+	float shininess;
 };
 
 class Mesh {
 public:
-	/*  Mesh Data  */
-	vector<Vertex> vertices;
-	vector<unsigned int> indices;
-	vector<Texture> textures;
-	Material mats;
-	unsigned int VAO;
-	unsigned int uniformBlockIndex;
-	/*  Functions  */
-	// constructor
-	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures, Material mat);
+	Mesh(
+		std::vector<Vertex> _vertices,
+		std::vector<uint32_t> _indices,
+		struct Material _material,
+		std::string diff_tex_name,
+		std::string spec_tex_name
+	);
 
-	// render the mesh
-	void Draw(Shader& shader);
+	Mesh(Mesh&& mesh) noexcept = default;	// 移动构造
+
+	~Mesh();
+
+	void draw(Shader& shader) const;
 
 private:
-	/*  Render data  */
-	unsigned int VBO, EBO;
+	// vertex data
+	std::vector<Vertex> _vertices;
+	std::vector<uint32_t> _indices;
 
-	/*  Functions    */
-	// initializes all the buffer objects/arrays
-	void setupMesh();
-	
+	// material
+	struct Material _material;
+
+	// texture
+	std::unique_ptr<Texture2D> _diffuse_texture;
+	std::unique_ptr<Texture2D> _specular_texture;
+
+	// opengl object
+	GLuint _vao = 0;
+	GLuint _vbo = 0;
+	GLuint _ebo = 0;
+
+	void initGLResources();
 };

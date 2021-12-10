@@ -4,14 +4,14 @@ test::test() {
 	this->_windowTitle = std::string("test window title");
 
 	camera.reset(new PerspectiveCamera(glm::radians(45.0f), 1.0f * _windowWidth / _windowHeight, 0.1f, 10000.0f));
-	camera->position.z = 50.0f;
+	camera->position.z = 10.0f;
 
 	test_shader.reset(new Shader(
-		std::string("D:/2021WinterMaterial/Graphics/CG_proj/shader/test_vertex_shader.txt"),
-		std::string("D:/2021WinterMaterial/Graphics/CG_proj/shader/test_frag_shader.txt")
+		std::string("D:/2021WinterMaterial/Graphics/CG_proj/shader/test_vertex_shader.vert"),
+		std::string("D:/2021WinterMaterial/Graphics/CG_proj/shader/test_frag_shader.frag")
 		));
 
-	tmp_model.reset(new Model("D:/2021WinterMaterial/Graphics/CG_proj/data/nanosuit_model/nanosuit.obj"));
+	tmp_model.reset(new Model("D:/2021WinterMaterial/Graphics/CG_proj/data/bunny_model/bunny.obj"));
 }
 
 
@@ -21,6 +21,7 @@ void test::handleInput() {
 
 void test::renderFrame() {
 	showFpsInWindowTitle();
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	glClearColor(_clearColor.r, _clearColor.g, _clearColor.b, _clearColor.a);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -38,6 +39,6 @@ void test::renderFrame() {
 	test_shader->setMat4("view", view);
 	test_shader->setMat4("model", model);
 
-	tmp_model->Draw(*test_shader);
+	tmp_model->draw(*test_shader);
 }
 

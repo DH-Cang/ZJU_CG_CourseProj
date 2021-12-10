@@ -1,53 +1,25 @@
 #pragma once
-#include "shader.h"
+
+#include <string>
+#include <vector>
+
+#include <glad/glad.h>
+
 #include "mesh.h"
 #include "object3d.h"
-#include <vector>
-#include <string>
-#include <map>
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
 
 
-#include "stb_image.h"
-using namespace std;
-
-unsigned int TextureFromFile(const char* path, const string& directory, bool gamma = false);
-
-class Model: public Object3D
-{
+class Model : public Object3D {
 public:
-	/*  Model Data */
-	vector<Texture> textures_loaded;	// stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
-	vector<Mesh> meshes;
-	string directory;
-	bool gammaCorrection;
+	Model(const std::string& filepath);
 
-	/*  Functions   */
-	// constructor, expects a filepath to a 3D model.
-	Model(string const& path, bool gamma = false) : gammaCorrection(gamma)
-	{
-		loadModel(path);
-	}
+	~Model();
 
-	// draws the model, and thus all its meshes
-	void Draw(Shader &shader)
-	{
-		for (unsigned int i = 0; i < meshes.size(); i++)
-			meshes[i].Draw(shader);
-	}
+	Model(Model&& model) noexcept = default;
+
+	void draw(Shader& shader) const;
 
 private:
-	/*  Functions   */
-	// loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.
-	void loadModel(string const& path);
-
-	// processes a node in a recursive fashion. Processes each individual mesh located at the node and repeats this process on its children nodes (if any).
-	void processNode(aiNode* node, const aiScene* scene);
-
-	Mesh processMesh(aiMesh* mesh, const aiScene* scene);
-
-	vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
+	// vertices of the table represented in model's own coordinate
+	std::vector<Mesh> meshes;
 };
-
