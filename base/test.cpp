@@ -1,4 +1,5 @@
 #include "test.h"
+#include "model.h"
 
 test::test() {
 	this->_windowTitle = std::string("test window title");
