@@ -23,7 +23,8 @@ Mesh::Mesh(
 	struct Material _material,
 	std::string diff_tex_name,
 	std::string spec_tex_name
-) : _vertices(_vertices), _indices(_indices), _material(_material)
+) 
+	: _vertices(_vertices), _indices(_indices), _material(_material)
 {
 	if (diff_tex_name.back() == '/') {	// if this is a directory instead of file
 		_diffuse_texture.reset();

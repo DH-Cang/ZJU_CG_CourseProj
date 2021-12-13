@@ -5,14 +5,14 @@ test::test() {
 	this->_windowTitle = std::string("test window title");
 
 	camera.reset(new PerspectiveCamera(glm::radians(45.0f), 1.0f * _windowWidth / _windowHeight, 0.1f, 10000.0f));
-	camera->position.z = 10.0f;
+	camera->position.z = 5.0f;
 
 	test_shader.reset(new Shader(
 		std::string("./shader/test_vertex_shader.vert"),
 		std::string("./shader/test_frag_shader.frag")
 		));
 
-	tmp_model.reset(new Model("./data/bunny_model/bunny.obj"));
+	tmp_model.reset(new Model("./data/sphere_model/sphere.obj"));
 }
 
 
