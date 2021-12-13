@@ -40,11 +40,8 @@ void test::renderFrame() {
 	test_shader->setMat4("projection", projection);
 	test_shader->setMat4("view", view);
 	test_shader->setMat4("model", model);
-	test_shader->setInt("mapKd", 0);
 
-	//test_shader->setVec3("directionalLight.direction", { 10.0f, 10.0f, 0.0f });
-	//test_shader->setFloat("directionalLight.intensity", 1.0f);
-	//test_shader->setVec3("directionalLight.color", { 1.0f, 0.0f, 0.0f });
+
 
 	tmp_model->draw(*test_shader);
 }
