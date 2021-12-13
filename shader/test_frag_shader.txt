@@ -1,15 +1,7 @@
 #version 330 core
 out vec4 FragColor;
 
-// vertex attribute
-in vec3 FragPos;  
-in vec3 Normal;  
 in vec2 TexCoords;
-
-//Material
-in vec4 Ambient;
-in vec4 Diffuse;
-in vec4 Specular;
 
 uniform sampler2D texture_diffuse1;
 
