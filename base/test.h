@@ -16,6 +16,7 @@ private:
 	void renderFrame() override;
 
     std::unique_ptr<Shader> test_shader;
+	std::unique_ptr<Texture> test_texture;
     std::unique_ptr<Model> tmp_model;
     std::unique_ptr<Camera> camera;
 };

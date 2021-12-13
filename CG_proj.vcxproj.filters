@@ -92,4 +92,12 @@
       <Filter>Shader</Filter>
     </Text>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\test_frag_texture_shader.frag">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="shader\test_vertex_texture_shader.vert">
+      <Filter>Shader</Filter>
+    </None>
+  </ItemGroup>
 </Project>
