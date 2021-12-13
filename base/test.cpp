@@ -25,7 +25,8 @@ void test::renderFrame() {
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	glClearColor(_clearColor.r, _clearColor.g, _clearColor.b, _clearColor.a);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_DEPTH_TEST);
 
 
 	glm::mat4 projection = camera->getProjectionMatrix();
