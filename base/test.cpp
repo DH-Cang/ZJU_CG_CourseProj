@@ -4,13 +4,14 @@
 test::test() {
 	this->_windowTitle = std::string("test window title");
 
+	camera.reset(new PerspectiveCamera(glm::radians(50.0f), 1.0f * _windowWidth / _windowHeight, 0.1f, 10000.0f));
 	camera->position.z = 10.0f;
 
 	test_shader.reset(new Shader(
-		std::string("./shader/test_vertex_texture_shader.vert"),
-		std::string("./shader/test_frag_texture_shader.frag")
+		std::string("./shader/test_vertex_shader.vert"),
+		std::string("./shader/test_frag_shader.frag")
 		));
-	test_texture.reset(new Texture2D("./data/nanosuit_model/glass_dif.png"));
+	//test_texture.reset(new Texture2D("./data/nanosuit_model/glass_dif.png"));
 
 	tmp_model.reset(new Model("./data/bunny_model/bunny.obj"));
 }
@@ -39,13 +40,6 @@ void test::renderFrame() {
 	test_shader->setMat4("projection", projection);
 	test_shader->setMat4("view", view);
 	test_shader->setMat4("model", model);
-	//test_shader->setVec3("material.albedo", { 1.0f, 1.0f, 1.0f });
-	//test_shader->setFloat("material.ka", 0.0);
-	//test_shader->setVec3("material.kd", { 1.0f, 1.0f, 1.0f });
-	//test_shader->setVec3("material.ks", { 1.0f, 1.0f, 1.0f });
-	//test_shader->setFloat("material.shininess", 3);
-	glActiveTexture(GL_TEXTURE0);
-	test_texture->bind();
 	test_shader->setInt("mapKd", 0);
 
 	//test_shader->setVec3("directionalLight.direction", { 10.0f, 10.0f, 0.0f });
