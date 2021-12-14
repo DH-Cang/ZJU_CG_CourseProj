@@ -10,56 +10,62 @@
 #include <vector>
 using namespace std;
 
-struct Vertex {
-	// position
-	glm::vec3 Position;
-	// normal
-	glm::vec3 Normal;
-	// texCoords
-	glm::vec2 TexCoords;
-	// tangent
-	glm::vec3 Tangent;
-	// bitangent
-	glm::vec3 Bitangent;
-};
+#define MAX_BONE_INFLUENCE 4
 
-struct Material {
-	//材质颜色光照
-	glm::vec4 Ka;
-	//漫反射
-	glm::vec4 Kd;
-	//镜反射
-	glm::vec4 Ks;
+struct Vertex {
+    // position
+    glm::vec3 Position;
+    // normal
+    glm::vec3 Normal;
+    // texCoords
+    glm::vec2 TexCoords;
+    // tangent
+    glm::vec3 Tangent;
+    // bitangent
+    glm::vec3 Bitangent;
+    //bone indexes which will influence this vertex
+    int m_BoneIDs[MAX_BONE_INFLUENCE];
+    //weights from each bone
+    float m_Weights[MAX_BONE_INFLUENCE];
 };
 
 struct Texture {
-	unsigned int id;
-	string type;
-	string path;
+    unsigned int id;
+    string type;
+    string path;
 };
+
+
+struct Material {
+    //材质颜色光照
+    glm::vec4 Ka;
+    //漫反射
+    glm::vec4 Kd;
+    //镜反射
+    glm::vec4 Ks;
+    float shininess;
+};
+
 
 class Mesh {
 public:
-	/*  Mesh Data  */
-	vector<Vertex> vertices;
-	vector<unsigned int> indices;
-	vector<Texture> textures;
-	Material mats;
-	unsigned int VAO;
-	unsigned int uniformBlockIndex;
-	/*  Functions  */
-	// constructor
-	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures, Material mat);
+    // mesh Data
+    vector<Vertex>       vertices;
+    vector<unsigned int> indices;
+    vector<Texture>      textures;
+    Material mats;
+    unsigned int VAO;
 
-	// render the mesh
-	void Draw(Shader& shader);
+    // constructor
+    Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures, Material mats);
+
+    // render the mesh
+    void Draw(Shader& shader);
 
 private:
-	/*  Render data  */
-	unsigned int VBO, EBO;
+    // render data 
+    unsigned int VBO, EBO;
 
-	/*  Functions    */
-	// initializes all the buffer objects/arrays
-	void setupMesh();
-	
+    // initializes all the buffer objects/arrays
+    void setupMesh();
 };
