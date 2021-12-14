@@ -16,6 +16,15 @@
     <Filter Include="Shader">
       <UniqueIdentifier>{11843d00-a2c4-4578-a3b0-7c289e699aad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Basic Models">
+      <UniqueIdentifier>{42d0583f-8c6a-42d8-a304-024e6420f5c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Basic Models\source">
+      <UniqueIdentifier>{18f5953f-533e-4852-85ba-bc0859937979}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Basic Models\include">
+      <UniqueIdentifier>{130379b3-8399-4a8e-b39a-572cf43f1439}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -73,6 +82,9 @@
     </ClInclude>
     <ClInclude Include="base\test.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_models\include\cube.h">
+      <Filter>Basic Models\include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

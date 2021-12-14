@@ -160,6 +160,7 @@
     <ClInclude Include="base\shader.h" />
     <ClInclude Include="base\stb_image.h" />
     <ClInclude Include="base\test.h" />
+    <ClInclude Include="basic_models\include\cube.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="shader\test_frag_shader.frag" />
