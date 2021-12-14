@@ -14,13 +14,16 @@ test::test() {
 		));
 
 	tmp_model.reset(new Model("./data/bunny_model/bunny.obj"));
+
+	skybox.reset(new SkyBox());
 }
 
 
 void test::handleInput() {
-	/*
-	const float cameraMoveSpeed = 0.01f;
-	const float cameraRotateSpeed = 1.0f;
+
+	// TO DO: 我们应当对视角的移动加以限制
+	const float cameraMoveSpeed = 0.04f;
+	const float cameraRotateSpeed = 0.25f;
 
 	if (_keyboardInput.keyStates[GLFW_KEY_ESCAPE] != GLFW_RELEASE) {
 		glfwSetWindowShouldClose(_window, true);
@@ -67,7 +70,7 @@ void test::handleInput() {
 		camera->rotation = temp_rotation * camera->rotation;
 		_mouseInput.move.yOld = _mouseInput.move.yCurrent;
 	}
-	*/
+
 	return;
 }
 
@@ -91,7 +94,9 @@ void test::renderFrame() {
 	test_shader->setMat4("projection", projection);
 	test_shader->setMat4("view", view);
 	test_shader->setMat4("model", model);
-
 	tmp_model->Draw(*test_shader);
+	skybox->Draw(projection, view);
+
+	//
 }
 

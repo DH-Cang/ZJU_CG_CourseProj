@@ -42,6 +42,12 @@
     <ClCompile Include="base\model.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="base\skybox.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="base\manualtexture.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\application.h">
@@ -62,9 +68,6 @@
     <ClInclude Include="base\shader.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="base\stb_image.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="base\model.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -72,6 +75,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="base\test.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="base\skybox.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="base\manualtexture.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

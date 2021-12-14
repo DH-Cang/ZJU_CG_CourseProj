@@ -2,6 +2,7 @@
 #include "shader.h"
 #include "mesh.h"
 #include "object3d.h"
+#include "manualtexture.h"
 #include <vector>
 #include <string>
 #include <map>
@@ -13,8 +14,6 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <stb_image.h>
-
 
 #include <fstream>
 #include <sstream>

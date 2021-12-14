@@ -146,7 +146,9 @@
     <ClCompile Include="base\model.cpp" />
     <ClCompile Include="base\object3d.cpp" />
     <ClCompile Include="base\shader.cpp" />
+    <ClCompile Include="base\skybox.cpp" />
     <ClCompile Include="base\test.cpp" />
+    <ClCompile Include="base\manualtexture.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -158,8 +160,9 @@
     <ClInclude Include="base\model.h" />
     <ClInclude Include="base\object3d.h" />
     <ClInclude Include="base\shader.h" />
-    <ClInclude Include="base\stb_image.h" />
+    <ClInclude Include="base\skybox.h" />
     <ClInclude Include="base\test.h" />
+    <ClInclude Include="base\manualtexture.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="shader\test_frag_shader.frag" />

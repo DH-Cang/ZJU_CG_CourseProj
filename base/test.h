@@ -2,6 +2,7 @@
 #include "application.h"
 #include "model.h"
 #include "camera.h"
+#include "skybox.h"
 
 class test : public Application {
 public:
@@ -18,5 +19,6 @@ private:
     std::unique_ptr<Shader> test_shader;
     std::unique_ptr<Model> tmp_model;
     std::unique_ptr<Camera> camera;
+	std::unique_ptr<SkyBox> skybox;
 };
 
