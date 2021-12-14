@@ -36,9 +36,6 @@
     <ClCompile Include="base\mesh.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="base\test.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="base\model.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -46,6 +43,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="base\manualtexture.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="base\world.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="base\light.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -74,22 +77,30 @@
     <ClInclude Include="base\mesh.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="base\test.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="base\skybox.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="base\manualtexture.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="base\world.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="shader\test_frag_shader.frag">
+    <Text Include="shader\default_frag_shader.frag">
       <Filter>Shader</Filter>
     </Text>
-    <Text Include="shader\test_vertex_shader.vert">
+    <Text Include="shader\default_vertex_shader.vert">
       <Filter>Shader</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\sun_frag_shader.frag">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="shader\sun_vertex_shader.vert">
+      <Filter>Shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

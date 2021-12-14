@@ -81,8 +81,9 @@ SkyBox::SkyBox(const std::vector<std::string>& textureFilenames) {
             "out vec4 color;\n"
             "in vec3 texCoord;\n"
             "uniform samplerCube cubemap;\n"
+            "uniform vec4 duskColor;\n"
             "void main() {\n"
-            "   color = texture(cubemap, texCoord);\n"
+            "   color = texture(cubemap, texCoord) * duskColor;\n"
             "}\n";
 
         _shader.reset(new Shader(vertCode, fragCode));
@@ -105,7 +106,7 @@ SkyBox::~SkyBox() {
     cleanup();
 }
 
-void SkyBox::Draw(const glm::mat4& projection, const glm::mat4& view) {
+void SkyBox::Draw(const glm::mat4& projection, const glm::mat4& view, const float& angle) {
 
     glDepthFunc(GL_LEQUAL);
 
@@ -114,7 +115,14 @@ void SkyBox::Draw(const glm::mat4& projection, const glm::mat4& view) {
     //glActiveTexture(GL_TEXTURE0);
     _shader->setMat4("projection", projection);
     _shader->setMat4("view", viewWithoutpos);
-    _texture->bind();
+    if (angle <= -CIVILIAN_TWILIGHT_ANGLE) {
+        _shader->setVec4("duskColor", { 0.0f, 0.0f, 0.0f, 1.0f });
+
+    }
+    else {
+        _shader->setVec4("duskColor", { pow(sin(angle + CIVILIAN_TWILIGHT_ANGLE),0.12f), pow(sin(angle + CIVILIAN_TWILIGHT_ANGLE),0.20f), pow(sin(angle + CIVILIAN_TWILIGHT_ANGLE),0.30f), 1.0f });
+    }
+      _texture->bind();
 
     // draw the skybox
     glBindVertexArray(_vao);
@@ -124,8 +132,6 @@ void SkyBox::Draw(const glm::mat4& projection, const glm::mat4& view) {
     _texture->unbind();
 
     glDepthFunc(GL_LESS);
-
-
 
 
 }

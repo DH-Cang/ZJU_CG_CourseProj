@@ -1,29 +1,42 @@
-#include "test.h"
+#include "world.h"
 
-test::test() {
-	this->_windowTitle = std::string("test window title");
+world::world() {
+	this->_windowTitle = std::string("World Rendering");
 
-	camera.reset(new PerspectiveCamera(glm::radians(45.0f), 1.0f * _windowWidth / _windowHeight, 0.1f, 10000.0f));
+	camera.reset(new PerspectiveCamera(glm::radians(45.0f), 1.0f * _windowWidth / _windowHeight, 0.1f, FARTHEST));
 	camera->position.z = 10.0f;
 	camera->position.y = 0.0f;
-	
 
-	test_shader.reset(new Shader(
-		std::string("./shader/test_vertex_shader.vert"),
-		std::string("./shader/test_frag_shader.frag")
-		));
+	skyBox.reset(new SkyBox());	
 
-	tmp_model.reset(new Model("./data/nanosuit_model/nanosuit.obj"));
+	sunLight.reset(new SunLight(30, -23.5));
 
-	skybox.reset(new SkyBox());
+	defaultShader.reset(new Shader(
+		std::string("./shader/default_vertex_shader.vert"),
+		std::string("./shader/default_frag_shader.frag")
+	));
+
+	sunShader.reset(new Shader(
+		std::string("./shader/default_vertex_shader.vert"),
+		std::string("./shader/default_frag_shader.frag")
+	));
+
+	nanosuit.reset(new Model("./data/nanosuit_model/nanosuit.obj"));
+
+	bunny.reset(new Model("./data/bunny_model/bunny.obj"));
+
+	sun.reset(new Model("./data/sphere_model/sphere.obj"));
+
+
 }
 
 
-void test::handleInput() {
+void world::handleInput() {
 
 	// TO DO: 我们应当对视角的移动加以限制
 	const float cameraMoveSpeed = 0.04f;
 	const float cameraRotateSpeed = 0.25f;
+	const float deltaAngle = 0.001f;
 
 	if (_keyboardInput.keyStates[GLFW_KEY_ESCAPE] != GLFW_RELEASE) {
 		glfwSetWindowShouldClose(_window, true);
@@ -51,6 +64,18 @@ void test::handleInput() {
 		camera->position += cameraMoveSpeed * camera->getRight();
 	}
 
+	if (_keyboardInput.keyStates[GLFW_KEY_Q] != GLFW_RELEASE) {
+		std::cout << "Q" << std::endl;
+		glm::quat temp_rotation = { 1.0f * cos(deltaAngle), 0.0f, 1.0f * sin(deltaAngle), 0.0f };
+		camera->rotation = temp_rotation * camera->rotation;
+	}
+
+	if (_keyboardInput.keyStates[GLFW_KEY_E] != GLFW_RELEASE) {
+		std::cout << "E" << std::endl;
+		glm::quat temp_rotation = { 1.0f * cos(-deltaAngle), 0.0f, 1.0f * sin(-deltaAngle), 0.0f };
+		camera->rotation = temp_rotation * camera->rotation;
+	}
+
 	if (_mouseInput.move.xCurrent != _mouseInput.move.xOld) {
 		std::cout << "mouse move in x direction" << std::endl;
 		const float deltaX = static_cast<float>(_mouseInput.move.xCurrent - _mouseInput.move.xOld);
@@ -71,10 +96,10 @@ void test::handleInput() {
 		_mouseInput.move.yOld = _mouseInput.move.yCurrent;
 	}
 
-	// 按R键复原视角，此处是否应该释放旧camara？
+	// 按R键复原视角
 	if (_keyboardInput.keyStates[GLFW_KEY_R] != GLFW_RELEASE) {
 		std::cout << "R" << std::endl;
-		camera.reset(new PerspectiveCamera(glm::radians(45.0f), 1.0f * _windowWidth / _windowHeight, 0.1f, 10000.0f));
+		camera.reset(new PerspectiveCamera(glm::radians(45.0f), 1.0f * _windowWidth / _windowHeight, 0.1f, FARTHEST));
 		camera->position.z = 10.0f;
 		camera->position.y = 0.0f;
 	}
@@ -82,13 +107,16 @@ void test::handleInput() {
 	return;
 }
 
-void test::renderFrame() {
+void world::renderFrame() {
+
 	showFpsInWindowTitle();
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	glClearColor(_clearColor.r, _clearColor.g, _clearColor.b, _clearColor.a);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
+
+	sunLight->updateLight(_deltaTime);
 
 
 	glm::mat4 projection = camera->getProjectionMatrix();
@@ -98,11 +126,24 @@ void test::renderFrame() {
 	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
 	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
 
-	test_shader->use();
-	test_shader->setMat4("projection", projection);
-	test_shader->setMat4("view", view);
-	test_shader->setMat4("model", model);
-	tmp_model->Draw(*test_shader);
-	skybox->Draw(projection, view);
+	defaultShader->use();
+	defaultShader->setMat4("projection", projection);
+	defaultShader->setMat4("view", view);
+
+
+	bunny->Draw(*defaultShader, { 10.0f, 10.0f, 10.0f });
+	nanosuit->Draw(*defaultShader);
+	bunny->Draw(*defaultShader, { 20.0f, 10.0f, 10.0f });
+
+	sunShader->use();
+	sunShader->setMat4("projection", projection);
+	sunShader->setMat4("view", view);
+	sun->Draw(*sunShader, sunLight->getPos(), 500.0f);
+	
+
+
+	
+	// TO DO: 不知为何天空盒必须放在最后显示
+	skyBox->Draw(projection, view, sunLight->getElevationAngle());
 }
 
