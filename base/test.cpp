@@ -5,7 +5,7 @@ test::test() {
 
 	camera.reset(new PerspectiveCamera(glm::radians(45.0f), 1.0f * _windowWidth / _windowHeight, 0.1f, 10000.0f));
 	camera->position.z = 10.0f;
-
+	camera->position.y = 0.0f;
 	
 
 	test_shader.reset(new Shader(

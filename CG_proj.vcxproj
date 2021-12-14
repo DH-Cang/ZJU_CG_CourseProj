@@ -162,8 +162,8 @@
     <ClInclude Include="base\test.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="shader\test_frag_shader.txt" />
-    <Text Include="shader\test_vertex_shader.txt" />
+    <Text Include="shader\test_frag_shader.frag" />
+    <Text Include="shader\test_vertex_shader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

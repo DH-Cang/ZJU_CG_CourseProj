@@ -76,10 +76,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="shader\test_frag_shader.txt">
+    <Text Include="shader\test_frag_shader.frag">
       <Filter>Shader</Filter>
     </Text>
-    <Text Include="shader\test_vertex_shader.txt">
+    <Text Include="shader\test_vertex_shader.vert">
       <Filter>Shader</Filter>
     </Text>
   </ItemGroup>

@@ -1,10 +1,11 @@
 #include "mesh.h"
 
-Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures)
+Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures, Material mats)
 {
 	this->vertices = vertices;
 	this->indices = indices;
 	this->textures = textures;
+    this->mats = mats;
 
 	// now that we have all the required data, set the vertex buffers and its attribute pointers.
 	setupMesh();
@@ -38,6 +39,12 @@ void Mesh::Draw(Shader& shader)
 		// and finally bind the texture
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
 	}
+
+    // bind material
+    shader.setVec4("material.ka", mats.Ka);
+    shader.setVec4("material.kd", mats.Kd);
+    shader.setVec4("material.ks", mats.Ks);
+    shader.setFloat("material.shininess", mats.shininess);
 
 	// draw mesh
 	glBindVertexArray(VAO);

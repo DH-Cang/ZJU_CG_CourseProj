@@ -139,6 +139,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
         for (unsigned int j = 0; j < face.mNumIndices; j++)
             indices.push_back(face.mIndices[j]);
     }
+
     // process materials
     aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
     // we assume a convention for sampler names in the shaders. Each diffuse texture should be named
@@ -161,8 +162,28 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
     std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
     textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
+    Material mat;
+    aiColor4D color;
+    float shininess;
+    if (AI_SUCCESS != aiGetMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE, &color)) {
+        color = aiColor4D(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+    mat.Kd = glm::vec4(color.r, color.g, color.b, color.a);
+    if (AI_SUCCESS != aiGetMaterialColor(material, AI_MATKEY_COLOR_AMBIENT, &color)) {
+        color = aiColor4D(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+    mat.Ka = glm::vec4(color.r, color.g, color.b, color.a);
+    if (AI_SUCCESS != aiGetMaterialColor(material, AI_MATKEY_COLOR_SPECULAR, &color)) {
+        color = aiColor4D(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+    mat.Ks = glm::vec4(color.r, color.g, color.b, color.a);
+    if (AI_SUCCESS != aiGetMaterialFloat(material, AI_MATKEY_SHININESS, &shininess)) {
+        shininess = 10.0f;
+    }
+    mat.shininess = shininess;
+
     // return a mesh object created from the extracted mesh data
-    return Mesh(vertices, indices, textures);
+    return Mesh(vertices, indices, textures, mat);
 }
 
 vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName)
