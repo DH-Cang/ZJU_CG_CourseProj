@@ -13,7 +13,7 @@ test::test() {
 		std::string("./shader/test_frag_shader.frag")
 		));
 
-	tmp_model.reset(new Model("./data/bunny_model/bunny.obj"));
+	tmp_model.reset(new Model("./data/nanosuit_model/nanosuit.obj"));
 
 	skybox.reset(new SkyBox());
 }
@@ -71,6 +71,14 @@ void test::handleInput() {
 		_mouseInput.move.yOld = _mouseInput.move.yCurrent;
 	}
 
+	// 按R键复原视角，此处是否应该释放旧camara？
+	if (_keyboardInput.keyStates[GLFW_KEY_R] != GLFW_RELEASE) {
+		std::cout << "R" << std::endl;
+		camera.reset(new PerspectiveCamera(glm::radians(45.0f), 1.0f * _windowWidth / _windowHeight, 0.1f, 10000.0f));
+		camera->position.z = 10.0f;
+		camera->position.y = 0.0f;
+	}
+
 	return;
 }
 
@@ -96,7 +104,5 @@ void test::renderFrame() {
 	test_shader->setMat4("model", model);
 	tmp_model->Draw(*test_shader);
 	skybox->Draw(projection, view);
-
-	//
 }
 

@@ -121,10 +121,11 @@ void SkyBox::Draw(const glm::mat4& projection, const glm::mat4& view) {
     glDrawArrays(GL_TRIANGLES, 0, 36);
     glBindVertexArray(0);
 
+    _texture->unbind();
 
     glDepthFunc(GL_LESS);
 
-    _texture->unbind();
+
 
 
 }

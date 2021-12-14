@@ -219,6 +219,7 @@ vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type,
 
 void Model::Draw(Shader& shader)
 {
+    glDepthFunc(GL_LESS);
     for (unsigned int i = 0; i < meshes.size(); i++)
         meshes[i].Draw(shader);
 }
