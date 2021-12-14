@@ -9,8 +9,8 @@ test::test() {
 	
 
 	test_shader.reset(new Shader(
-		std::string("./shader/test_vertex_shader.txt"),
-		std::string("./shader/test_frag_shader.txt")
+		std::string("./shader/test_vertex_shader.vert"),
+		std::string("./shader/test_frag_shader.frag")
 		));
 
 	tmp_model.reset(new Model("./data/bunny_model/bunny.obj"));
