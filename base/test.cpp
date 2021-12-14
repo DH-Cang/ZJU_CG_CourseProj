@@ -4,7 +4,7 @@ test::test() {
 	this->_windowTitle = std::string("test window title");
 
 	camera.reset(new PerspectiveCamera(glm::radians(45.0f), 1.0f * _windowWidth / _windowHeight, 0.1f, 10000.0f));
-	camera->position.z = 50.0f;
+	camera->position.z = 10.0f;
 
 	
 
@@ -13,13 +13,14 @@ test::test() {
 		std::string("./shader/test_frag_shader.txt")
 		));
 
-	tmp_model.reset(new Model("./data/nanosuit_model/nanosuit.obj"));
+	tmp_model.reset(new Model("./data/bunny_model/bunny.obj"));
 }
 
 
 void test::handleInput() {
-	const float cameraMoveSpeed = 0.005f;
-	const float cameraRotateSpeed = 0.02f;
+	/*
+	const float cameraMoveSpeed = 0.01f;
+	const float cameraRotateSpeed = 1.0f;
 
 	if (_keyboardInput.keyStates[GLFW_KEY_ESCAPE] != GLFW_RELEASE) {
 		glfwSetWindowShouldClose(_window, true);
@@ -66,11 +67,13 @@ void test::handleInput() {
 		camera->rotation = temp_rotation * camera->rotation;
 		_mouseInput.move.yOld = _mouseInput.move.yCurrent;
 	}
+	*/
 	return;
 }
 
 void test::renderFrame() {
 	showFpsInWindowTitle();
+	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	glClearColor(_clearColor.r, _clearColor.g, _clearColor.b, _clearColor.a);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

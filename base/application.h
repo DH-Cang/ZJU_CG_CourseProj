@@ -36,7 +36,7 @@ protected:
 	MouseInput _mouseInput;
 
 	/* clear color */
-	glm::vec4 _clearColor = glm::vec4(0.1f, 0.1f, 0.1f, 1.0f);
+	glm::vec4 _clearColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
 	void updateTime();
 
