@@ -1,7 +1,8 @@
 #pragma once
 #include "object3d.h"
-#define FARTHEST 20000.0f // 相机远端
-#define CELESTIAL_RADIUS (0.9f*FARTHEST) // 太阳距离
+#define CELESTIAL_RADIUS 1000.0f // 太阳距离，恰好在该距离上的物体可能会穿模
+#define CIVILIAN_TWILIGHT_ANGLE 0.10472f // 以弧度计民用晨昏蒙影
+
 
 class Light : public Object3D {
 public:
@@ -33,8 +34,10 @@ public:
 
 	float getElevationAngle();
 
+	float radius = 20.0f;
+
 private:
-	const float angularVelocity = 0.2f;
+	const float angularVelocity = 0.4f;
 
 	float subsolarLatitude;
 
@@ -43,6 +46,9 @@ private:
 	glm::vec3 innerXYZ;
 
 	glm::mat3 rotateMat;
+	
+	float elevationAngle;
+
 
 };
 

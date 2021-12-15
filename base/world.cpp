@@ -3,13 +3,13 @@
 world::world() {
 	this->_windowTitle = std::string("World Rendering");
 
-	camera.reset(new PerspectiveCamera(glm::radians(45.0f), 1.0f * _windowWidth / _windowHeight, 0.1f, FARTHEST));
+	camera.reset(new PerspectiveCamera(glm::radians(45.0f), 1.0f * _windowWidth / _windowHeight, 0.1f, 10000.0f));
 	camera->position.z = 10.0f;
 	camera->position.y = 0.0f;
 
 	skyBox.reset(new SkyBox());	
 
-	sunLight.reset(new SunLight(30, -23.5));
+	sunLight.reset(new SunLight(60, 23.5));
 
 	defaultShader.reset(new Shader(
 		std::string("./shader/default_vertex_shader.vert"),
@@ -17,8 +17,8 @@ world::world() {
 	));
 
 	sunShader.reset(new Shader(
-		std::string("./shader/default_vertex_shader.vert"),
-		std::string("./shader/default_frag_shader.frag")
+		std::string("./shader/sun_vertex_shader.vert"),
+		std::string("./shader/sun_frag_shader.frag")
 	));
 
 	nanosuit.reset(new Model("./data/nanosuit_model/nanosuit.obj"));
@@ -99,7 +99,7 @@ void world::handleInput() {
 	// 按R键复原视角
 	if (_keyboardInput.keyStates[GLFW_KEY_R] != GLFW_RELEASE) {
 		std::cout << "R" << std::endl;
-		camera.reset(new PerspectiveCamera(glm::radians(45.0f), 1.0f * _windowWidth / _windowHeight, 0.1f, FARTHEST));
+		camera.reset(new PerspectiveCamera(glm::radians(45.0f), 1.0f * _windowWidth / _windowHeight, 0.1f, 10000.0f));
 		camera->position.z = 10.0f;
 		camera->position.y = 0.0f;
 	}
@@ -115,6 +115,7 @@ void world::renderFrame() {
 	glClearColor(_clearColor.r, _clearColor.g, _clearColor.b, _clearColor.a);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
+
 
 	sunLight->updateLight(_deltaTime);
 
@@ -135,15 +136,18 @@ void world::renderFrame() {
 	nanosuit->Draw(*defaultShader);
 	bunny->Draw(*defaultShader, { 20.0f, 10.0f, 10.0f });
 
+
+	
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	sunShader->use();
 	sunShader->setMat4("projection", projection);
 	sunShader->setMat4("view", view);
-	sun->Draw(*sunShader, sunLight->getPos(), 500.0f);
-	
-
-
+	sunShader->setVec3("color", sunLight->color);
+	sun->Draw(*sunShader, sunLight->getPos(), 2 * sunLight->radius);
 	
 	// TO DO: 不知为何天空盒必须放在最后显示
 	skyBox->Draw(projection, view, sunLight->getElevationAngle());
+	glDisable(GL_BLEND);
 }
 

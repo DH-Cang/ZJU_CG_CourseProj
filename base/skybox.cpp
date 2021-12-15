@@ -120,7 +120,9 @@ void SkyBox::Draw(const glm::mat4& projection, const glm::mat4& view, const floa
 
     }
     else {
-        _shader->setVec4("duskColor", { pow(sin(angle + CIVILIAN_TWILIGHT_ANGLE),0.12f), pow(sin(angle + CIVILIAN_TWILIGHT_ANGLE),0.20f), pow(sin(angle + CIVILIAN_TWILIGHT_ANGLE),0.30f), 1.0f });
+        _shader->setVec4("duskColor", { pow(sin(angle + CIVILIAN_TWILIGHT_ANGLE),0.12f),
+            pow(sin(angle + CIVILIAN_TWILIGHT_ANGLE),0.20f),
+            pow(sin(angle + CIVILIAN_TWILIGHT_ANGLE),0.30f), 1.0f });
     }
       _texture->bind();
 

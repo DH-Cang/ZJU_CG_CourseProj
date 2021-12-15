@@ -2,20 +2,20 @@
 out vec4 FragColor;
 
 in vec2 TexCoords;
+in vec3 Normal;
+in vec3 FragPos;
 
-struct Material{
-    vec4 ka;
-    vec4 kd;
-    vec4 ks;
-    float shininess;
-    sampler2D texture_diffuse1;
-};
-
-uniform Material material;
+uniform vec3 color;
 
 void main()
-{    
-    FragColor = texture(material.texture_diffuse1, TexCoords);
-    //FragColor = vec4(0, 0, 0, 1.0f);
-    //FragColor = material.kd;
+{
+    if(FragPos.z < 0.0f)
+    {
+        FragColor = vec4(vec2(color), 1.0f, 0.0f);
+    }else{
+        vec3 viewDir = normalize(FragPos);
+        FragColor = vec4(color, 1.0f);
+    }
+
+
 }
