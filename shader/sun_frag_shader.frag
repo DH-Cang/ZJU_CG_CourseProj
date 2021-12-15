@@ -9,11 +9,10 @@ uniform vec3 color;
 
 void main()
 {
-    if(FragPos.z < 0.0f)
+    if(FragPos.y < 0.0f)
     {
-        FragColor = vec4(vec2(color), 1.0f, 0.0f);
+        FragColor = vec4(0.2 * color, 1.0f);
     }else{
-        vec3 viewDir = normalize(FragPos);
         FragColor = vec4(color, 1.0f);
     }
 
