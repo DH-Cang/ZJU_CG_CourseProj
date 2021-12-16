@@ -102,5 +102,11 @@
     <None Include="shader\sun_vertex_shader.vert">
       <Filter>Shader</Filter>
     </None>
+    <None Include="shader\default_phong_frag_shader.frag">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="shader\default_phong_vertex_shader.vert">
+      <Filter>Shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

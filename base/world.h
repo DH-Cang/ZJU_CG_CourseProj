@@ -17,7 +17,7 @@ private:
 
 	void renderFrame() override;
 
-    unique_ptr<Camera> camera;
+    unique_ptr<PerspectiveCamera> camera;
 
 	unique_ptr<SkyBox> skyBox;
 
@@ -32,6 +32,8 @@ private:
 	unique_ptr<Model> nanosuit;
 
     unique_ptr<Shader> defaultShader;
+
+	unique_ptr<Shader> phongShader;
 
 
 

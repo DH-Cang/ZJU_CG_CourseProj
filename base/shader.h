@@ -5,8 +5,10 @@
 #include <stdexcept>
 #include <string>
 
+#include <stdint.h>
 #include <glad/glad.h>
 #include <glm/glm.hpp>
+#include "light.h"
 
 class Shader {
 public:
@@ -74,6 +76,20 @@ public:
      * @brief set vec2 uniform variable to shader
      */
     void setMat4(const std::string& name, const glm::mat4& mat4) const;
+
+    /// <summary>
+    /// 本想封装一下，但好像不能直接传入camera类（camera类的头文件调用了这个类，这个类再调用camera会发生循环声明），只能这样传了
+    /// </summary>
+    /// <param name="view"></param>
+    /// <param name="projection"></param>
+    void loadCamera(const glm::mat4& view, const glm::mat4& projection);
+
+
+    /// <summary>
+    /// 用于向shader载入平行光源信息
+    /// </summary>
+    /// <param name="dl"></param>
+    void loadDirectionalLight(const DirectionalLight& dl, const glm::vec3 eyes);
 
 private:
     /* shader program handle */

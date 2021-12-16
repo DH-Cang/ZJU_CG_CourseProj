@@ -210,3 +210,22 @@ void Shader::createShaderProgram(const std::string& vsCode, const std::string& f
         throw e;
     }
 }
+
+
+void Shader::loadCamera(const glm::mat4& view, const glm::mat4& projection)
+{
+    this->use();
+    this->setMat4("projection", projection);
+    this->setMat4("view", view);
+    return;
+}
+
+void Shader::loadDirectionalLight(const DirectionalLight& dl, const glm::vec3 eyes)
+{
+    this->use();
+    this->setVec3("directionalLight.color", dl.color);
+    this->setFloat("directionalLight.intensity", dl.intensity);
+    this->setVec3("directionalLight.direction", -dl.position);
+    this->setVec3("eyes", eyes);
+
+}

@@ -10,7 +10,7 @@
 
 #include "shader.h"
 #include "manualtexture.h"
-#define CIVILIAN_TWILIGHT_ANGLE 0.10472f // 以弧度计民用晨昏蒙影
+#include "light.h"
 
 const std::vector<std::string> skyboxTexturePaths = {
 "./data/skybox/RIGHT.bmp",

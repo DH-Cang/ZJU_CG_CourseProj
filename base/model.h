@@ -3,6 +3,7 @@
 #include "mesh.h"
 #include "object3d.h"
 #include "manualtexture.h"
+#include "light.h"
 #include <vector>
 #include <string>
 #include <map>
@@ -39,7 +40,7 @@ public:
     }
 
     // draws the model, and thus all its meshes
-    void Draw(Shader& shader, const glm::vec3& pos = glm::vec3({ 0.0f, 0.0f, 0.0f }), const float scale = 1.0f);
+    virtual void Draw(Shader& shader, const glm::vec3& pos = glm::vec3({ 0.0f, 0.0f, 0.0f }), const float scale = 1.0f);
 
 private:
     // loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.

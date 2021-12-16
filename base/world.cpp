@@ -9,11 +9,16 @@ world::world() {
 
 	skyBox.reset(new SkyBox());	
 
-	sunLight.reset(new SunLight(60, 23.5));
+	sunLight.reset(new SunLight(70, 15));
 
 	defaultShader.reset(new Shader(
 		std::string("./shader/default_vertex_shader.vert"),
 		std::string("./shader/default_frag_shader.frag")
+	));
+
+	phongShader.reset(new Shader(
+		std::string("./shader/default_phong_vertex_shader.vert"),
+		std::string("./shader/default_phong_frag_shader.frag")
 	));
 
 	sunShader.reset(new Shader(
@@ -37,6 +42,7 @@ void world::handleInput() {
 	const float cameraMoveSpeed = 0.04f;
 	const float cameraRotateSpeed = 0.25f;
 	const float deltaAngle = 0.001f;
+	const float deltaFovy = 0.001f;
 
 	if (_keyboardInput.keyStates[GLFW_KEY_ESCAPE] != GLFW_RELEASE) {
 		glfwSetWindowShouldClose(_window, true);
@@ -64,6 +70,8 @@ void world::handleInput() {
 		camera->position += cameraMoveSpeed * camera->getRight();
 	}
 
+
+	//QE实现pan（水平运镜）
 	if (_keyboardInput.keyStates[GLFW_KEY_Q] != GLFW_RELEASE) {
 		std::cout << "Q" << std::endl;
 		glm::quat temp_rotation = { 1.0f * cos(deltaAngle), 0.0f, 1.0f * sin(deltaAngle), 0.0f };
@@ -104,6 +112,26 @@ void world::handleInput() {
 		camera->position.y = 0.0f;
 	}
 
+	// 按1键进行Zoom In
+	if (_keyboardInput.keyStates[GLFW_KEY_1] != GLFW_RELEASE) {
+		std::cout << "1" << std::endl;
+		if (camera->fovy > 0.0174533) {
+			camera->fovy -= deltaFovy;
+		}
+	}
+
+	// 按2键进行Zoom Out
+	if (_keyboardInput.keyStates[GLFW_KEY_2] != GLFW_RELEASE) {
+		std::cout << "2" << std::endl;
+		if (camera->fovy < 3.1241393) {
+			camera->fovy += deltaFovy;
+		}
+	}
+
+	//orbit+zoom to fit尚在探索，需要拾取功能
+
+
+
 	return;
 }
 
@@ -116,33 +144,29 @@ void world::renderFrame() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 
-
 	sunLight->updateLight(_deltaTime);
 
-
-	glm::mat4 projection = camera->getProjectionMatrix();
 	glm::mat4 view = camera->getViewMatrix();
+	glm::mat4 projection = camera->getProjectionMatrix();
+	//找到camara位置，用于渲染光线
+	glm::vec3 eyes = camera->getEyes();
 
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
 	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
 
-	defaultShader->use();
-	defaultShader->setMat4("projection", projection);
-	defaultShader->setMat4("view", view);
-
-
-	bunny->Draw(*defaultShader, { 10.0f, 10.0f, 10.0f });
-	nanosuit->Draw(*defaultShader);
-	bunny->Draw(*defaultShader, { 20.0f, 10.0f, 10.0f });
+	defaultShader->loadCamera(view, projection);
+	phongShader->loadCamera(view, projection);
+	phongShader->loadDirectionalLight(*sunLight, eyes);
+	
+	bunny->Draw(*phongShader,{ 10.0f, 10.0f, 10.0f });
+	nanosuit->Draw(*phongShader);
+	bunny->Draw(*phongShader, { 20.0f, 10.0f, 10.0f });
 
 
 	
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	sunShader->use();
-	sunShader->setMat4("projection", projection);
-	sunShader->setMat4("view", view);
+	sunShader->loadCamera(view, projection);
 	sunShader->setVec3("color", sunLight->color);
 	sun->Draw(*sunShader, sunLight->getPos(), 2 * sunLight->radius);
 	
