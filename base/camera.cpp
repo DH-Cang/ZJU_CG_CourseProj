@@ -4,9 +4,6 @@ glm::mat4 Camera::getViewMatrix() const {
 	return glm::lookAt(position, position + getFront(), getUp());
 }
 
-glm::vec3 Camera::getEyes() {
-	return position;
-}
 
 PerspectiveCamera::PerspectiveCamera(float fovy, float aspect, float znear, float zfar)
 	: fovy(fovy), aspect(aspect), znear(znear), zfar(zfar) { }

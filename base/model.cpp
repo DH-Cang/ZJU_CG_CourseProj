@@ -217,14 +217,11 @@ vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type,
 	return textures;
 }
 
-void Model::Draw(Shader& shader, const glm::vec3& pos, const float scale)
+void Model::Draw(Shader& shader)
 {
     glDepthFunc(GL_LESS);
-    glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, pos); // translate it down so it's at the center of the scene
-    model = glm::scale(model, glm::vec3(scale, scale, scale));	// it's a bit too big for our scene, so scale it down
     shader.use();
-    shader.setMat4("model", model);
+    shader.setMat4("model", getModelMatrix());
     for (unsigned int i = 0; i < meshes.size(); i++)
         meshes[i].Draw(shader);
 }

@@ -17,7 +17,6 @@
 class Camera : public Object3D {
 public:
 	glm::mat4 getViewMatrix() const;
-	glm::vec3 getEyes();
 	virtual glm::mat4 getProjectionMatrix() const = 0;
 };
 
