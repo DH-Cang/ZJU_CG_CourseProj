@@ -1,20 +1,16 @@
 # README
 
-## 环境配置
+## 操作说明
 
-参考 https://jingyan.baidu.com/article/6f2f55a193029bf4b83e6c33.html
+鼠标控制方向
 
-安装vcpkg包管理器，和visual studio绑定，并安装如下的库
+WASD控制前后左右移动；空格竖直向上移动；左shift竖直向下移动
 
-```
-vcpkg install glfw3 glad glm assimp
-```
+QE表示摄像机向左/向右旋转
 
-配置完成后应该编译运行出一个空白窗口
+1拉近视角；2拉远视角；R恢复正常视角
 
-## 实验要求
 
-<img src="README.assets/image-20211208134614055.png" alt="image-20211208134614055" style="zoom:67%;" />
 
 ## 修改日志
 
