@@ -2,13 +2,13 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include "base/test.h"
+#include "base/world.h"
 
 
 int main() {
 	try {
-		test test;
-		test.run();
+		world game;
+		game.run();
 	}
 	catch (std::exception& e) {
 		std::cerr << e.what() << std::endl;

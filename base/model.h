@@ -2,6 +2,8 @@
 #include "shader.h"
 #include "mesh.h"
 #include "object3d.h"
+#include "manualtexture.h"
+#include "light.h"
 #include <vector>
 #include <string>
 #include <map>
@@ -13,8 +15,6 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <stb_image.h>
-
 
 #include <fstream>
 #include <sstream>
@@ -24,7 +24,7 @@ using namespace std;
 
 unsigned int TextureFromFile(const char* path, const string& directory, bool gamma = false);
 
-class Model
+class Model: public Object3D
 {
 public:
     // model data 
@@ -40,7 +40,7 @@ public:
     }
 
     // draws the model, and thus all its meshes
-    void Draw(Shader& shader);
+    virtual void Draw(Shader& shader);
 
 private:
     // loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.

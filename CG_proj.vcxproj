@@ -142,11 +142,14 @@
   <ItemGroup>
     <ClCompile Include="base\application.cpp" />
     <ClCompile Include="base\camera.cpp" />
+    <ClCompile Include="base\light.cpp" />
     <ClCompile Include="base\mesh.cpp" />
     <ClCompile Include="base\model.cpp" />
     <ClCompile Include="base\object3d.cpp" />
     <ClCompile Include="base\shader.cpp" />
-    <ClCompile Include="base\test.cpp" />
+    <ClCompile Include="base\skybox.cpp" />
+    <ClCompile Include="base\world.cpp" />
+    <ClCompile Include="base\manualtexture.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -158,13 +161,21 @@
     <ClInclude Include="base\model.h" />
     <ClInclude Include="base\object3d.h" />
     <ClInclude Include="base\shader.h" />
+    <ClInclude Include="base\skybox.h" />
+    <ClInclude Include="base\world.h" />
+    <ClInclude Include="base\manualtexture.h" />
     <ClInclude Include="base\stb_image.h" />
-    <ClInclude Include="base\test.h" />
     <ClInclude Include="basic_models\include\cube.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="shader\test_frag_shader.frag" />
-    <Text Include="shader\test_vertex_shader.vert" />
+    <Text Include="shader\default_frag_shader.frag" />
+    <Text Include="shader\default_vertex_shader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\default_phong_frag_shader.frag" />
+    <None Include="shader\default_phong_vertex_shader.vert" />
+    <None Include="shader\sun_frag_shader.frag" />
+    <None Include="shader\sun_vertex_shader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
