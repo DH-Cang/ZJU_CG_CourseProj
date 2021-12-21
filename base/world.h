@@ -17,6 +17,12 @@ private:
 
 	void renderFrame() override;
 
+	bool setTarget = false;
+
+	glm::vec3 target = { 0.0f, 0.0f, 0.0f };
+
+	glm::vec3 viewDir = { 0.0f, 0.0f, 0.0f };
+
     unique_ptr<PerspectiveCamera> camera;
 
 	unique_ptr<SkyBox> skyBox;

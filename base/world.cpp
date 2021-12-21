@@ -4,10 +4,10 @@ world::world() {
 	this->_windowTitle = std::string("World Rendering");
 
 	// set input mode
-	glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	_mouseInput.move.xOld = _mouseInput.move.xCurrent = 0.5 * _windowWidth;
-	_mouseInput.move.yOld = _mouseInput.move.yCurrent = 0.5 * _windowHeight;
-	glfwSetCursorPos(_window, _mouseInput.move.xCurrent, _mouseInput.move.yCurrent);
+	//glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//_mouseInput.move.xOld = _mouseInput.move.xCurrent = 0.5 * _windowWidth;
+	//_mouseInput.move.yOld = _mouseInput.move.yCurrent = 0.5 * _windowHeight;
+	//glfwSetCursorPos(_window, _mouseInput.move.xCurrent, _mouseInput.move.yCurrent);
 
 	camera.reset(new PerspectiveCamera(glm::radians(45.0f), 1.0f * _windowWidth / _windowHeight, 0.1f, 10000.0f));
 	camera->position = glm::vec3(0.0f, 0.0f, 10.0f);
@@ -71,6 +71,8 @@ void world::renderFrame() {
 	defaultShader->loadCamera(view, projection);
 	phongShader->loadCamera(view, projection);
 	phongShader->loadDirectionalLight(*sunLight, eyes);
+
+	
 	
 	// draw other models
 	bunny->Draw(*phongShader);
@@ -78,7 +80,6 @@ void world::renderFrame() {
 
 	// TO DO: 不知为何天空盒必须放在最后显示
 	skyBox->Draw(projection, view, sunLight->getElevationAngle());
-	glDisable(GL_BLEND);
 }
 
 
@@ -89,6 +90,8 @@ void world::handleInput() {
 	const float cameraRotateSpeed = 0.25f;
 	const float deltaAngle = 0.001f;
 	const float deltaFovy = 0.001f;
+	// glm::vec3 target = { 0.0f, 0.0f, 0.0f };
+	// glm::vec3 viewDir = { 0.0f, 0.0f, 0.0f };
 
 	if (_keyboardInput.keyStates[GLFW_KEY_ESCAPE] != GLFW_RELEASE) {
 		glfwSetWindowShouldClose(_window, true);
@@ -174,10 +177,54 @@ void world::handleInput() {
 
 	//orbit+zoom to fit尚在探索，需要拾取功能
 
+	// 点击左键设定目标
+	if (_mouseInput.click.left) {
+
+		int screen_w, screen_h, pixel_w, pixel_h;
+		double xpos, ypos, zpos=0;
+		glfwGetWindowSize(_window, &screen_w, &screen_h);
+		glfwGetFramebufferSize(_window, &pixel_w, &pixel_h);
+		glfwGetCursorPos(_window, &xpos, &ypos);
+		glm::vec2 screen_pos = glm::vec2(xpos, ypos);
+		glm::vec2 pixel_pos = screen_pos * glm::vec2(pixel_w, pixel_h) / glm::vec2(screen_w, screen_h);
+		pixel_pos = pixel_pos + glm::vec2(0.5f, 0.5f);
+		glm::vec3 win = glm::vec3(pixel_pos.x, pixel_h - 1 - pixel_pos.y, 0.0f);
+		glReadPixels(win.x, win.y, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &win.z);
+		glm::vec4 viewport(0.0f, 0.0f, (float)_windowWidth, (float)_windowHeight);
+		glm::vec3 from_eyes = glm::unProject(win, camera->getViewMatrix() * camera->getModelMatrix(), camera->getProjectionMatrix(), viewport);
+		viewDir = glm::normalize(camera->getRight()) * from_eyes.x + glm::normalize(camera->getUp()) * from_eyes.y - glm::normalize(camera->getFront()) * from_eyes.z;
+		// 每一步不能移动过远
+		if (glm::length(viewDir) <= 100.0f) {
+			target = camera->position + viewDir;
+			setTarget = true;
+		}
+
+
+		}
+
+	// 按3键进行Zoom to Fit，使用一次后该目标失效
+	if (_keyboardInput.keyStates[GLFW_KEY_3] != GLFW_RELEASE) {
+		if (setTarget) {
+			camera->position += 0.9f * viewDir;
+			setTarget = false;
+		}
+	}
+
+	// 按4键进行Orbit：根据目标点的z与x坐标发出竖直轴，相机自身位置绕该轴旋转
+	if (_keyboardInput.keyStates[GLFW_KEY_4] != GLFW_RELEASE) {
+		if (setTarget) {
+			//glm::vec2 dxz = glm::mat2x2(cos(deltaAngle), sin(deltaAngle), -sin(deltaAngle), cos(deltaAngle)) * glm::vec2(camera->position.x - target.x, camera->position.z - target.z);
+			camera->position.x = cos(deltaAngle) * (camera->position.x - target.x) + sin(deltaAngle) * (camera->position.z - target.z) + target.x;
+			camera->position.z = -sin(deltaAngle) * (camera->position.x - target.x) + cos(deltaAngle) * (camera->position.z - target.z) + target.z;
+			glm::quat temp_rotation = { 1.0f * cos(0.5f * deltaAngle), 0.0f, 1.0f * sin(0.5f * deltaAngle), 0.0f };
+			camera->rotation = temp_rotation * camera->rotation;
+		}
+	}
+
 
 
 	return;
-	
+
 }
 
 
