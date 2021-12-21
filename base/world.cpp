@@ -20,6 +20,9 @@ world::world() {
 	bunny.reset(new Model("./data/bunny_model/bunny.obj"));
 	bunny->position = glm::vec3(0.0f, 0.0f, 0.0f);
 
+	cube.reset(new Cube());
+	cube->position = glm::vec3(0.0f, 0.0f, -40.0f);
+
 	sun.reset(new Model("./data/sphere_model/sphere.obj"));
 	sunLight.reset(new SunLight(70, 15));
 
@@ -37,6 +40,11 @@ world::world() {
 	sunShader.reset(new Shader(
 		std::string("./shader/sun_vertex_shader.vert"),
 		std::string("./shader/sun_frag_shader.frag")
+	));
+
+	basicShader.reset(new Shader(
+		std::string("./shader/basic_shader.vert"),
+		std::string("./shader/basic_shader.frag")
 	));
 }
 
@@ -71,10 +79,12 @@ void world::renderFrame() {
 	defaultShader->loadCamera(view, projection);
 	phongShader->loadCamera(view, projection);
 	phongShader->loadDirectionalLight(*sunLight, eyes);
+	basicShader->loadCamera(view, projection);
 	
 	// draw other models
 	bunny->Draw(*phongShader);
 	nanosuit->Draw(*phongShader);
+	cube->Draw(*basicShader);
 
 	// TO DO: 不知为何天空盒必须放在最后显示
 	skyBox->Draw(projection, view, sunLight->getElevationAngle());

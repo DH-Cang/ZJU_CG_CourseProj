@@ -4,6 +4,7 @@
 #include "camera.h"
 #include "skybox.h"
 #include "light.h"
+#include "../basic_models/include/cube.h"
 
 class world : public Application {
 public:
@@ -31,9 +32,13 @@ private:
 
 	unique_ptr<Model> nanosuit;
 
+	unique_ptr<Cube> cube;
+
     unique_ptr<Shader> defaultShader;
 
 	unique_ptr<Shader> phongShader;
+
+	unique_ptr<Shader> basicShader;
 
 
 

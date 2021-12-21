@@ -60,6 +60,9 @@
     <ClCompile Include="base\light.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="basic_models\source\cube.cpp">
+      <Filter>Basic Models\source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\application.h">
@@ -98,6 +101,12 @@
     <ClInclude Include="basic_models\include\cube.h">
       <Filter>Basic Models\include</Filter>
     </ClInclude>
+    <ClInclude Include="base\stb_image.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="base\material.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="shader\default_frag_shader.frag">
@@ -118,6 +127,12 @@
       <Filter>Shader</Filter>
     </None>
     <None Include="shader\default_phong_vertex_shader.vert">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="shader\basic_shader.vert">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="shader\basic_shader.frag">
       <Filter>Shader</Filter>
     </None>
   </ItemGroup>
