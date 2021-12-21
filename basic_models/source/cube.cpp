@@ -2,8 +2,8 @@
 
 Cube::Cube() {
     // set up material
-    mat.Ka = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-    mat.Kd = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+    mat.Ka = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
+    mat.Kd = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
     mat.Ks = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
     mat.shininess = 10.0f;
 
@@ -15,8 +15,10 @@ Cube::Cube() {
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
     glBindVertexArray(0);
 }
@@ -31,7 +33,7 @@ void Cube::Draw(Shader& shader) {
     shader.setMat4("model", getModelMatrix());
 
     glBindVertexArray(vao);
-    glDrawArrays( GL_TRIANGLES, 0, sizeof(vertices)/3 );
+    glDrawArrays( GL_TRIANGLES, 0, 36 );
     glBindVertexArray(0);
 }
 

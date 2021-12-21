@@ -80,6 +80,7 @@ void world::renderFrame() {
 	phongShader->loadCamera(view, projection);
 	phongShader->loadDirectionalLight(*sunLight, eyes);
 	basicShader->loadCamera(view, projection);
+	basicShader->loadDirectionalLight(*sunLight, eyes);
 	
 	// draw other models
 	bunny->Draw(*phongShader);
