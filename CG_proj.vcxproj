@@ -150,6 +150,7 @@
     <ClCompile Include="base\skybox.cpp" />
     <ClCompile Include="base\world.cpp" />
     <ClCompile Include="base\manualtexture.cpp" />
+    <ClCompile Include="basic_models\source\cube.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +158,7 @@
     <ClInclude Include="base\camera.h" />
     <ClInclude Include="base\input.h" />
     <ClInclude Include="base\light.h" />
+    <ClInclude Include="base\material.h" />
     <ClInclude Include="base\mesh.h" />
     <ClInclude Include="base\model.h" />
     <ClInclude Include="base\object3d.h" />
@@ -172,6 +174,8 @@
     <Text Include="shader\default_vertex_shader.vert" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="shader\basic_shader.frag" />
+    <None Include="shader\basic_shader.vert" />
     <None Include="shader\default_phong_frag_shader.frag" />
     <None Include="shader\default_phong_vertex_shader.vert" />
     <None Include="shader\sun_frag_shader.frag" />

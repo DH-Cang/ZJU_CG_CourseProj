@@ -20,6 +20,9 @@ world::world() {
 	bunny.reset(new Model("./data/bunny_model/bunny.obj"));
 	bunny->position = glm::vec3(0.0f, 0.0f, 0.0f);
 
+	cube.reset(new Cube());
+	cube->position = glm::vec3(0.0f, 0.0f, -40.0f);
+
 	sun.reset(new Model("./data/sphere_model/sphere.obj"));
 	sunLight.reset(new SunLight(70, 15));
 
@@ -37,6 +40,11 @@ world::world() {
 	sunShader.reset(new Shader(
 		std::string("./shader/sun_vertex_shader.vert"),
 		std::string("./shader/sun_frag_shader.frag")
+	));
+
+	basicShader.reset(new Shader(
+		std::string("./shader/basic_shader.vert"),
+		std::string("./shader/basic_shader.frag")
 	));
 }
 
@@ -71,21 +79,22 @@ void world::renderFrame() {
 	defaultShader->loadCamera(view, projection);
 	phongShader->loadCamera(view, projection);
 	phongShader->loadDirectionalLight(*sunLight, eyes);
+	basicShader->loadCamera(view, projection);
 
-	
 	
 	// draw other models
 	bunny->Draw(*phongShader);
 	nanosuit->Draw(*phongShader);
+	cube->Draw(*basicShader);
 
-	// TO DO: ²»ÖªÎªºÎÌì¿ÕºĞ±ØĞë·ÅÔÚ×îºóÏÔÊ¾
+	// TO DO: ä¸çŸ¥ä¸ºä½•å¤©ç©ºç›’å¿…é¡»æ”¾åœ¨æœ€åæ˜¾ç¤º
 	skyBox->Draw(projection, view, sunLight->getElevationAngle());
 }
 
 
 
 void world::handleInput() {
-	// TO DO: ÎÒÃÇÓ¦µ±¶ÔÊÓ½ÇµÄÒÆ¶¯¼ÓÒÔÏŞÖÆ
+	// TO DO: æˆ‘ä»¬åº”å½“å¯¹è§†è§’çš„ç§»åŠ¨åŠ ä»¥é™åˆ¶
 	const float cameraMoveSpeed = 0.04f;
 	const float cameraRotateSpeed = 0.25f;
 	const float deltaAngle = 0.001f;
@@ -123,7 +132,7 @@ void world::handleInput() {
 	}
 
 
-	//QEÊµÏÖpan£¨Ë®Æ½ÔË¾µ£©
+	//QEå®ç°panï¼ˆæ°´å¹³è¿é•œï¼‰
 	if (_keyboardInput.keyStates[GLFW_KEY_Q] != GLFW_RELEASE) {
 		glm::quat temp_rotation = { 1.0f * cos(deltaAngle), 0.0f, 1.0f * sin(deltaAngle), 0.0f };
 		camera->rotation = temp_rotation * camera->rotation;
@@ -152,30 +161,30 @@ void world::handleInput() {
 		_mouseInput.move.yOld = _mouseInput.move.yCurrent;
 	}
 
-	// °´R¼ü¸´Ô­ÊÓ½Ç
+	// æŒ‰Ré”®å¤åŸè§†è§’
 	if (_keyboardInput.keyStates[GLFW_KEY_R] != GLFW_RELEASE) {
 		camera.reset(new PerspectiveCamera(glm::radians(45.0f), 1.0f * _windowWidth / _windowHeight, 0.1f, 10000.0f));
 		camera->position.z = 10.0f;
 		camera->position.y = 0.0f;
 	}
 
-	// °´1¼ü½øĞĞZoom In
+	// æŒ‰1é”®è¿›è¡ŒZoom In
 	if (_keyboardInput.keyStates[GLFW_KEY_1] != GLFW_RELEASE) {
 		if (camera->fovy > 0.0174533) {
 			camera->fovy -= deltaFovy;
 		}
 	}
 
-	// °´2¼ü½øĞĞZoom Out
+	// æŒ‰2é”®è¿›è¡ŒZoom Out
 	if (_keyboardInput.keyStates[GLFW_KEY_2] != GLFW_RELEASE) {
 		if (camera->fovy < 3.1241393) {
 			camera->fovy += deltaFovy;
 		}
 	}
 
-	//orbit+zoom to fitÉĞÔÚÌ½Ë÷£¬ĞèÒªÊ°È¡¹¦ÄÜ
+	//orbit+zoom to fitå°šåœ¨æ¢ç´¢ï¼Œéœ€è¦æ‹¾å–åŠŸèƒ½
 
-	// µã»÷×ó¼üÉè¶¨Ä¿±ê
+	// ç‚¹å‡»å·¦é”®è®¾å®šç›®æ ‡
 	if (_mouseInput.click.left) {
 		int screen_w, screen_h, pixel_w, pixel_h;
 		double xpos, ypos, zpos=0;
@@ -191,14 +200,14 @@ void world::handleInput() {
 		glm::vec4 viewport(0.0f, 0.0f, (float)_windowWidth, (float)_windowHeight);
 		glm::vec3 from_eyes = glm::unProject(win, camera->getViewMatrix() * camera->getModelMatrix(), camera->getProjectionMatrix(), viewport);
 		viewDir = glm::normalize(camera->getRight()) * from_eyes.x + glm::normalize(camera->getUp()) * from_eyes.y - glm::normalize(camera->getFront()) * from_eyes.z;
-		// Ã¿Ò»²½²»ÄÜÒÆ¶¯¹ıÔ¶
+		// æ¯ä¸€æ­¥ä¸èƒ½ç§»åŠ¨è¿‡è¿œ
 		if (glm::length(viewDir) <= 100.0f) {
 			target = camera->position + viewDir;
 			setTarget = true;
 		}
 	}
 
-	// °´3¼ü½øĞĞZoom to Fit£¬Ê¹ÓÃÒ»´Îºó¸ÃÄ¿±êÊ§Ğ§
+	// æŒ‰3é”®è¿›è¡ŒZoom to Fitï¼Œä½¿ç”¨ä¸€æ¬¡åè¯¥ç›®æ ‡å¤±æ•ˆ
 	if (_keyboardInput.keyStates[GLFW_KEY_3] != GLFW_RELEASE) {
 		if (setTarget) {
 			camera->position += 0.01f * viewDir;
@@ -206,7 +215,7 @@ void world::handleInput() {
 		}
 	}
 
-	// °´4¼ü½øĞĞOrbit£º¸ù¾İÄ¿±êµãµÄzÓëx×ø±ê·¢³öÊúÖ±Öá£¬Ïà»ú×ÔÉíÎ»ÖÃÈÆ¸ÃÖáĞı×ª
+	// æŒ‰4é”®è¿›è¡ŒOrbitï¼šæ ¹æ®ç›®æ ‡ç‚¹çš„zä¸xåæ ‡å‘å‡ºç«–ç›´è½´ï¼Œç›¸æœºè‡ªèº«ä½ç½®ç»•è¯¥è½´æ—‹è½¬
 	if (_keyboardInput.keyStates[GLFW_KEY_4] != GLFW_RELEASE) {
 		if (setTarget) {
 			//glm::vec2 dxz = glm::mat2x2(cos(deltaAngle), sin(deltaAngle), -sin(deltaAngle), cos(deltaAngle)) * glm::vec2(camera->position.x - target.x, camera->position.z - target.z);
