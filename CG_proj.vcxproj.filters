@@ -63,6 +63,12 @@
     <ClCompile Include="basic_models\source\cube.cpp">
       <Filter>Basic Models\source</Filter>
     </ClCompile>
+    <ClCompile Include="basic_models\source\square_pyramid.cpp">
+      <Filter>Basic Models\source</Filter>
+    </ClCompile>
+    <ClCompile Include="basic_models\source\sphere.cpp">
+      <Filter>Basic Models\source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\application.h">
@@ -106,6 +112,12 @@
     </ClInclude>
     <ClInclude Include="base\material.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_models\include\sphere.h">
+      <Filter>Basic Models\include</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_models\include\square_pyramid.h">
+      <Filter>Basic Models\include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -23,6 +23,9 @@ world::world() {
 	cube.reset(new Cube());
 	cube->position = glm::vec3(0.0f, 0.0f, -40.0f);
 
+	square_pyramid.reset(new Square_pyramid());
+	square_pyramid->position = glm::vec3(0.0f, 0.0f, 20.0f);
+
 	sun.reset(new Model("./data/sphere_model/sphere.obj"));
 	sunLight.reset(new SunLight(70, 15));
 
@@ -86,6 +89,7 @@ void world::renderFrame() {
 	bunny->Draw(*phongShader);
 	nanosuit->Draw(*phongShader);
 	cube->Draw(*basicShader);
+	square_pyramid->Draw(*basicShader);
 
 	// TO DO: 不知为何天空盒必须放在最后显示
 	skyBox->Draw(projection, view, sunLight->getElevationAngle());

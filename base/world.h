@@ -5,6 +5,7 @@
 #include "skybox.h"
 #include "light.h"
 #include "../basic_models/include/cube.h"
+#include "../basic_models/include/square_pyramid.h"
 
 class world : public Application {
 public:
@@ -33,6 +34,8 @@ private:
 	unique_ptr<Model> nanosuit;
 
 	unique_ptr<Cube> cube;
+
+	unique_ptr<Square_pyramid> square_pyramid;
 
     unique_ptr<Shader> defaultShader;
 
