@@ -1,4 +1,9 @@
 #include "world.h"
+#include <windows.h>　　　　　　　　　　　　　　　// Header File For Windows
+#include <stdio.h>　　　　　　　　　　　　　　　　// Header File For Standard Input/Output
+#include <gl/gl.h>　　　　　　　　　　　　　　　　// Header File For The OpenGL32 Library
+#include <gl/glu.h>　　
+#pragma comment(lib,"glu32.lib")
 
 world::world() {
 	this->_windowTitle = std::string("World Rendering");
@@ -18,7 +23,7 @@ world::world() {
 	nanosuit->position = glm::vec3(0.0f, 0.0f, -20.0f);
 
 	bunny.reset(new Model("./data/bunny_model/bunny.obj"));
-	bunny->position = glm::vec3(0.0f, 0.0f, 0.0f);
+	bunny->position = glm::vec3(0.0f, 10.0f, 0.0f);
 
 	cube.reset(new Cube());
 	cube->position = glm::vec3(0.0f, 0.0f, -40.0f);
@@ -28,6 +33,9 @@ world::world() {
 
 	prism.reset(new Prism());
 	prism->position = glm::vec3(0.0f, 0.0f, 40.0f);
+
+	sphere.reset(new Sphere());
+	//sphere->position = glm::vec3(0.0f, 0.0f, 50.0f);
 
 	sun.reset(new Model("./data/sphere_model/sphere.obj"));
 	sunLight.reset(new SunLight(70, 15));
@@ -52,6 +60,11 @@ world::world() {
 	basicShader.reset(new Shader(
 		std::string("./shader/basic_shader.vert"),
 		std::string("./shader/basic_shader.frag")
+	));
+
+	sphereShader.reset(new Shader(
+		std::string("./shader/sphere.vert"),
+		std::string("./shader/sphere.frag")
 	));
 }
 
@@ -95,6 +108,14 @@ void world::renderFrame() {
 	cube->Draw(*basicShader);
 	square_pyramid->Draw(*basicShader);
 	prism->Draw(*basicShader);
+	sphere->Draw(*basicShader);
+
+	//glColor3f(1, 0, 0);
+	//GLUquadric* quad;
+	//quad = gluNewQuadric();
+	//gluSphere(quad, 25, 100, 20);
+	//glTranslatef(2, 2, 2);
+	//Cylinder cylinder1(1.0f, 1.0f, 2.0f, 36, 8, false);
 
 	// TO DO: 音岑葎採爺腎歳駅倬慧壓恷朔�塋�
 	skyBox->Draw(projection, view, sunLight->getElevationAngle());

@@ -34,7 +34,7 @@ void Cube::Draw(Shader& shader) {
 
     glBindVertexArray(vao);
     glDrawArrays( GL_TRIANGLES, 0, 36 );
-    glBindVertexArray(0);
+    glBindVertexArray(0);   
 }
 
 Cube::~Cube() {

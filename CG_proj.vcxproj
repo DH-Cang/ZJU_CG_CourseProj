@@ -154,6 +154,7 @@
     <ClCompile Include="basic_models\source\sphere.cpp" />
     <ClCompile Include="basic_models\source\square_pyramid.cpp" />
     <ClCompile Include="basic_models\source\prism.cpp" />
+    <ClCompile Include="C:\Users\qyfan\Downloads\cylinder\src\Cylinder.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +175,7 @@
     <ClInclude Include="basic_models\include\prism.h" />
     <ClInclude Include="basic_models\include\sphere.h" />
     <ClInclude Include="basic_models\include\square_pyramid.h" />
+    <ClInclude Include="C:\Users\qyfan\Downloads\cylinder\src\Cylinder.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="shader\default_frag_shader.frag" />
@@ -184,6 +186,8 @@
     <None Include="shader\basic_shader.vert" />
     <None Include="shader\default_phong_frag_shader.frag" />
     <None Include="shader\default_phong_vertex_shader.vert" />
+    <None Include="shader\sphere.frag" />
+    <None Include="shader\sphere.vert" />
     <None Include="shader\sun_frag_shader.frag" />
     <None Include="shader\sun_vertex_shader.vert" />
   </ItemGroup>

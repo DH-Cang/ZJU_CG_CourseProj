@@ -7,6 +7,11 @@
 #include "../basic_models/include/cube.h"
 #include "../basic_models/include/square_pyramid.h"
 #include "../basic_models/include/prism.h"
+#include "../basic_models/include/sphere.h"
+#include "../basic_models/include/Cylinder.h" 
+
+
+
 
 class world : public Application {
 public:
@@ -36,6 +41,8 @@ private:
 
 	unique_ptr<Cube> cube;
 
+	unique_ptr<Sphere> sphere;
+
 	unique_ptr<Square_pyramid> square_pyramid;
 
 	unique_ptr<Prism> prism;
@@ -45,6 +52,8 @@ private:
 	unique_ptr<Shader> phongShader;
 
 	unique_ptr<Shader> basicShader;
+
+	unique_ptr<Shader> sphereShader;
 
 
 

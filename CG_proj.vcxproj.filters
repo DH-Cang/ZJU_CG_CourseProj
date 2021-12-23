@@ -66,10 +66,13 @@
     <ClCompile Include="basic_models\source\square_pyramid.cpp">
       <Filter>Basic Models\source</Filter>
     </ClCompile>
-    <ClCompile Include="basic_models\source\sphere.cpp">
+    <ClCompile Include="basic_models\source\prism.cpp">
       <Filter>Basic Models\source</Filter>
     </ClCompile>
-    <ClCompile Include="basic_models\source\prism.cpp">
+    <ClCompile Include="C:\Users\qyfan\Downloads\cylinder\src\Cylinder.cpp">
+      <Filter>Basic Models\source</Filter>
+    </ClCompile>
+    <ClCompile Include="basic_models\source\sphere.cpp">
       <Filter>Basic Models\source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -116,13 +119,16 @@
     <ClInclude Include="base\material.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="basic_models\include\sphere.h">
-      <Filter>Basic Models\include</Filter>
-    </ClInclude>
     <ClInclude Include="basic_models\include\square_pyramid.h">
       <Filter>Basic Models\include</Filter>
     </ClInclude>
     <ClInclude Include="basic_models\include\prism.h">
+      <Filter>Basic Models\include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\qyfan\Downloads\cylinder\src\Cylinder.h">
+      <Filter>Basic Models\include</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_models\include\sphere.h">
       <Filter>Basic Models\include</Filter>
     </ClInclude>
   </ItemGroup>
@@ -151,6 +157,12 @@
       <Filter>Shader</Filter>
     </None>
     <None Include="shader\basic_shader.frag">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="shader\sphere.vert">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="shader\sphere.frag">
       <Filter>Shader</Filter>
     </None>
   </ItemGroup>
