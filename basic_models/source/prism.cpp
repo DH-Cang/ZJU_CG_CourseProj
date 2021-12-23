@@ -1,11 +1,11 @@
-#include "../include/square_pyramid.h"
+#include "../include/prism.h"
 
-Square_pyramid::Square_pyramid() {
+Prism::Prism() {
     // set up material
-    mat.Ka = glm::vec4(0.5f, 0.2f, 0.2f, 1.0f);
-    mat.Kd = glm::vec4(0.5f, 0.2f, 0.2f, 1.0f);
-    mat.Ks = glm::vec4(0.5f, 0.2f, 0.2f, 1.0f);
-    mat.shininess = 5.0f;
+    mat.Ka = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
+    mat.Kd = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
+    mat.Ks = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+    mat.shininess = 10.0f;
 
     // set up OpenGL src
     glGenVertexArrays(1, &vao);
@@ -23,7 +23,7 @@ Square_pyramid::Square_pyramid() {
     glBindVertexArray(0);
 }
 
-void Square_pyramid::Draw(Shader& shader) {
+void Prism::Draw(Shader& shader) {
     glDepthFunc(GL_LESS);
     shader.use();
     shader.setVec4("material.ka", mat.Ka);
@@ -33,11 +33,11 @@ void Square_pyramid::Draw(Shader& shader) {
     shader.setMat4("model", getModelMatrix());
 
     glBindVertexArray(vao);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glDrawArrays(GL_TRIANGLES, 0, 96);
     glBindVertexArray(0);
 }
 
-Square_pyramid::~Square_pyramid() {
+Prism::~Prism() {
     if (vbo != 0) {
         glDeleteBuffers(1, &vbo);
         vbo = 0;

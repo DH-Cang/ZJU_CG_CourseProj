@@ -153,6 +153,7 @@
     <ClCompile Include="basic_models\source\cube.cpp" />
     <ClCompile Include="basic_models\source\sphere.cpp" />
     <ClCompile Include="basic_models\source\square_pyramid.cpp" />
+    <ClCompile Include="basic_models\source\prism.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +171,7 @@
     <ClInclude Include="base\manualtexture.h" />
     <ClInclude Include="base\stb_image.h" />
     <ClInclude Include="basic_models\include\cube.h" />
+    <ClInclude Include="basic_models\include\prism.h" />
     <ClInclude Include="basic_models\include\sphere.h" />
     <ClInclude Include="basic_models\include\square_pyramid.h" />
   </ItemGroup>

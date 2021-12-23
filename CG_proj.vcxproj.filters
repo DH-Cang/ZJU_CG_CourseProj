@@ -69,6 +69,9 @@
     <ClCompile Include="basic_models\source\sphere.cpp">
       <Filter>Basic Models\source</Filter>
     </ClCompile>
+    <ClCompile Include="basic_models\source\prism.cpp">
+      <Filter>Basic Models\source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\application.h">
@@ -117,6 +120,9 @@
       <Filter>Basic Models\include</Filter>
     </ClInclude>
     <ClInclude Include="basic_models\include\square_pyramid.h">
+      <Filter>Basic Models\include</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_models\include\prism.h">
       <Filter>Basic Models\include</Filter>
     </ClInclude>
   </ItemGroup>

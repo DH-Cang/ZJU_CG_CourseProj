@@ -6,6 +6,7 @@
 #include "light.h"
 #include "../basic_models/include/cube.h"
 #include "../basic_models/include/square_pyramid.h"
+#include "../basic_models/include/prism.h"
 
 class world : public Application {
 public:
@@ -36,6 +37,8 @@ private:
 	unique_ptr<Cube> cube;
 
 	unique_ptr<Square_pyramid> square_pyramid;
+
+	unique_ptr<Prism> prism;
 
     unique_ptr<Shader> defaultShader;
 
