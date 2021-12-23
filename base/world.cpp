@@ -80,21 +80,21 @@ void world::renderFrame() {
 	phongShader->loadCamera(view, projection);
 	phongShader->loadDirectionalLight(*sunLight, eyes);
 	basicShader->loadCamera(view, projection);
+
 	
 	// draw other models
 	bunny->Draw(*phongShader);
 	nanosuit->Draw(*phongShader);
 	cube->Draw(*basicShader);
 
-	// TO DO: ²»ÖªÎªºÎÌì¿ÕºĞ±ØĞë·ÅÔÚ×îºóÏÔÊ¾
+	// TO DO: ä¸çŸ¥ä¸ºä½•å¤©ç©ºç›’å¿…é¡»æ”¾åœ¨æœ€åæ˜¾ç¤º
 	skyBox->Draw(projection, view, sunLight->getElevationAngle());
-	glDisable(GL_BLEND);
 }
 
 
 
 void world::handleInput() {
-	// TO DO: ÎÒÃÇÓ¦µ±¶ÔÊÓ½ÇµÄÒÆ¶¯¼ÓÒÔÏŞÖÆ
+	// TO DO: æˆ‘ä»¬åº”å½“å¯¹è§†è§’çš„ç§»åŠ¨åŠ ä»¥é™åˆ¶
 	const float cameraMoveSpeed = 0.04f;
 	const float cameraRotateSpeed = 0.25f;
 	const float deltaAngle = 0.001f;
@@ -132,7 +132,7 @@ void world::handleInput() {
 	}
 
 
-	//QEÊµÏÖpan£¨Ë®Æ½ÔË¾µ£©
+	//QEå®ç°panï¼ˆæ°´å¹³è¿é•œï¼‰
 	if (_keyboardInput.keyStates[GLFW_KEY_Q] != GLFW_RELEASE) {
 		glm::quat temp_rotation = { 1.0f * cos(deltaAngle), 0.0f, 1.0f * sin(deltaAngle), 0.0f };
 		camera->rotation = temp_rotation * camera->rotation;
@@ -161,33 +161,75 @@ void world::handleInput() {
 		_mouseInput.move.yOld = _mouseInput.move.yCurrent;
 	}
 
-	// °´R¼ü¸´Ô­ÊÓ½Ç
+	// æŒ‰Ré”®å¤åŸè§†è§’
 	if (_keyboardInput.keyStates[GLFW_KEY_R] != GLFW_RELEASE) {
 		camera.reset(new PerspectiveCamera(glm::radians(45.0f), 1.0f * _windowWidth / _windowHeight, 0.1f, 10000.0f));
 		camera->position.z = 10.0f;
 		camera->position.y = 0.0f;
 	}
 
-	// °´1¼ü½øĞĞZoom In
+	// æŒ‰1é”®è¿›è¡ŒZoom In
 	if (_keyboardInput.keyStates[GLFW_KEY_1] != GLFW_RELEASE) {
 		if (camera->fovy > 0.0174533) {
 			camera->fovy -= deltaFovy;
 		}
 	}
 
-	// °´2¼ü½øĞĞZoom Out
+	// æŒ‰2é”®è¿›è¡ŒZoom Out
 	if (_keyboardInput.keyStates[GLFW_KEY_2] != GLFW_RELEASE) {
 		if (camera->fovy < 3.1241393) {
 			camera->fovy += deltaFovy;
 		}
 	}
 
-	//orbit+zoom to fitÉĞÔÚÌ½Ë÷£¬ĞèÒªÊ°È¡¹¦ÄÜ
+	//orbit+zoom to fitå°šåœ¨æ¢ç´¢ï¼Œéœ€è¦æ‹¾å–åŠŸèƒ½
+
+	// ç‚¹å‡»å·¦é”®è®¾å®šç›®æ ‡
+	if (_mouseInput.click.left) {
+		int screen_w, screen_h, pixel_w, pixel_h;
+		double xpos, ypos, zpos=0;
+		glfwGetWindowSize(_window, &screen_w, &screen_h);
+		glfwGetFramebufferSize(_window, &pixel_w, &pixel_h);
+		glfwGetCursorPos(_window, &xpos, &ypos);
+		//glm::vec2 screen_pos = glm::vec2(xpos, ypos);
+		glm::vec2 screen_pos = glm::vec2((float)(_windowWidth/2), (float)(_windowHeight/2));
+		glm::vec2 pixel_pos = screen_pos * glm::vec2(pixel_w, pixel_h) / glm::vec2(screen_w, screen_h);
+		pixel_pos = pixel_pos + glm::vec2(0.5f, 0.5f);
+		glm::vec3 win = glm::vec3(pixel_pos.x, pixel_h - 1 - pixel_pos.y, 0.0f);
+		glReadPixels(win.x, win.y, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &win.z);
+		glm::vec4 viewport(0.0f, 0.0f, (float)_windowWidth, (float)_windowHeight);
+		glm::vec3 from_eyes = glm::unProject(win, camera->getViewMatrix() * camera->getModelMatrix(), camera->getProjectionMatrix(), viewport);
+		viewDir = glm::normalize(camera->getRight()) * from_eyes.x + glm::normalize(camera->getUp()) * from_eyes.y - glm::normalize(camera->getFront()) * from_eyes.z;
+		// æ¯ä¸€æ­¥ä¸èƒ½ç§»åŠ¨è¿‡è¿œ
+		if (glm::length(viewDir) <= 100.0f) {
+			target = camera->position + viewDir;
+			setTarget = true;
+		}
+	}
+
+	// æŒ‰3é”®è¿›è¡ŒZoom to Fitï¼Œä½¿ç”¨ä¸€æ¬¡åè¯¥ç›®æ ‡å¤±æ•ˆ
+	if (_keyboardInput.keyStates[GLFW_KEY_3] != GLFW_RELEASE) {
+		if (setTarget) {
+			camera->position += 0.01f * viewDir;
+			setTarget = false;
+		}
+	}
+
+	// æŒ‰4é”®è¿›è¡ŒOrbitï¼šæ ¹æ®ç›®æ ‡ç‚¹çš„zä¸xåæ ‡å‘å‡ºç«–ç›´è½´ï¼Œç›¸æœºè‡ªèº«ä½ç½®ç»•è¯¥è½´æ—‹è½¬
+	if (_keyboardInput.keyStates[GLFW_KEY_4] != GLFW_RELEASE) {
+		if (setTarget) {
+			//glm::vec2 dxz = glm::mat2x2(cos(deltaAngle), sin(deltaAngle), -sin(deltaAngle), cos(deltaAngle)) * glm::vec2(camera->position.x - target.x, camera->position.z - target.z);
+			camera->position.x = cos(deltaAngle) * (camera->position.x - target.x) + sin(deltaAngle) * (camera->position.z - target.z) + target.x;
+			camera->position.z = -sin(deltaAngle) * (camera->position.x - target.x) + cos(deltaAngle) * (camera->position.z - target.z) + target.z;
+			glm::quat temp_rotation = { 1.0f * cos(0.5f * deltaAngle), 0.0f, 1.0f * sin(0.5f * deltaAngle), 0.0f };
+			camera->rotation = temp_rotation * camera->rotation;
+		}
+	}
 
 
 
 	return;
-	
+
 }
 
 
