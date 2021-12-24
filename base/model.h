@@ -38,6 +38,8 @@ public:
     {
         loadModel(path);
     }
+    Model() = default;
+    ~Model() = default;
 
     // draws the model, and thus all its meshes
     virtual void Draw(Shader& shader);

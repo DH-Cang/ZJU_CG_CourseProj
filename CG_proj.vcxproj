@@ -176,6 +176,8 @@
   <ItemGroup>
     <None Include="shader\basic_shader.frag" />
     <None Include="shader\basic_shader.vert" />
+    <None Include="shader\bunny_shader.frag" />
+    <None Include="shader\bunny_shader.vert" />
     <None Include="shader\default_phong_frag_shader.frag" />
     <None Include="shader\default_phong_vertex_shader.vert" />
     <None Include="shader\sun_frag_shader.frag" />

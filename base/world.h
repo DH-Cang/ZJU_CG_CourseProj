@@ -49,7 +49,7 @@ private:
 
 	unique_ptr<Shader> basicShader;
 
-
+	unique_ptr<Shader> bunnyShader;
 
 };
 
