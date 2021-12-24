@@ -56,4 +56,22 @@ private:
     vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
 };
 
+class DynamicModel : public Object3D
+{
+public:
+    DynamicModel(string const& fragpath, int amount, float fps);
+    void Draw(Shader& shader, float time);
+    void setPosition(glm::vec3 ps);
+    void setRotation(glm::quat rt);
+    void setScale(glm::vec3 sc);
+
+private:
+    glm::vec3 globalPosition = { 0.0f, 0.0f, 0.0f };
+    glm::quat globalRotation = { 1.0f, 0.0f, 0.0f, 0.0f };
+    glm::vec3 globalScale = { 1.0f, 1.0f, 1.0f };
+    int amount;
+    float dt;
+    vector<Model> m;
+};
+
 

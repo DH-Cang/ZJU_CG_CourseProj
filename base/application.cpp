@@ -67,6 +67,7 @@ void Application::run() {
 void Application::updateTime() {
 	auto now = std::chrono::high_resolution_clock::now();
 	_deltaTime = 0.001f * std::chrono::duration<float, std::milli>(now - _lastTimeStamp).count();
+	_accumulatedTime += _deltaTime;
 	_lastTimeStamp = now;
 }
 

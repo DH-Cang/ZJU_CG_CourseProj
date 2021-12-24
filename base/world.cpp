@@ -26,6 +26,10 @@ world::world() {
 	sun.reset(new Model("./data/sphere_model/sphere.obj"));
 	sunLight.reset(new SunLight(70, 15));
 
+	posture.reset(new DynamicModel("./data/postures/pose", 101, 20));
+	posture->setPosition(glm::vec3(10.0f, 10.0f, 10.0f));
+	posture->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
+
 	// set shaders
 	defaultShader.reset(new Shader(
 		std::string("./shader/default_vertex_shader.vert"),
@@ -86,6 +90,9 @@ void world::renderFrame() {
 	bunny->Draw(*phongShader);
 	nanosuit->Draw(*phongShader);
 	cube->Draw(*basicShader);
+	// 有bug，很怪阿，加入posture之后，原来的bunny不知道为什么变亮了非常多，去掉了又好了
+	// 改成basicShader还是有这个问题，但是好像nanosuit没有受这个影响
+	posture->Draw(*phongShader, _accumulatedTime);
 
 	// TO DO: 不知为何天空盒必须放在最后显示
 	skyBox->Draw(projection, view, sunLight->getElevationAngle());
@@ -182,7 +189,6 @@ void world::handleInput() {
 		}
 	}
 
-	//orbit+zoom to fit尚在探索，需要拾取功能
 
 	// 点击左键设定目标
 	if (_mouseInput.click.left) {
@@ -210,7 +216,7 @@ void world::handleInput() {
 	// 按3键进行Zoom to Fit，使用一次后该目标失效
 	if (_keyboardInput.keyStates[GLFW_KEY_3] != GLFW_RELEASE) {
 		if (setTarget) {
-			camera->position += 0.01f * viewDir;
+			camera->position += 0.5f * viewDir;
 			setTarget = false;
 		}
 	}
@@ -224,6 +230,65 @@ void world::handleInput() {
 			glm::quat temp_rotation = { 1.0f * cos(0.5f * deltaAngle), 0.0f, 1.0f * sin(0.5f * deltaAngle), 0.0f };
 			camera->rotation = temp_rotation * camera->rotation;
 		}
+	}
+
+	// 按P键截屏
+	if (_keyboardInput.keyStates[GLFW_KEY_P] != GLFW_RELEASE) {
+		FILE* pDummyFile;  //指向另一bmp文件，用于复制它的文件头和信息头数据
+		FILE* pWritingFile;  //指向要保存截图的bmp文件
+		GLubyte* pPixelData;    //指向新的空的内存，用于保存截图bmp文件数据
+		GLubyte  BMP_Header[BMP_Header_Length];
+		GLint    i, j;
+		GLint    PixelDataLength;   //BMP文件数据总长度
+
+		// 计算像素数据的实际长度
+		i = _windowWidth * 3;   // 得到每一行的像素数据长度
+		while (i % 4 != 0)      // 补充数据，直到i是的倍数
+			++i;
+		PixelDataLength = i * _windowHeight;  //补齐后的总位数
+
+		// 分配内存和打开文件
+		pPixelData = (GLubyte*)malloc(PixelDataLength);
+		if (pPixelData == 0)
+			exit(0);
+
+		fopen_s(&pDummyFile, "bitmapheader.bmp", "rb");
+
+		/*极小BUG待修改
+		* 令人费解阿
+		* 按理来说要检验一下这个拿来充当文件头的bmp是不是存在
+		* 如果不存在就会走入下面这个分支
+		* 目前是可以完美运行的 但是又是会走入这个分支的
+		* 如果我把下面那个exit的注释去掉
+		* 就会直接退出
+		*/
+		if (pDummyFile == 0);
+			//exit(0);
+
+		fopen_s(&pWritingFile, "snapshot.bmp", "wb");
+
+		//把读入的bmp文件的文件头和信息头数据复制，并修改宽高数据
+		fread(BMP_Header, sizeof(BMP_Header), 1, pDummyFile);  //读取文件头和信息头，占据54字节
+		fwrite(BMP_Header, sizeof(BMP_Header), 1, pWritingFile);
+		fseek(pWritingFile, 0x0012, SEEK_SET); //移动到0X0012处，指向图像宽度所在内存
+		i = _windowWidth;
+		j = _windowHeight;
+		fwrite(&i, sizeof(i), 1, pWritingFile);
+		fwrite(&j, sizeof(j), 1, pWritingFile);
+
+		// 读取当前画板上图像的像素数据
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);  //设置4位对齐方式
+		glReadPixels(0, 0, _windowWidth, _windowHeight, GL_BGR, GL_UNSIGNED_BYTE, pPixelData);
+
+		// 写入像素数据
+		fseek(pWritingFile, 0, SEEK_END);
+		//把完整的BMP文件数据写入pWritingFile
+		fwrite(pPixelData, PixelDataLength, 1, pWritingFile);
+
+		// 释放内存和关闭文件
+		fclose(pDummyFile);
+		fclose(pWritingFile);
+		free(pPixelData);
 	}
 
 
