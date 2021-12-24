@@ -62,10 +62,7 @@ world::world() {
 		std::string("./shader/basic_shader.frag")
 	));
 
-	sphereShader.reset(new Shader(
-		std::string("./shader/sphere.vert"),
-		std::string("./shader/sphere.frag")
-	));
+
 }
 
 

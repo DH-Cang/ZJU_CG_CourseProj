@@ -159,11 +159,5 @@
     <None Include="shader\basic_shader.frag">
       <Filter>Shader</Filter>
     </None>
-    <None Include="shader\sphere.vert">
-      <Filter>Shader</Filter>
-    </None>
-    <None Include="shader\sphere.frag">
-      <Filter>Shader</Filter>
-    </None>
   </ItemGroup>
 </Project>
