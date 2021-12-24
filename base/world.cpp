@@ -16,9 +16,12 @@ world::world() {
 
 	nanosuit.reset(new Model("./data/nanosuit_model/nanosuit.obj"));
 	nanosuit->position = glm::vec3(0.0f, 0.0f, -20.0f);
+	nanosuit->colli_box.update_box(nanosuit->getModelMatrix());
+	colli_box.push_back(nanosuit->colli_box);
 
 	bunny.reset(new Model("./data/bunny_model/bunny.obj"));
 	bunny->position = glm::vec3(0.0f, 0.0f, 0.0f);
+	//bunny->colli_box.update_box(bunny->getModelMatrix());
 
 	cube.reset(new Cube());
 	cube->position = glm::vec3(0.0f, 0.0f, -40.0f);
@@ -233,3 +236,8 @@ void world::handleInput() {
 }
 
 
+
+void world::CameraCollisionCheck(glm::vec3& camera_pos, glm::vec3 move)
+{
+	return;
+}

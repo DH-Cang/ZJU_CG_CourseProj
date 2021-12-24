@@ -41,6 +41,16 @@ unsigned int TextureFromFile(const char* path, const string& directory, bool gam
 }
 
 
+Model::Model(string const& path, bool gamma) : gammaCorrection(gamma)
+{
+    loadModel(path);
+    for (auto mesh = meshes.begin(); mesh != meshes.end(); mesh++) {
+        for (auto vertex = mesh->vertices.begin(); vertex != mesh->vertices.end(); vertex++){
+            colli_box.add_vertex(vertex->Position);
+        }
+    }
+}
+
 
 void Model::loadModel(string const& path) 
 {
@@ -61,6 +71,7 @@ void Model::loadModel(string const& path)
     processNode(scene->mRootNode, scene);
 
 }
+
 
 void Model::processNode(aiNode* node, const aiScene* scene)
 {
