@@ -16,9 +16,13 @@ world::world() {
 
 	nanosuit.reset(new Model("./data/nanosuit_model/nanosuit.obj"));
 	nanosuit->position = glm::vec3(0.0f, 0.0f, -20.0f);
+	nanosuit->colli_box.update_box(nanosuit->getModelMatrix());
+	colli_box.push_back(nanosuit->colli_box);
 
 	bunny.reset(new Model("./data/bunny_model/bunny.obj"));
 	bunny->position = glm::vec3(0.0f, 0.0f, 0.0f);
+	bunny->colli_box.update_box(bunny->getModelMatrix());
+	colli_box.push_back(bunny->colli_box);
 
 	cube.reset(new Cube());
 	cube->position = glm::vec3(0.0f, 0.0f, -40.0f);
@@ -106,29 +110,35 @@ void world::handleInput() {
 	}
 
 	if (_keyboardInput.keyStates[GLFW_KEY_W] != GLFW_RELEASE) {
-		camera->position += cameraMoveSpeed * camera->getFront();
+		//camera->position += cameraMoveSpeed * camera->getFront();
+		CameraCollisionCheck(camera->position, cameraMoveSpeed * camera->getFront());
 	}
 
 	if (_keyboardInput.keyStates[GLFW_KEY_A] != GLFW_RELEASE) {
-		camera->position -= cameraMoveSpeed * camera->getRight();
+		//camera->position -= cameraMoveSpeed * camera->getRight();
+		CameraCollisionCheck(camera->position, - cameraMoveSpeed * camera->getRight());
 	}
 
 	if (_keyboardInput.keyStates[GLFW_KEY_S] != GLFW_RELEASE) {
-		camera->position -= cameraMoveSpeed * camera->getFront();
+		//camera->position -= cameraMoveSpeed * camera->getFront();
+		CameraCollisionCheck(camera->position, - cameraMoveSpeed * camera->getFront());
 	}
 
 	if (_keyboardInput.keyStates[GLFW_KEY_D] != GLFW_RELEASE) {
-		camera->position += cameraMoveSpeed * camera->getRight();
+		//camera->position += cameraMoveSpeed * camera->getRight();
+		CameraCollisionCheck(camera->position, cameraMoveSpeed * camera->getRight());
 	}
 
 	// press SPACE to go straight up
 	if (_keyboardInput.keyStates[GLFW_KEY_SPACE] != GLFW_RELEASE) {
-		camera->position += cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f);
+		//camera->position += cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f);
+		CameraCollisionCheck(camera->position, cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f));
 	}
 
 	// press LEFT SHIFT to go straight down
 	if (_keyboardInput.keyStates[GLFW_KEY_LEFT_SHIFT] != GLFW_RELEASE) {
-		camera->position -= cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f);
+		//camera->position -= cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f);
+		CameraCollisionCheck(camera->position, - cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f));
 	}
 
 
@@ -233,3 +243,19 @@ void world::handleInput() {
 }
 
 
+
+void world::CameraCollisionCheck(glm::vec3& camera_pos, glm::vec3 move)
+{
+	glm::vec3 dest = camera_pos + move;
+	for (auto ibox = colli_box.begin(); ibox != colli_box.end(); ibox++) {
+		bool is_collision = 
+			(dest.x > ibox->get_x_range().x) && (dest.x < ibox->get_x_range().y) &&
+			(dest.y > ibox->get_y_range().x) && (dest.y < ibox->get_y_range().y) &&
+			(dest.z > ibox->get_z_range().x) && (dest.z < ibox->get_z_range().y);
+		if (is_collision) {
+			cout << "collision" << endl;
+			return;
+		}
+	}
+	camera_pos = camera_pos + move;
+}
