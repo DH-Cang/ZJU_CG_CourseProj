@@ -30,6 +30,7 @@ protected:
 	/* timer for fps */
 	std::chrono::time_point<std::chrono::high_resolution_clock> _lastTimeStamp;
 	float _deltaTime = 0.0f;
+	float _accumulatedTime = 0.0f;
 
 	/* input handler */
 	KeyboardInput _keyboardInput;

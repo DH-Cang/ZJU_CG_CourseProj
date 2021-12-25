@@ -5,6 +5,7 @@
 #include "skybox.h"
 #include "light.h"
 #include "../basic_models/include/cube.h"
+#define BMP_Header_Length 54
 
 class world : public Application {
 public:
@@ -40,6 +41,8 @@ private:
 
 	unique_ptr<Model> bunny;
 
+	unique_ptr<DynamicModel> posture;
+
 	unique_ptr<Model> nanosuit;
 
 	unique_ptr<Cube> cube;
@@ -50,7 +53,7 @@ private:
 
 	unique_ptr<Shader> basicShader;
 
-
+	unique_ptr<Shader> bunnyShader;
 
 };
 

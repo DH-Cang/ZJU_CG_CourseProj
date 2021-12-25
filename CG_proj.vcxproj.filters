@@ -141,5 +141,11 @@
     <None Include="shader\basic_shader.frag">
       <Filter>Shader</Filter>
     </None>
+    <None Include="shader\bunny_shader.vert">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="shader\bunny_shader.frag">
+      <Filter>Shader</Filter>
+    </None>
   </ItemGroup>
 </Project>
