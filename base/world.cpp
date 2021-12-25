@@ -26,9 +26,9 @@ world::world() {
 	sun.reset(new Model("./data/sphere_model/sphere.obj"));
 	sunLight.reset(new SunLight(70, 15));
 
-	posture.reset(new DynamicModel("./data/postures/pose", 101, 20));
-	posture->setPosition(glm::vec3(0.0f, 0.0f, -60.0f));
-	posture->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
+	//posture.reset(new DynamicModel("./data/postures/pose", 101, 20));
+	//posture->setPosition(glm::vec3(0.0f, 0.0f, -60.0f));
+	//posture->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
 
 	// set shaders
 	defaultShader.reset(new Shader(
@@ -95,13 +95,9 @@ void world::renderFrame() {
 
 	
 	// draw other models
-	posture->Draw(*phongShader, _accumulatedTime);
+	//posture->Draw(*phongShader, _accumulatedTime);
 	bunny->Draw(*bunnyShader);
 	nanosuit->Draw(*phongShader);
-	cube->Draw(*basicShader);
-	// 有bug，很怪阿，加入posture之后，原来的bunny不知道为什么变亮了非常多，去掉了又好了
-	// 改成basicShader还是有这个问题，但是好像nanosuit没有受这个影响
-	
 
 	// TO DO: 不知为何天空盒必须放在最后显示
 	skyBox->Draw(projection, view, sunLight->getElevationAngle());

@@ -42,5 +42,5 @@ void main() {
 	vec3 ambient = vec3(material.ka);
 
 	// output
-	FragColor = vec4((0.65f * diffuse + 0.3f * specular + 0.05f * ambient) / 3, 1.0f);
+	FragColor = vec4((diffuse + 0.1f * specular + 0.05f * ambient), 1.0f);
 }
