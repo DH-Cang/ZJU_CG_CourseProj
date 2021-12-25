@@ -63,6 +63,9 @@
     <ClCompile Include="basic_models\source\cube.cpp">
       <Filter>Basic Models\source</Filter>
     </ClCompile>
+    <ClCompile Include="base\collision.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\application.h">
@@ -105,6 +108,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="base\material.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="base\collision.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

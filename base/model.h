@@ -4,6 +4,7 @@
 #include "object3d.h"
 #include "manualtexture.h"
 #include "light.h"
+#include "collision.h"
 #include <vector>
 #include <string>
 #include <map>
@@ -32,6 +33,7 @@ public:
     vector<Mesh>    meshes;
     string directory;
     bool gammaCorrection;
+    AABB colli_box;
 
     // constructor, expects a filepath to a 3D model.
     Model(string const& path, bool gamma = false) : gammaCorrection(gamma)

@@ -19,11 +19,15 @@ private:
 
 	void renderFrame() override;
 
+	void CameraCollisionCheck(glm::vec3 &camera_pos, glm::vec3 move);
+
 	bool setTarget = false;
 
 	glm::vec3 target = { 0.0f, 0.0f, 0.0f };
 
 	glm::vec3 viewDir = { 0.0f, 0.0f, 0.0f };
+
+	std::vector<AABB> colli_box;
 
     unique_ptr<PerspectiveCamera> camera;
 
