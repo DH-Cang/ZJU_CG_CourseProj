@@ -1,8 +1,8 @@
 newmtl initialShadingGroup
 illum 4
 Ka 0.30 0.30 0.30
-Kd 0.30 0.30 0.30
-Ks 1.00 1.00 1.00
+Kd 0.60 0.60 0.60
+Ks 0.50 0.50 0.50
 Tf 1.00 1.00 1.00
 Ni 1.00
-Ns 10
+Ns 32
