@@ -69,10 +69,10 @@
     <ClCompile Include="basic_models\source\prism.cpp">
       <Filter>Basic Models\source</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\qyfan\Downloads\cylinder\src\Cylinder.cpp">
+    <ClCompile Include="basic_models\source\sphere.cpp">
       <Filter>Basic Models\source</Filter>
     </ClCompile>
-    <ClCompile Include="basic_models\source\sphere.cpp">
+    <ClCompile Include="basic_models\source\cylinder.cpp">
       <Filter>Basic Models\source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -125,10 +125,10 @@
     <ClInclude Include="basic_models\include\prism.h">
       <Filter>Basic Models\include</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\qyfan\Downloads\cylinder\src\Cylinder.h">
+    <ClInclude Include="basic_models\include\sphere.h">
       <Filter>Basic Models\include</Filter>
     </ClInclude>
-    <ClInclude Include="basic_models\include\sphere.h">
+    <ClInclude Include="basic_models\include\cylinder.h">
       <Filter>Basic Models\include</Filter>
     </ClInclude>
   </ItemGroup>

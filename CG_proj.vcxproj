@@ -151,10 +151,10 @@
     <ClCompile Include="base\world.cpp" />
     <ClCompile Include="base\manualtexture.cpp" />
     <ClCompile Include="basic_models\source\cube.cpp" />
+    <ClCompile Include="basic_models\source\cylinder.cpp" />
     <ClCompile Include="basic_models\source\sphere.cpp" />
     <ClCompile Include="basic_models\source\square_pyramid.cpp" />
     <ClCompile Include="basic_models\source\prism.cpp" />
-    <ClCompile Include="C:\Users\qyfan\Downloads\cylinder\src\Cylinder.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -172,10 +172,10 @@
     <ClInclude Include="base\manualtexture.h" />
     <ClInclude Include="base\stb_image.h" />
     <ClInclude Include="basic_models\include\cube.h" />
+    <ClInclude Include="basic_models\include\cylinder.h" />
     <ClInclude Include="basic_models\include\prism.h" />
     <ClInclude Include="basic_models\include\sphere.h" />
     <ClInclude Include="basic_models\include\square_pyramid.h" />
-    <ClInclude Include="C:\Users\qyfan\Downloads\cylinder\src\Cylinder.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="shader\default_frag_shader.frag" />
