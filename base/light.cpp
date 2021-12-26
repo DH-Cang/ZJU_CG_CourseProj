@@ -1,4 +1,5 @@
 #include "light.h"
+#include <iostream>
 
 SunLight::SunLight(const float& localLat, const float& subsolarLatitude): subsolarLatitude(glm::radians(subsolarLatitude)), subsolarLongitude(0)
 {
@@ -17,7 +18,7 @@ SunLight::SunLight(const float& localLat, const float& subsolarLatitude): subsol
 
 	float sinvalue = sin(elevationAngle + CIVILIAN_TWILIGHT_ANGLE);
 	if (sinvalue > 0) {
-		intensity = sunIntensityBase * pow(sin(elevationAngle + CIVILIAN_TWILIGHT_ANGLE), 0.4f);
+		intensity = /*sunIntensityBase * */ pow(sin(elevationAngle + CIVILIAN_TWILIGHT_ANGLE), 0.4f);
 	}
 	else {
 		intensity = 0;
@@ -44,7 +45,7 @@ void SunLight::updateLight(const float& deltaTime)
 
 	float sinvalue = sin(elevationAngle + CIVILIAN_TWILIGHT_ANGLE);
 	if (sinvalue > 0) {
-		intensity = sunIntensityBase * pow(sinvalue, 0.4f);
+		intensity = /*sunIntensityBase * */ pow(sinvalue, 0.4f);
 		color = glm::vec3(pow(sinvalue, 0.005f),
 		pow(sinvalue, 0.25f),
 		pow(sinvalue, 0.5f));
@@ -53,6 +54,17 @@ void SunLight::updateLight(const float& deltaTime)
 		intensity = 0;
 		color = { 0.0, 0.0, 0.0 };
 	}
+	/*
+	static float max_i;
+	static float min_i;
+
+	max_i = fmax(max_i, intensity);
+	min_i = fmin(min_i, intensity);
+
+	std::cout << "max: " << max_i << std::endl;
+	std::cout << "min: " << min_i << std::endl;
+	*/
+
 }
 
 float SunLight::getElevationAngle()

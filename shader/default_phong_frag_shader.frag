@@ -12,6 +12,7 @@ struct Material {
 	vec4 ks;
 	float shininess;
 	sampler2D texture_diffuse1;
+	sampler2D texture_specular1;
 };
 
 // directional light data structure declaration
@@ -35,10 +36,13 @@ vec4 getDirectionalColor(vec3 n, DirectionalLight dl) {
 	vec3 lightDir = normalize(-dl.direction);
 	vec3 reflectDir = reflect(lightDir, normal);
 	// diffuse and specular color
-	vec3 diffuse = dl.color * max(dot(lightDir, normal), 0.0f) * vec3(material.kd);
-	vec3 specular = dl.color * pow(max(dot(viewDir, reflectDir), 0.0f), material.shininess) * vec3(material.ks);
-	vec3 diffuse_specular = dl.intensity * (diffuse + specular);
-	return vec4(diffuse_specular, 1.0f) * texture(material.texture_diffuse1, TexCoords);
+	vec3 diffuse = dl.intensity * dl.color * max(dot(lightDir, normal), 0.0f) * vec3(material.kd);
+	vec3 specular = dl.intensity * dl.color * pow(max(dot(viewDir, reflectDir), 0.0f), material.shininess) * vec3(material.ks);
+
+	vec4 ret = 7.0f * texture(material.texture_diffuse1, TexCoords) * vec4(diffuse, 1.0f) + 
+				3.0f * texture(material.texture_specular1, TexCoords) * vec4(specular, 1.0f);
+	return ret;
+
 }
 
 
@@ -46,5 +50,5 @@ void main() {
 		
 	// ambient color
 	vec3 ambient = vec3(material.ka);
-	FragColor = getDirectionalColor(Normal, directionalLight) + texture(material.texture_diffuse1, TexCoords) + vec4(ambient, 1.0f);
+	FragColor = getDirectionalColor(Normal, directionalLight) + vec4(ambient, 1.0f) + 0.3f * texture(material.texture_diffuse1, TexCoords);
 };

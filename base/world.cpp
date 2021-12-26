@@ -16,6 +16,7 @@ world::world() {
 
 	nanosuit.reset(new Model("./data/nanosuit_model/nanosuit.obj"));
 	nanosuit->position = glm::vec3(0.0f, 0.0f, -20.0f);
+	nanosuit->rotation = glm::quat(cos(PI/2), glm::vec3(0, 1.0f, 0) * sin(PI/2));
 	nanosuit->colli_box.update_box(nanosuit->getModelMatrix());
 	colli_box.push_back(nanosuit->colli_box);
 
