@@ -15,7 +15,7 @@ world::world() {
 	skyBox.reset(new SkyBox());	
 
 	nanosuit.reset(new Model("./data/nanosuit_model/nanosuit.obj"));
-	nanosuit->position = glm::vec3(0.0f, 0.0f, -20.0f);
+	nanosuit->position = glm::vec3(0.0f, 0.0f, -25.0f);
 	nanosuit->rotation = glm::quat(cos(PI/2), glm::vec3(0, 1.0f, 0) * sin(PI/2));
 	nanosuit->colli_box.update_box(nanosuit->getModelMatrix());
 	colli_box.push_back(nanosuit->colli_box);
@@ -103,6 +103,54 @@ void world::renderFrame() {
 	//posture->Draw(*phongShader, _accumulatedTime);
 	bunny->Draw(*bunnyShader);
 	nanosuit->Draw(*phongShader);
+
+
+	//这里绘制地板(感觉地板可以换成反射系数更加柔和的状态)
+	/*cube->scale = glm::vec3(100.0f, 1.0f, 100.0f);
+	cube->position = glm::vec3(0.0f, -10.0f, 0.0f);
+	cube->Draw(*basicShader);*/
+
+	// 这里开始绘制由立方体搭建的迷宫
+	//下放四个语句是迷宫的界
+	cube->scale = glm::vec3(100.0f, 30.0f, 1.0f);
+	cube->position = glm::vec3(-10.0f, 20.0f, -100.0f);
+	cube->Draw(*basicShader); //后方边界
+
+
+	cube->scale = glm::vec3(100.0f, 30.0f, 1.0f);
+	cube->position = glm::vec3(10.0f, 20.0f, 100.0f);
+	cube->Draw(*basicShader); //前方边界
+
+	cube->scale = glm::vec3(1.0f, 30.0f, 100.0f);
+	cube->position = glm::vec3(-100.0f, 20.0f, 10.0f);
+	cube->Draw(*basicShader); //左方边界
+
+	cube->scale = glm::vec3(1.0f, 30.0f, 100.0f);
+	cube->position = glm::vec3(100.0f, 20.0f, -10.0f);
+	cube->Draw(*basicShader);//右方边界
+
+	//之后是内部的迷宫
+	for (int i = 0; i < 100; i += 10)
+	{
+		cube->scale = glm::vec3(100.0f - i, 10.0f, 1.0f);
+		cube->position = glm::vec3(-10.0f, 1.0f, -100.0f + i);
+		cube->Draw(*basicShader); //后方矮墙
+
+
+		cube->scale = glm::vec3(100.0f - i, 10.0f, 1.0f);
+		cube->position = glm::vec3(10.0f, 1.0f, 100.0f - i);
+		cube->Draw(*basicShader); //前方矮墙
+
+		cube->scale = glm::vec3(1.0f, 10.0f, 100.0f - i);
+		cube->position = glm::vec3(-100.0f + i, 1.0f, 10.0f);
+		cube->Draw(*basicShader); //左方矮墙
+
+		cube->scale = glm::vec3(1.0f, 10.0f, 100.0f - i);
+		cube->position = glm::vec3(100.0f - i, 1.0f, -10.0f);
+		cube->Draw(*basicShader); //右方矮墙
+
+
+	}
 
 	// TO DO: 不知为何天空盒必须放在最后显示
 	skyBox->Draw(projection, view, sunLight->getElevationAngle());
