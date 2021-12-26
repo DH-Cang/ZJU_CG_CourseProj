@@ -164,6 +164,7 @@ void world::handleInput() {
 	const float cameraRotateSpeed = 0.25f;
 	const float deltaAngle = 0.001f;
 	const float deltaFovy = 0.001f;
+	
 
 	if (_keyboardInput.keyStates[GLFW_KEY_ESCAPE] != GLFW_RELEASE) {
 		glfwSetWindowShouldClose(_window, true);
@@ -190,16 +191,24 @@ void world::handleInput() {
 		CameraCollisionCheck(camera->position, cameraMoveSpeed * camera->getRight());
 	}
 
-	// press SPACE to go straight up
-	if (_keyboardInput.keyStates[GLFW_KEY_SPACE] != GLFW_RELEASE) {
-		//camera->position += cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f);
-		CameraCollisionCheck(camera->position, cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f));
+	if (_keyboardInput.keyStates[GLFW_KEY_C] == GLFW_PRESS) {
+		printf("state should to %d\n", state);
+		state = (state + 1) % 2;
+		_keyboardInput.keyStates[GLFW_KEY_C] = GLFW_RELEASE;//注意这个语句的作用，是用来除去按键抖动的操作。
+		return;
 	}
+	// press SPACE to go straight up
+	if (state) {
+		if (_keyboardInput.keyStates[GLFW_KEY_SPACE] != GLFW_RELEASE) {
+			//camera->position += cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f);
+			CameraCollisionCheck(camera->position, cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f));
+		}
 
-	// press LEFT SHIFT to go straight down
-	if (_keyboardInput.keyStates[GLFW_KEY_LEFT_SHIFT] != GLFW_RELEASE) {
-		//camera->position -= cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f);
-		CameraCollisionCheck(camera->position, - cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f));
+		// press LEFT SHIFT to go straight down
+		if (_keyboardInput.keyStates[GLFW_KEY_LEFT_SHIFT] != GLFW_RELEASE) {
+			//camera->position -= cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f);
+			CameraCollisionCheck(camera->position, -cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f));
+		}
 	}
 
 
