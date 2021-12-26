@@ -1,5 +1,4 @@
 #include "light.h"
-#include <iostream>
 
 SunLight::SunLight(const float& localLat, const float& subsolarLatitude): subsolarLatitude(glm::radians(subsolarLatitude)), subsolarLongitude(0)
 {
@@ -54,8 +53,6 @@ void SunLight::updateLight(const float& deltaTime)
 		intensity = 0;
 		color = { 0.0, 0.0, 0.0 };
 	}
-
-	std::cout << intensity << std::endl;
 }
 
 float SunLight::getElevationAngle()
