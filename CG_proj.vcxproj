@@ -182,16 +182,14 @@
     <ClInclude Include="basic_models\include\square_pyramid.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="shader\default_frag_shader.frag" />
-    <Text Include="shader\default_vertex_shader.vert" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="shader\basic_shader.frag" />
     <None Include="shader\basic_shader.vert" />
     <None Include="shader\bunny_shader.frag" />
     <None Include="shader\bunny_shader.vert" />
-    <None Include="shader\default_phong_frag_shader.frag" />
-    <None Include="shader\default_phong_vertex_shader.vert" />
+    <None Include="shader\nanosuit_shader.frag" />
+    <None Include="shader\nanosuit_shader.vert" />
+    <None Include="shader\posture_shader.frag" />
+    <None Include="shader\posture_shader.vert" />
     <None Include="shader\sun_frag_shader.frag" />
     <None Include="shader\sun_vertex_shader.vert" />
   </ItemGroup>

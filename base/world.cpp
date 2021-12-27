@@ -56,20 +56,15 @@ world::world() {
 	sun.reset(new Model("./data/sphere_model/sphere.obj"));
 	sunLight.reset(new SunLight(70, 15));
 	sunLight->intensity = 0.1f;
-
-	//posture.reset(new DynamicModel("./data/postures/pose", 101, 20));
-	//posture->setPosition(glm::vec3(0.0f, 0.0f, -60.0f));
-	//posture->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
-
+	
+	posture.reset(new DynamicModel("./data/postures/pose", 101, 20));
+	posture->setPosition(glm::vec3(0.0f, 40.0f, -40.0f));
+	posture->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
+	
 	// set shaders
-	defaultShader.reset(new Shader(
-		std::string("./shader/default_vertex_shader.vert"),
-		std::string("./shader/default_frag_shader.frag")
-	));
-
-	phongShader.reset(new Shader(
-		std::string("./shader/default_phong_vertex_shader.vert"),
-		std::string("./shader/default_phong_frag_shader.frag")
+	nanosuitShader.reset(new Shader(
+		std::string("./shader/nanosuit_shader.vert"),
+		std::string("./shader/nanosuit_shader.frag")
 	));
 
 	sunShader.reset(new Shader(
@@ -85,6 +80,11 @@ world::world() {
 	bunnyShader.reset(new Shader(
 		std::string("./shader/bunny_shader.vert"),
 		std::string("./shader/bunny_shader.frag")
+	));
+
+	postureShader.reset(new Shader(
+		std::string("./shader/posture_shader.vert"),
+		std::string("./shader/posture_shader.frag")
 	));
 
 }
@@ -117,19 +117,19 @@ void world::renderFrame() {
 	sun->Draw(*sunShader);
 
 	// update other shaders
-	defaultShader->loadCamera(view, projection);
-	phongShader->loadCamera(view, projection);
-	phongShader->loadDirectionalLight(*sunLight, eyes);
+	nanosuitShader->loadCamera(view, projection);
+	nanosuitShader->loadDirectionalLight(*sunLight, eyes);
 	basicShader->loadCamera(view, projection);
 	basicShader->loadDirectionalLight(*sunLight, eyes);
 	bunnyShader->loadCamera(view, projection);
 	bunnyShader->loadDirectionalLight(*sunLight, eyes);
+	postureShader->loadCamera(view, projection);
 
 	
 	// draw other models
-	//posture->Draw(*phongShader, _accumulatedTime);
+	posture->Draw(*postureShader, _accumulatedTime);
 	bunny->Draw(*bunnyShader);
-	nanosuit->Draw(*phongShader);
+	nanosuit->Draw(*nanosuitShader);
 	square_pyramid->Draw(*basicShader);
 	prism->Draw(*basicShader);
 	sphere->Draw(*basicShader);

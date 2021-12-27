@@ -66,13 +66,13 @@ private:
 
 	unique_ptr<Prism> prism;
 
-    unique_ptr<Shader> defaultShader;
-
-	unique_ptr<Shader> phongShader;
+	unique_ptr<Shader> nanosuitShader;
 
 	unique_ptr<Shader> basicShader;
 
 	unique_ptr<Shader> bunnyShader;
+
+	unique_ptr<Shader> postureShader;
 
 };
 
