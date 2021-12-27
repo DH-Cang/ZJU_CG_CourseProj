@@ -10,7 +10,7 @@ world::world() {
 	glfwSetCursorPos(_window, _mouseInput.move.xCurrent, _mouseInput.move.yCurrent);
 
 	camera.reset(new PerspectiveCamera(glm::radians(45.0f), 1.0f * _windowWidth / _windowHeight, 0.1f, 10000.0f));
-	camera->position = glm::vec3(0.0f, 0.0f, 10.0f);
+	camera->position = glm::vec3(0.0f, 4.0f, 0.0f);
 
 	skyBox.reset(new SkyBox());	
 
@@ -27,7 +27,6 @@ world::world() {
 
 
 	cube.reset(new Cube());
-	cube->position = glm::vec3(0.0f, 40.0f, -40.0f);
 
 	square_pyramid.reset(new Square_pyramid());
 	square_pyramid->position = glm::vec3(0.0f, 40.0f, 20.0f);
@@ -78,7 +77,6 @@ world::world() {
 		std::string("./shader/bunny_shader.frag")
 	));
 
-
 }
 
 
@@ -122,57 +120,57 @@ void world::renderFrame() {
 	//posture->Draw(*phongShader, _accumulatedTime);
 	bunny->Draw(*bunnyShader);
 	nanosuit->Draw(*phongShader);
-
-	cube->Draw(*basicShader);
 	square_pyramid->Draw(*basicShader);
 	prism->Draw(*basicShader);
 	sphere->Draw(*basicShader);
 	cone->Draw(*basicShader);
 	cylinder->Draw(*basicShader);
 
-
-
 	//这里绘制地板(感觉地板可以换成反射系数更加柔和的状态)
-	/*cube->scale = glm::vec3(100.0f, 1.0f, 100.0f);
-	cube->position = glm::vec3(0.0f, -10.0f, 0.0f);
-	cube->Draw(*basicShader);*/
+	cube->SetKa(glm::vec4(0x99 / 255.0f, 0xCC / 255.0f, 0xCC / 255.0f, 1.0f));
+	cube->SetKd(glm::vec4(0x99 / 255.0f, 0xCC / 255.0f, 0xCC / 255.0f, 1.0f));
+	cube->scale = glm::vec3(100.0f, 1.0f, 100.0f);
+	cube->position = glm::vec3(0.0f, -1.0f, 0.0f);
+	cube->Draw(*basicShader);
 
+	cube->SetKa(glm::vec4(0x33 / 255.0f, 0x66 / 255.0f, 0x99 / 255.0f, 1.0f));
+	cube->SetKd(glm::vec4(0x33 / 255.0f, 0x66 / 255.0f, 0x99 / 255.0f, 1.0f));
 	// 这里开始绘制由立方体搭建的迷宫
 	//下放四个语句是迷宫的界
-	cube->scale = glm::vec3(100.0f, 30.0f, 1.0f);
-	cube->position = glm::vec3(-10.0f, 20.0f, -100.0f);
+	cube->scale = glm::vec3(100.0f, 10.0f, 1.0f);
+	cube->position = glm::vec3(-10.0f, 5.0f, -100.0f);
 	cube->Draw(*basicShader); //后方边界
 
-	cube->scale = glm::vec3(100.0f, 30.0f, 1.0f);
-	cube->position = glm::vec3(10.0f, 20.0f, 100.0f);
+	cube->scale = glm::vec3(100.0f, 10.0f, 1.0f);
+	cube->position = glm::vec3(10.0f, 5.0f, 100.0f);
 	cube->Draw(*basicShader); //前方边界
 
-	cube->scale = glm::vec3(1.0f, 30.0f, 100.0f);
-	cube->position = glm::vec3(-100.0f, 20.0f, 10.0f);
+	cube->scale = glm::vec3(1.0f, 10.0f, 100.0f);
+	cube->position = glm::vec3(-100.0f, 5.0f, 10.0f);
 	cube->Draw(*basicShader); //左方边界
 
-	cube->scale = glm::vec3(1.0f, 30.0f, 100.0f);
-	cube->position = glm::vec3(100.0f, 20.0f, -10.0f);
+	cube->scale = glm::vec3(1.0f, 10.0f, 100.0f);
+	cube->position = glm::vec3(100.0f, 5.0f, -10.0f);
 	cube->Draw(*basicShader);//右方边界
 
 	//之后是内部的迷宫
 	for (int i = 0; i < 100; i += 10)
 	{
 		cube->scale = glm::vec3(100.0f - i, 4.0f, 1.0f);
-		cube->position = glm::vec3(-10.0f, 1.0f, -100.0f + i);
+		cube->position = glm::vec3(-10.0f, 4.0f, -100.0f + i);
 		cube->Draw(*basicShader); //后方矮墙
 
 
 		cube->scale = glm::vec3(100.0f - i, 4.0f, 1.0f);
-		cube->position = glm::vec3(10.0f, 1.0f, 100.0f - i);
+		cube->position = glm::vec3(10.0f, 4.0f, 100.0f - i);
 		cube->Draw(*basicShader); //前方矮墙
 
 		cube->scale = glm::vec3(1.0f, 4.0f, 100.0f - i);
-		cube->position = glm::vec3(-100.0f + i, 1.0f, 10.0f);
+		cube->position = glm::vec3(-100.0f + i, 4.0f, 10.0f);
 		cube->Draw(*basicShader); //左方矮墙
 
 		cube->scale = glm::vec3(1.0f, 4.0f, 100.0f - i);
-		cube->position = glm::vec3(100.0f - i, 1.0f, -10.0f);
+		cube->position = glm::vec3(100.0f - i, 4.0f, -10.0f);
 		cube->Draw(*basicShader); //右方矮墙
 
 
@@ -260,9 +258,11 @@ void world::handleInput() {
 
 	// 按R键复原视角
 	if (_keyboardInput.keyStates[GLFW_KEY_R] != GLFW_RELEASE) {
+		glm::vec3 temp_pos(camera->position);
+		glm::quat temp_rotate(camera->rotation);
 		camera.reset(new PerspectiveCamera(glm::radians(45.0f), 1.0f * _windowWidth / _windowHeight, 0.1f, 10000.0f));
-		camera->position.z = 10.0f;
-		camera->position.y = 0.0f;
+		camera->position = temp_pos;
+		camera->rotation = temp_rotate;
 	}
 
 	// 按1键进行Zoom In

@@ -16,6 +16,11 @@ public:
 
 	void Draw(Shader &shader);
 
+    inline void SetKa(glm::vec4 ka) { mat.Ka = ka; }
+    inline void SetKd(glm::vec4 kd) { mat.Kd = kd; }
+    inline void SetKs(glm::vec4 ks) { mat.Ks = ks; }
+    inline void SetShiniess(float shininess) { mat.shininess = shininess; }
+
 private:
     // notice that the normal data hasn't been set
 	
