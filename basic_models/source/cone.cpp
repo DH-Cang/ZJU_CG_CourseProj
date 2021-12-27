@@ -1,6 +1,7 @@
-#include "../include/cube.h"
+#include "../include/cone.h"
+#include <math.h>
 
-Cube::Cube() {
+Cone::Cone() {
     // set up material
     mat.Ka = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
     mat.Kd = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
@@ -8,6 +9,16 @@ Cube::Cube() {
     mat.shininess = 10.0f;
 
     // set up OpenGL src
+    vertices[0] = glm::vec3(0.0f, 1.0f, 0.0f);
+    float pi = 3.1415;
+    int num = 362;
+    for (int i = 1;i <= num;i++) {
+        float angle = i * 2 * pi / 360;
+        vertices[i] = glm::vec3(cos(angle), -1.0f, sin(angle));
+    }
+
+
+
     glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vbo);
 
@@ -15,7 +26,7 @@ Cube::Cube() {
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
@@ -23,7 +34,7 @@ Cube::Cube() {
     glBindVertexArray(0);
 }
 
-void Cube::Draw(Shader& shader) {
+void Cone::Draw(Shader& shader) {
     glDepthFunc(GL_LESS);
     shader.use();
     shader.setVec4("material.ka", mat.Ka);
@@ -33,11 +44,11 @@ void Cube::Draw(Shader& shader) {
     shader.setMat4("model", getModelMatrix());
 
     glBindVertexArray(vao);
-    glDrawArrays( GL_TRIANGLES, 0, 36 );
-    glBindVertexArray(0);   
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 362);
+    glBindVertexArray(0);
 }
 
-Cube::~Cube() {
+Cone::~Cone() {
     if (vbo != 0) {
         glDeleteBuffers(1, &vbo);
         vbo = 0;

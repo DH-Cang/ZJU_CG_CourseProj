@@ -1,4 +1,9 @@
 #include "world.h"
+#include <windows.h>������������������������������// Header File For Windows
+#include <stdio.h>��������������������������������// Header File For Standard Input/Output
+#include <gl/gl.h>��������������������������������// Header File For The OpenGL32 Library
+#include <gl/glu.h>����
+#pragma comment(lib,"glu32.lib")
 
 world::world() {
 	this->_windowTitle = std::string("World Rendering");
@@ -25,11 +30,28 @@ world::world() {
 	bunny->colli_box.update_box(bunny->getModelMatrix());
 	colli_box.push_back(bunny->colli_box);
 
+
 	cube.reset(new Cube());
 	cube->position = glm::vec3(0.0f, 0.0f, -40.0f);
 
+	square_pyramid.reset(new Square_pyramid());
+	square_pyramid->position = glm::vec3(0.0f, 0.0f, 20.0f);
+
+	prism.reset(new Prism());
+	prism->position = glm::vec3(0.0f, 0.0f, 40.0f);
+
+	sphere.reset(new Sphere());
+	//sphere->position = glm::vec3(0.0f, 0.0f, 50.0f);
+
+	cone.reset(new Cone());
+	cone->position = glm::vec3(0.0f, 0.0f, 50.0f);
+
+	cylinder.reset(new Cylinder());
+	cylinder->position = glm::vec3(0.0f, 0.0f, 70.0f);
+
 	sun.reset(new Model("./data/sphere_model/sphere.obj"));
 	sunLight.reset(new SunLight(70, 15));
+	sunLight->intensity = 0.1f;
 
 	//posture.reset(new DynamicModel("./data/postures/pose", 101, 20));
 	//posture->setPosition(glm::vec3(0.0f, 0.0f, -60.0f));
@@ -60,6 +82,7 @@ world::world() {
 		std::string("./shader/bunny_shader.vert"),
 		std::string("./shader/bunny_shader.frag")
 	));
+
 
 }
 
@@ -95,6 +118,7 @@ void world::renderFrame() {
 	phongShader->loadCamera(view, projection);
 	phongShader->loadDirectionalLight(*sunLight, eyes);
 	basicShader->loadCamera(view, projection);
+	basicShader->loadDirectionalLight(*sunLight, eyes);
 	bunnyShader->loadCamera(view, projection);
 	bunnyShader->loadDirectionalLight(*sunLight, eyes);
 
@@ -103,6 +127,14 @@ void world::renderFrame() {
 	//posture->Draw(*phongShader, _accumulatedTime);
 	bunny->Draw(*bunnyShader);
 	nanosuit->Draw(*phongShader);
+
+	cube->Draw(*basicShader);
+	square_pyramid->Draw(*basicShader);
+	prism->Draw(*basicShader);
+	sphere->Draw(*basicShader);
+	cone->Draw(*basicShader);
+	cylinder->Draw(*basicShader);
+
 
 
 	//这里绘制地板(感觉地板可以换成反射系数更加柔和的状态)

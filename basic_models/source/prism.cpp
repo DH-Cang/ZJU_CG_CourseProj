@@ -1,6 +1,6 @@
-#include "../include/cube.h"
+#include "../include/prism.h"
 
-Cube::Cube() {
+Prism::Prism() {
     // set up material
     mat.Ka = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
     mat.Kd = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
@@ -15,7 +15,7 @@ Cube::Cube() {
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
@@ -23,7 +23,7 @@ Cube::Cube() {
     glBindVertexArray(0);
 }
 
-void Cube::Draw(Shader& shader) {
+void Prism::Draw(Shader& shader) {
     glDepthFunc(GL_LESS);
     shader.use();
     shader.setVec4("material.ka", mat.Ka);
@@ -33,11 +33,11 @@ void Cube::Draw(Shader& shader) {
     shader.setMat4("model", getModelMatrix());
 
     glBindVertexArray(vao);
-    glDrawArrays( GL_TRIANGLES, 0, 36 );
-    glBindVertexArray(0);   
+    glDrawArrays(GL_TRIANGLES, 0, 96);
+    glBindVertexArray(0);
 }
 
-Cube::~Cube() {
+Prism::~Prism() {
     if (vbo != 0) {
         glDeleteBuffers(1, &vbo);
         vbo = 0;

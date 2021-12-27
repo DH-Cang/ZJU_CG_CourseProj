@@ -63,6 +63,20 @@
     <ClCompile Include="basic_models\source\cube.cpp">
       <Filter>Basic Models\source</Filter>
     </ClCompile>
+    <ClCompile Include="basic_models\source\square_pyramid.cpp">
+      <Filter>Basic Models\source</Filter>
+    </ClCompile>
+    <ClCompile Include="basic_models\source\prism.cpp">
+      <Filter>Basic Models\source</Filter>
+    </ClCompile>
+    <ClCompile Include="basic_models\source\sphere.cpp">
+      <Filter>Basic Models\source</Filter>
+    </ClCompile>
+    <ClCompile Include="basic_models\source\cylinder.cpp">
+      <Filter>Basic Models\source</Filter>
+    </ClCompile>
+    <ClCompile Include="basic_models\source\cone.cpp">
+      <Filter>Basic Models\source</Filter>
     <ClCompile Include="base\collision.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -110,6 +124,20 @@
     <ClInclude Include="base\material.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="basic_models\include\square_pyramid.h">
+      <Filter>Basic Models\include</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_models\include\prism.h">
+      <Filter>Basic Models\include</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_models\include\sphere.h">
+      <Filter>Basic Models\include</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_models\include\cylinder.h">
+      <Filter>Basic Models\include</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_models\include\cone.h">
+      <Filter>Basic Models\include</Filter>
     <ClInclude Include="base\collision.h">
       <Filter>头文件</Filter>
     </ClInclude>
