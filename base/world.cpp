@@ -10,7 +10,7 @@ world::world() {
 	glfwSetCursorPos(_window, _mouseInput.move.xCurrent, _mouseInput.move.yCurrent);
 
 	camera.reset(new PerspectiveCamera(glm::radians(45.0f), 1.0f * _windowWidth / _windowHeight, 0.1f, 10000.0f));
-	camera->position = glm::vec3(0.0f, 0.0f, 10.0f);
+	camera->position = glm::vec3(0.0f, 4.0f, 0.0f);
 
 	skyBox.reset(new SkyBox());	
 
@@ -27,40 +27,44 @@ world::world() {
 
 
 	cube.reset(new Cube());
-	cube->position = glm::vec3(0.0f, 40.0f, -40.0f);
 
 	square_pyramid.reset(new Square_pyramid());
 	square_pyramid->position = glm::vec3(0.0f, 40.0f, 20.0f);
+	square_pyramid->collision.update_box(square_pyramid->getModelMatrix());
+	colli_box.push_back(square_pyramid->collision);
 
 	prism.reset(new Prism());
 	prism->position = glm::vec3(0.0f, 40.0f, 40.0f);
+	prism->collision.update_box(prism->getModelMatrix());
+	colli_box.push_back(prism->collision);
 
 	sphere.reset(new Sphere());
 	sphere->position = glm::vec3(0.0f, 40.0f, 50.0f);
+	sphere->collision.update_box(sphere->getModelMatrix());
+	colli_box.push_back(sphere->collision);
 
 	cone.reset(new Cone());
 	cone->position = glm::vec3(0.0f, 40.0f, 50.0f);
+	cone->collision.update_box(cone->getModelMatrix());
+	colli_box.push_back(cone->collision);
 
 	cylinder.reset(new Cylinder());
 	cylinder->position = glm::vec3(0.0f, 40.0f, 70.0f);
+	cylinder->collision.update_box(cylinder->getModelMatrix());
+	colli_box.push_back(cylinder->collision);
 
 	sun.reset(new Model("./data/sphere_model/sphere.obj"));
 	sunLight.reset(new SunLight(70, 15));
 	sunLight->intensity = 0.1f;
-
-	//posture.reset(new DynamicModel("./data/postures/pose", 101, 20));
-	//posture->setPosition(glm::vec3(0.0f, 0.0f, -60.0f));
-	//posture->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
-
+	
+	posture.reset(new DynamicModel("./data/postures/pose", 101, 20));
+	posture->setPosition(glm::vec3(0.0f, 40.0f, -40.0f));
+	posture->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
+	
 	// set shaders
-	defaultShader.reset(new Shader(
-		std::string("./shader/default_vertex_shader.vert"),
-		std::string("./shader/default_frag_shader.frag")
-	));
-
-	phongShader.reset(new Shader(
-		std::string("./shader/default_phong_vertex_shader.vert"),
-		std::string("./shader/default_phong_frag_shader.frag")
+	nanosuitShader.reset(new Shader(
+		std::string("./shader/nanosuit_shader.vert"),
+		std::string("./shader/nanosuit_shader.frag")
 	));
 
 	sunShader.reset(new Shader(
@@ -78,6 +82,10 @@ world::world() {
 		std::string("./shader/bunny_shader.frag")
 	));
 
+	postureShader.reset(new Shader(
+		std::string("./shader/posture_shader.vert"),
+		std::string("./shader/posture_shader.frag")
+	));
 
 }
 
@@ -109,77 +117,115 @@ void world::renderFrame() {
 	sun->Draw(*sunShader);
 
 	// update other shaders
-	defaultShader->loadCamera(view, projection);
-	phongShader->loadCamera(view, projection);
-	phongShader->loadDirectionalLight(*sunLight, eyes);
+	nanosuitShader->loadCamera(view, projection);
+	nanosuitShader->loadDirectionalLight(*sunLight, eyes);
 	basicShader->loadCamera(view, projection);
 	basicShader->loadDirectionalLight(*sunLight, eyes);
 	bunnyShader->loadCamera(view, projection);
 	bunnyShader->loadDirectionalLight(*sunLight, eyes);
+	postureShader->loadCamera(view, projection);
 
 	
 	// draw other models
-	//posture->Draw(*phongShader, _accumulatedTime);
+	posture->Draw(*postureShader, _accumulatedTime);
 	bunny->Draw(*bunnyShader);
-	nanosuit->Draw(*phongShader);
-
-	cube->Draw(*basicShader);
+	nanosuit->Draw(*nanosuitShader);
 	square_pyramid->Draw(*basicShader);
 	prism->Draw(*basicShader);
 	sphere->Draw(*basicShader);
 	cone->Draw(*basicShader);
 	cylinder->Draw(*basicShader);
 
-
-
 	//这里绘制地板(感觉地板可以换成反射系数更加柔和的状态)
-	/*cube->scale = glm::vec3(100.0f, 1.0f, 100.0f);
-	cube->position = glm::vec3(0.0f, -10.0f, 0.0f);
-	cube->Draw(*basicShader);*/
+	cube->SetKa(glm::vec4(0x99 / 255.0f, 0xCC / 255.0f, 0xCC / 255.0f, 1.0f));
+	cube->SetKd(glm::vec4(0x99 / 255.0f, 0xCC / 255.0f, 0xCC / 255.0f, 1.0f));
+	cube->scale = glm::vec3(100.0f, 1.0f, 100.0f);
+	cube->position = glm::vec3(0.0f, -1.0f, 0.0f);
+	cube->Draw(*basicShader);
+	if (init_collision_box == false) {
+		cube->collision.update_box(cube->getModelMatrix());
+		colli_box.push_back(cube->collision);
+	}
 
+	cube->SetKa(glm::vec4(0x33 / 255.0f, 0x66 / 255.0f, 0x99 / 255.0f, 1.0f));
+	cube->SetKd(glm::vec4(0x33 / 255.0f, 0x66 / 255.0f, 0x99 / 255.0f, 1.0f));
 	// 这里开始绘制由立方体搭建的迷宫
 	//下放四个语句是迷宫的界
-	cube->scale = glm::vec3(100.0f, 30.0f, 1.0f);
-	cube->position = glm::vec3(-10.0f, 20.0f, -100.0f);
+	cube->scale = glm::vec3(100.0f, 10.0f, 1.0f);
+	cube->position = glm::vec3(-10.0f, 5.0f, -100.0f);
 	cube->Draw(*basicShader); //后方边界
+	if (init_collision_box == false) {
+		cube->collision.update_box(cube->getModelMatrix());
+		colli_box.push_back(cube->collision);
+	}
 
-	cube->scale = glm::vec3(100.0f, 30.0f, 1.0f);
-	cube->position = glm::vec3(10.0f, 20.0f, 100.0f);
+	cube->scale = glm::vec3(100.0f, 10.0f, 1.0f);
+	cube->position = glm::vec3(10.0f, 5.0f, 100.0f);
 	cube->Draw(*basicShader); //前方边界
+	if (init_collision_box == false) {
+		cube->collision.update_box(cube->getModelMatrix());
+		colli_box.push_back(cube->collision);
+	}
 
-	cube->scale = glm::vec3(1.0f, 30.0f, 100.0f);
-	cube->position = glm::vec3(-100.0f, 20.0f, 10.0f);
+	cube->scale = glm::vec3(1.0f, 10.0f, 100.0f);
+	cube->position = glm::vec3(-100.0f, 5.0f, 10.0f);
 	cube->Draw(*basicShader); //左方边界
+	if (init_collision_box == false) {
+		cube->collision.update_box(cube->getModelMatrix());
+		colli_box.push_back(cube->collision);
+	}
 
-	cube->scale = glm::vec3(1.0f, 30.0f, 100.0f);
-	cube->position = glm::vec3(100.0f, 20.0f, -10.0f);
+	cube->scale = glm::vec3(1.0f, 10.0f, 100.0f);
+	cube->position = glm::vec3(100.0f, 5.0f, -10.0f);
 	cube->Draw(*basicShader);//右方边界
+	if (init_collision_box == false) {
+		cube->collision.update_box(cube->getModelMatrix());
+		colli_box.push_back(cube->collision);
+	}
 
 	//之后是内部的迷宫
 	for (int i = 0; i < 100; i += 10)
 	{
 		cube->scale = glm::vec3(100.0f - i, 4.0f, 1.0f);
-		cube->position = glm::vec3(-10.0f, 1.0f, -100.0f + i);
+		cube->position = glm::vec3(-10.0f, 4.0f, -100.0f + i);
 		cube->Draw(*basicShader); //后方矮墙
+		if (init_collision_box == false) {
+			cube->collision.update_box(cube->getModelMatrix());
+			colli_box.push_back(cube->collision);
+		}
 
 
 		cube->scale = glm::vec3(100.0f - i, 4.0f, 1.0f);
-		cube->position = glm::vec3(10.0f, 1.0f, 100.0f - i);
+		cube->position = glm::vec3(10.0f, 4.0f, 100.0f - i);
 		cube->Draw(*basicShader); //前方矮墙
+		if (init_collision_box == false) {
+			cube->collision.update_box(cube->getModelMatrix());
+			colli_box.push_back(cube->collision);
+		}
 
 		cube->scale = glm::vec3(1.0f, 4.0f, 100.0f - i);
-		cube->position = glm::vec3(-100.0f + i, 1.0f, 10.0f);
+		cube->position = glm::vec3(-100.0f + i, 4.0f, 10.0f);
 		cube->Draw(*basicShader); //左方矮墙
+		if (init_collision_box == false) {
+			cube->collision.update_box(cube->getModelMatrix());
+			colli_box.push_back(cube->collision);
+		}
 
 		cube->scale = glm::vec3(1.0f, 4.0f, 100.0f - i);
-		cube->position = glm::vec3(100.0f - i, 1.0f, -10.0f);
+		cube->position = glm::vec3(100.0f - i, 4.0f, -10.0f);
 		cube->Draw(*basicShader); //右方矮墙
+		if (init_collision_box == false) {
+			cube->collision.update_box(cube->getModelMatrix());
+			colli_box.push_back(cube->collision);
+		}
 
 
 	}
 
 	// TO DO: 不知为何天空盒必须放在最后显示
 	skyBox->Draw(projection, view, sunLight->getElevationAngle());
+
+	init_collision_box = true;
 }
 
 
@@ -190,6 +236,7 @@ void world::handleInput() {
 	const float cameraRotateSpeed = 0.25f;
 	const float deltaAngle = 0.001f;
 	const float deltaFovy = 0.001f;
+	
 
 	if (_keyboardInput.keyStates[GLFW_KEY_ESCAPE] != GLFW_RELEASE) {
 		glfwSetWindowShouldClose(_window, true);
@@ -198,34 +245,84 @@ void world::handleInput() {
 
 	if (_keyboardInput.keyStates[GLFW_KEY_W] != GLFW_RELEASE) {
 		//camera->position += cameraMoveSpeed * camera->getFront();
-		CameraCollisionCheck(camera->position, cameraMoveSpeed * camera->getFront());
+		if (state == 0) {
+			glm::vec3 direction = camera->getFront();
+			direction.y = 0.0f;
+			direction = glm::normalize(direction);
+			CameraCollisionCheck(camera->position, cameraMoveSpeed * direction);
+		}
+		else {
+			CameraCollisionCheck(camera->position, cameraMoveSpeed * camera->getFront());
+		}
 	}
 
 	if (_keyboardInput.keyStates[GLFW_KEY_A] != GLFW_RELEASE) {
 		//camera->position -= cameraMoveSpeed * camera->getRight();
-		CameraCollisionCheck(camera->position, - cameraMoveSpeed * camera->getRight());
+		if (state == 0) {
+			glm::vec3 direction = camera->getRight();
+			direction.y = 0.0f;
+			direction = glm::normalize(direction);
+			CameraCollisionCheck(camera->position, - cameraMoveSpeed * direction);
+		}
+		else {
+			CameraCollisionCheck(camera->position, - cameraMoveSpeed * camera->getRight());
+		}
 	}
 
 	if (_keyboardInput.keyStates[GLFW_KEY_S] != GLFW_RELEASE) {
 		//camera->position -= cameraMoveSpeed * camera->getFront();
-		CameraCollisionCheck(camera->position, - cameraMoveSpeed * camera->getFront());
+		if (state == 0) {
+			glm::vec3 direction = camera->getFront();
+			direction.y = 0.0f;
+			direction = glm::normalize(direction);
+			CameraCollisionCheck(camera->position, - cameraMoveSpeed * direction);
+		}
+		else {
+			CameraCollisionCheck(camera->position, - cameraMoveSpeed * camera->getFront());
+		}
 	}
 
 	if (_keyboardInput.keyStates[GLFW_KEY_D] != GLFW_RELEASE) {
 		//camera->position += cameraMoveSpeed * camera->getRight();
-		CameraCollisionCheck(camera->position, cameraMoveSpeed * camera->getRight());
+		if (state == 0) {
+			glm::vec3 direction = camera->getRight();
+			direction.y = 0.0f;
+			direction = glm::normalize(direction);
+			CameraCollisionCheck(camera->position, cameraMoveSpeed * direction);
+		}
+		else {
+			CameraCollisionCheck(camera->position, cameraMoveSpeed * camera->getRight());
+		}
 	}
 
+	if (_keyboardInput.keyStates[GLFW_KEY_C] == GLFW_PRESS) {
+		if (state == 0) {	// game state
+			state = 1;
+		}
+		else {	// god state
+			state = 0;
+			camera->position = glm::vec3(0.0f, 4.0f, 0.0f);
+			camera->rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
+		}		
+		_keyboardInput.keyStates[GLFW_KEY_C] = GLFW_RELEASE;//注意这个语句的作用，是用来除去按键抖动的操作。
+	}
+
+	
+	
 	// press SPACE to go straight up
 	if (_keyboardInput.keyStates[GLFW_KEY_SPACE] != GLFW_RELEASE) {
 		//camera->position += cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f);
-		CameraCollisionCheck(camera->position, cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f));
+		if (state) {
+			CameraCollisionCheck(camera->position, cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f));
+		}
 	}
 
 	// press LEFT SHIFT to go straight down
 	if (_keyboardInput.keyStates[GLFW_KEY_LEFT_SHIFT] != GLFW_RELEASE) {
 		//camera->position -= cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f);
-		CameraCollisionCheck(camera->position, - cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f));
+		if (state) {
+			CameraCollisionCheck(camera->position, -cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f));
+		}
 	}
 
 
@@ -260,9 +357,11 @@ void world::handleInput() {
 
 	// 按R键复原视角
 	if (_keyboardInput.keyStates[GLFW_KEY_R] != GLFW_RELEASE) {
+		glm::vec3 temp_pos(camera->position);
+		glm::quat temp_rotate(camera->rotation);
 		camera.reset(new PerspectiveCamera(glm::radians(45.0f), 1.0f * _windowWidth / _windowHeight, 0.1f, 10000.0f));
-		camera->position.z = 10.0f;
-		camera->position.y = 0.0f;
+		camera->position = temp_pos;
+		camera->rotation = temp_rotate;
 	}
 
 	// 按1键进行Zoom In
@@ -392,11 +491,12 @@ void world::handleInput() {
 void world::CameraCollisionCheck(glm::vec3& camera_pos, glm::vec3 move)
 {
 	glm::vec3 dest = camera_pos + move;
+	
 	for (auto ibox = colli_box.begin(); ibox != colli_box.end(); ibox++) {
 		bool is_collision = 
-			(dest.x > ibox->get_x_range().x) && (dest.x < ibox->get_x_range().y) &&
-			(dest.y > ibox->get_y_range().x) && (dest.y < ibox->get_y_range().y) &&
-			(dest.z > ibox->get_z_range().x) && (dest.z < ibox->get_z_range().y);
+			(dest.x > ibox->get_x_range().x - camera->znear) && (dest.x < ibox->get_x_range().y + camera->znear) &&
+			(dest.y > ibox->get_y_range().x - camera->znear) && (dest.y < ibox->get_y_range().y + camera->znear) &&
+			(dest.z > ibox->get_z_range().x - camera->znear) && (dest.z < ibox->get_z_range().y + camera->znear);
 		if (is_collision) {
 			cout << "collision" << endl;
 			return;

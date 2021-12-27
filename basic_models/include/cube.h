@@ -2,6 +2,7 @@
 #include "../../base/object3d.h"
 #include "../../base/material.h"
 #include "../../base/shader.h"
+#include "../../base/collision.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -15,6 +16,13 @@ public:
 	~Cube();
 
 	void Draw(Shader &shader);
+
+    inline void SetKa(glm::vec4 ka) { mat.Ka = ka; }
+    inline void SetKd(glm::vec4 kd) { mat.Kd = kd; }
+    inline void SetKs(glm::vec4 ks) { mat.Ks = ks; }
+    inline void SetShiniess(float shininess) { mat.shininess = shininess; }
+
+    AABB collision;
 
 private:
     // notice that the normal data hasn't been set

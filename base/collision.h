@@ -17,6 +17,18 @@ public:
 
 	void update_box(glm::mat4 model_matrix);
 
+	void cube_box(float edge);
+
+	void cone_box(float height,float r);
+
+	void sphere_box(float r);
+
+	void cylinder_box(float height, float r);
+
+	void prism_box(float height, float max_edge);
+
+	void square_pyramid_box(float height, float edge);
+
 	glm::vec3 get_center(void) const;
 	glm::vec2 get_x_range(void) const;
 	glm::vec2 get_y_range(void) const;

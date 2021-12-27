@@ -129,10 +129,10 @@
     <None Include="shader\bunny_shader.vert">
       <Filter>Shader\vertex</Filter>
     </None>
-    <None Include="shader\default_phong_vertex_shader.vert">
+    <None Include="shader\nanosuit_shader.vert">
       <Filter>Shader\vertex</Filter>
     </None>
-    <None Include="shader\default_phong_frag_shader.frag">
+    <None Include="shader\nanosuit_shader.frag">
       <Filter>Shader\frag</Filter>
     </None>
     <None Include="shader\sun_frag_shader.frag">
@@ -141,14 +141,12 @@
     <None Include="shader\sun_vertex_shader.vert">
       <Filter>Shader\vertex</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="shader\default_vertex_shader.vert">
-      <Filter>Shader\vertex</Filter>
-    </Text>
-    <Text Include="shader\default_frag_shader.frag">
+    <None Include="shader\posture_shader.frag">
       <Filter>Shader\frag</Filter>
-    </Text>
+    </None>
+    <None Include="shader\posture_shader.vert">
+      <Filter>Shader\vertex</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Shader">

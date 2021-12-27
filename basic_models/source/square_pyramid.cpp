@@ -7,6 +7,8 @@ Square_pyramid::Square_pyramid() {
     mat.Ks = glm::vec4(0.5f, 0.2f, 0.2f, 1.0f);
     mat.shininess = 5.0f;
 
+    collision.square_pyramid_box(1.5f, 2.0f);
+
     // set up OpenGL src
     glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vbo);

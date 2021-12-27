@@ -25,6 +25,8 @@ Cylinder::Cylinder() {
         around_vertices[i + 1] = up_vertices[(i + 1) / 2];
     }
 
+    collision.cylinder_box(2.0f, 1.0f);
+
     // first
     glGenVertexArrays(1, vao + 0);
     glGenBuffers(1, vbo + 0);

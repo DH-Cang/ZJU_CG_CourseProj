@@ -7,6 +7,8 @@ Cube::Cube() {
     mat.Ks = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
     mat.shininess = 10.0f;
 
+    collision.cube_box(2.0f);
+
     // set up OpenGL src
     glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vbo);

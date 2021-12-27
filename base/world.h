@@ -29,6 +29,8 @@ private:
 	void CameraCollisionCheck(glm::vec3 &camera_pos, glm::vec3 move);
 
 	bool setTarget = false;
+	int state = 1; //游戏状态：0状态玩家不可进行上下移动，1状态玩家方可进行上下移动，按C切换
+	bool init_collision_box = false;
 
 	glm::vec3 target = { 0.0f, 0.0f, 0.0f };
 
@@ -64,13 +66,13 @@ private:
 
 	unique_ptr<Prism> prism;
 
-    unique_ptr<Shader> defaultShader;
-
-	unique_ptr<Shader> phongShader;
+	unique_ptr<Shader> nanosuitShader;
 
 	unique_ptr<Shader> basicShader;
 
 	unique_ptr<Shader> bunnyShader;
+
+	unique_ptr<Shader> postureShader;
 
 };
 

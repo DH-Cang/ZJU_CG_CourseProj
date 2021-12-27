@@ -89,3 +89,59 @@ glm::vec2 AABB::get_z_range(void) const
 {
 	return z_range;
 }
+
+
+void AABB::cube_box(float edge) {
+	x_min = - edge / 2;
+	x_max = edge / 2;
+	y_min = - edge / 2;
+	y_max = edge / 2;
+	z_min = - edge / 2;
+	z_max = edge / 2;
+}
+
+void AABB::cone_box(float height, float r) {
+	x_min = - r;
+	x_max = r;
+	y_min = - height / 2;
+	y_max = height / 2;
+	z_min = - r;
+	z_max = r;
+}
+
+void AABB::sphere_box(float r) {
+	x_min = - r;
+	x_max = r;
+	y_min = - r;
+	y_max = r;
+	z_min = - r;
+	z_max = r;
+}
+
+void AABB::cylinder_box(float height, float r) {
+	x_min = - r;
+	x_max = r;
+	y_min = - height / 2;
+	y_max = height / 2;
+	z_min = - r;
+	z_max = r;
+}
+
+void AABB::prism_box(float height, float max_edge) {
+	x_min = - max_edge / 2;
+	x_max = max_edge / 2;
+	y_min = - height / 2;
+	y_max = height / 2;
+	z_min = - max_edge / 2;
+	z_max = max_edge / 2;
+}
+
+void AABB::square_pyramid_box(float height, float max_edge) {
+	x_min = - max_edge / 2;
+	x_max = max_edge / 2;
+	y_min = - height / 2;
+	y_max = height / 2;
+	z_min = - max_edge / 2;
+	z_max = max_edge / 2;
+}
+
