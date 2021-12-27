@@ -3,12 +3,17 @@
 
 Sphere::Sphere()
 {
-	mat.Ka = glm::vec4(0.2f, 0.2f, 0.2f, 1.0f);
-	mat.Kd = glm::vec4(0.6f, 0.2f, 0.2f, 1.0f);
-	mat.Ks = glm::vec4(0.6f, 0.2f, 0.2f, 1.0f);
+	mat.Ka = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
+	mat.Kd = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
+	mat.Ks = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	mat.shininess = 10.0f;
 	Init();
 }
+
+Sphere::~Sphere() {
+	DeInit();
+}
+
 
 bool Sphere::Init(float fRadius,
 	unsigned int unLongitudeSlices,
@@ -18,8 +23,6 @@ bool Sphere::Init(float fRadius,
 	m_fRadius = fRadius;
 	m_unLongitudeSlices = unLongitudeSlices;
 	m_unLatitudeSlices = unLatitudeSlices;
-
-	m_model = glm::mat4(1.0f);
 
 	CalculateSphere();
 	CreateBuffers();
@@ -127,6 +130,8 @@ void Sphere::CreateBuffers()
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
 }
 
 void Sphere::Draw(Shader& shader)
@@ -137,15 +142,9 @@ void Sphere::Draw(Shader& shader)
 	shader.setVec4("material.kd", mat.Kd);
 	shader.setVec4("material.ks", mat.Ks);
 	shader.setFloat("material.shininess", mat.shininess);
-	shader.setMat4("model", m_model);
+	shader.setMat4("model", this->getModelMatrix());
 
 	glBindVertexArray(VAO_Sphere);
 	glDrawElements(GL_TRIANGLES, vecIndexPoints.size(), GL_UNSIGNED_INT, 0);
 	//glDrawArrays(GL_TRIANGLES, 0, vecIndexPoints.size()/3);
-}
-
-void Sphere::SetModelMatrix(glm::mat4& model)
-{
-	m_model = glm::mat4(1.0f);
-	m_model = model;
 }

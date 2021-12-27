@@ -34,11 +34,10 @@ private:
 	std::vector<float> vecVertexPoints;
 	std::vector<unsigned int> vecIndexPoints;
 
-	/*Model Matrix*/
-	glm::mat4 m_model;
 public:
 
 	Sphere();
+	~Sphere();
 	/*Initialization to all the needed data*/
 	bool Init(float fRadius = 5.0f,
 		unsigned int unLongitudeSlices = 50,
@@ -56,8 +55,4 @@ public:
 
 	/*Draw the Sphere*/
 	void Draw(Shader& shaderSphere);
-
-	/*Setting matrix to the current model*/
-	void SetModelMatrix(glm::mat4& model);
-
 };
