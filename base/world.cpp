@@ -188,6 +188,7 @@ void world::handleInput() {
 	const float cameraRotateSpeed = 0.25f;
 	const float deltaAngle = 0.001f;
 	const float deltaFovy = 0.001f;
+	
 
 	if (_keyboardInput.keyStates[GLFW_KEY_ESCAPE] != GLFW_RELEASE) {
 		glfwSetWindowShouldClose(_window, true);
@@ -196,34 +197,78 @@ void world::handleInput() {
 
 	if (_keyboardInput.keyStates[GLFW_KEY_W] != GLFW_RELEASE) {
 		//camera->position += cameraMoveSpeed * camera->getFront();
-		CameraCollisionCheck(camera->position, cameraMoveSpeed * camera->getFront());
+		if (state == 0) {
+			glm::vec3 direction = camera->getFront();
+			direction.y = 0.0f;
+			direction = glm::normalize(direction);
+			CameraCollisionCheck(camera->position, cameraMoveSpeed * direction);
+		}
+		else {
+			CameraCollisionCheck(camera->position, cameraMoveSpeed * camera->getFront());
+		}
 	}
 
 	if (_keyboardInput.keyStates[GLFW_KEY_A] != GLFW_RELEASE) {
 		//camera->position -= cameraMoveSpeed * camera->getRight();
-		CameraCollisionCheck(camera->position, - cameraMoveSpeed * camera->getRight());
+		if (state == 0) {
+			glm::vec3 direction = camera->getRight();
+			direction.y = 0.0f;
+			direction = glm::normalize(direction);
+			CameraCollisionCheck(camera->position, - cameraMoveSpeed * direction);
+		}
+		else {
+			CameraCollisionCheck(camera->position, - cameraMoveSpeed * camera->getRight());
+		}
 	}
 
 	if (_keyboardInput.keyStates[GLFW_KEY_S] != GLFW_RELEASE) {
 		//camera->position -= cameraMoveSpeed * camera->getFront();
-		CameraCollisionCheck(camera->position, - cameraMoveSpeed * camera->getFront());
+		if (state == 0) {
+			glm::vec3 direction = camera->getFront();
+			direction.y = 0.0f;
+			direction = glm::normalize(direction);
+			CameraCollisionCheck(camera->position, - cameraMoveSpeed * direction);
+		}
+		else {
+			CameraCollisionCheck(camera->position, - cameraMoveSpeed * camera->getFront());
+		}
 	}
 
 	if (_keyboardInput.keyStates[GLFW_KEY_D] != GLFW_RELEASE) {
 		//camera->position += cameraMoveSpeed * camera->getRight();
-		CameraCollisionCheck(camera->position, cameraMoveSpeed * camera->getRight());
+		if (state == 0) {
+			glm::vec3 direction = camera->getRight();
+			direction.y = 0.0f;
+			direction = glm::normalize(direction);
+			CameraCollisionCheck(camera->position, cameraMoveSpeed * direction);
+		}
+		else {
+			CameraCollisionCheck(camera->position, cameraMoveSpeed * camera->getRight());
+		}
 	}
 
+	if (_keyboardInput.keyStates[GLFW_KEY_C] == GLFW_PRESS) {
+		printf("state should to %d\n", state);
+		state = (state + 1) % 2;
+		_keyboardInput.keyStates[GLFW_KEY_C] = GLFW_RELEASE;//注意这个语句的作用，是用来除去按键抖动的操作。
+	}
+
+	
+	
 	// press SPACE to go straight up
 	if (_keyboardInput.keyStates[GLFW_KEY_SPACE] != GLFW_RELEASE) {
 		//camera->position += cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f);
-		CameraCollisionCheck(camera->position, cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f));
+		if (state) {
+			CameraCollisionCheck(camera->position, cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f));
+		}
 	}
 
 	// press LEFT SHIFT to go straight down
 	if (_keyboardInput.keyStates[GLFW_KEY_LEFT_SHIFT] != GLFW_RELEASE) {
 		//camera->position -= cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f);
-		CameraCollisionCheck(camera->position, - cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f));
+		if (state) {
+			CameraCollisionCheck(camera->position, -cameraMoveSpeed * glm::vec3(0.0f, 1.0f, 0.0f));
+		}
 	}
 
 
@@ -392,6 +437,7 @@ void world::handleInput() {
 void world::CameraCollisionCheck(glm::vec3& camera_pos, glm::vec3 move)
 {
 	glm::vec3 dest = camera_pos + move;
+	
 	for (auto ibox = colli_box.begin(); ibox != colli_box.end(); ibox++) {
 		bool is_collision = 
 			(dest.x > ibox->get_x_range().x) && (dest.x < ibox->get_x_range().y) &&
