@@ -47,6 +47,8 @@ public:
 
     // constructor
     Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures, Material mats);
+    Mesh() = default;
+    ~Mesh() = default;
 
     // render the mesh
     void Draw(Shader& shader);

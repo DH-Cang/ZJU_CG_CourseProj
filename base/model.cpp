@@ -41,6 +41,16 @@ unsigned int TextureFromFile(const char* path, const string& directory, bool gam
 }
 
 
+Model::Model(string const& path, bool gamma) : gammaCorrection(gamma)
+{
+    loadModel(path);
+    for (auto mesh = meshes.begin(); mesh != meshes.end(); mesh++) {
+        for (auto vertex = mesh->vertices.begin(); vertex != mesh->vertices.end(); vertex++){
+            colli_box.add_vertex(vertex->Position);
+        }
+    }
+}
+
 
 void Model::loadModel(string const& path) 
 {
@@ -61,6 +71,7 @@ void Model::loadModel(string const& path)
     processNode(scene->mRootNode, scene);
 
 }
+
 
 void Model::processNode(aiNode* node, const aiScene* scene)
 {
@@ -226,5 +237,56 @@ void Model::Draw(Shader& shader)
         meshes[i].Draw(shader);
 }
 
+DynamicModel::DynamicModel(string const& path, int amount, float fps) :amount(amount), dt(1.0f/fps)
+{
+    //string temp = path;
+    int digitlength = (int)(log10(amount) + 1);
+    int templength;
+    for (int i = 0; i < amount; i++) {
+        char* num = new char[digitlength];
+        for (int j = 0; j < digitlength; j++) {
+            num[j] = '0';
+        }
+        if (i == 0) {
+            templength = 1;
+        }
+        else {
+            templength = (int)(log10(i) + 1);
+        }
+        char* tmp = num + (digitlength - templength);
+        _itoa_s(i, tmp, sizeof(tmp) , 10);
+        string localtemp = path + num + ".obj";
+        std::cout << localtemp << std::endl;
+        m.push_back(Model(localtemp));
+    }
+}
 
+void DynamicModel::Draw(Shader& shader, float time)
+{
+    m[(int)(time / dt) % amount].Draw(shader);
+}
+
+void DynamicModel::setPosition(glm::vec3 ps)
+{
+    globalPosition = ps;
+    for (int i = 0; i < amount; i++) {
+        m[i].position = globalPosition;
+    }
+}
+
+void DynamicModel::setRotation(glm::quat rt)
+{
+    globalRotation = rt;
+    for (int i = 0; i < amount; i++) {
+        m[i].rotation = globalRotation;
+    }
+}
+
+void DynamicModel::setScale(glm::vec3 sc)
+{
+    globalScale = sc;
+    for (int i = 0; i < amount; i++) {
+        m[i].scale = globalScale;
+    }
+}
 

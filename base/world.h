@@ -11,7 +11,7 @@
 #include "../basic_models/include/cylinder.h" 
 #include "../basic_models/include/cone.h" 
 
-
+#define BMP_Header_Length 54
 
 
 class world : public Application {
@@ -26,6 +26,16 @@ private:
 
 	void renderFrame() override;
 
+	void CameraCollisionCheck(glm::vec3 &camera_pos, glm::vec3 move);
+
+	bool setTarget = false;
+
+	glm::vec3 target = { 0.0f, 0.0f, 0.0f };
+
+	glm::vec3 viewDir = { 0.0f, 0.0f, 0.0f };
+
+	std::vector<AABB> colli_box;
+
     unique_ptr<PerspectiveCamera> camera;
 
 	unique_ptr<SkyBox> skyBox;
@@ -37,6 +47,8 @@ private:
     unique_ptr<Model> sun;
 
 	unique_ptr<Model> bunny;
+
+	unique_ptr<DynamicModel> posture;
 
 	unique_ptr<Model> nanosuit;
 
@@ -58,9 +70,7 @@ private:
 
 	unique_ptr<Shader> basicShader;
 
-	unique_ptr<Shader> sphereShader;
-
-
+	unique_ptr<Shader> bunnyShader;
 
 };
 

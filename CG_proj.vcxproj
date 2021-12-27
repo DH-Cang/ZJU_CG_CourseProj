@@ -142,6 +142,7 @@
   <ItemGroup>
     <ClCompile Include="base\application.cpp" />
     <ClCompile Include="base\camera.cpp" />
+    <ClCompile Include="base\collision.cpp" />
     <ClCompile Include="base\light.cpp" />
     <ClCompile Include="base\mesh.cpp" />
     <ClCompile Include="base\model.cpp" />
@@ -161,6 +162,7 @@
   <ItemGroup>
     <ClInclude Include="base\application.h" />
     <ClInclude Include="base\camera.h" />
+    <ClInclude Include="base\collision.h" />
     <ClInclude Include="base\input.h" />
     <ClInclude Include="base\light.h" />
     <ClInclude Include="base\material.h" />
@@ -186,6 +188,8 @@
   <ItemGroup>
     <None Include="shader\basic_shader.frag" />
     <None Include="shader\basic_shader.vert" />
+    <None Include="shader\bunny_shader.frag" />
+    <None Include="shader\bunny_shader.vert" />
     <None Include="shader\default_phong_frag_shader.frag" />
     <None Include="shader\default_phong_vertex_shader.vert" />
     <None Include="shader\sun_frag_shader.frag" />

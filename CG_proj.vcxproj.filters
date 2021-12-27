@@ -77,6 +77,8 @@
     </ClCompile>
     <ClCompile Include="basic_models\source\cone.cpp">
       <Filter>Basic Models\source</Filter>
+    <ClCompile Include="base\collision.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +138,8 @@
     </ClInclude>
     <ClInclude Include="basic_models\include\cone.h">
       <Filter>Basic Models\include</Filter>
+    <ClInclude Include="base\collision.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +167,12 @@
       <Filter>Shader</Filter>
     </None>
     <None Include="shader\basic_shader.frag">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="shader\bunny_shader.vert">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="shader\bunny_shader.frag">
       <Filter>Shader</Filter>
     </None>
   </ItemGroup>

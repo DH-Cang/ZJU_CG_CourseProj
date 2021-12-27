@@ -4,6 +4,7 @@
 #include "object3d.h"
 #include "manualtexture.h"
 #include "light.h"
+#include "collision.h"
 #include <vector>
 #include <string>
 #include <map>
@@ -32,12 +33,12 @@ public:
     vector<Mesh>    meshes;
     string directory;
     bool gammaCorrection;
+    AABB colli_box;
 
     // constructor, expects a filepath to a 3D model.
-    Model(string const& path, bool gamma = false) : gammaCorrection(gamma)
-    {
-        loadModel(path);
-    }
+    Model(string const& path, bool gamma = false);
+    Model() = default;
+    ~Model() = default;
 
     // draws the model, and thus all its meshes
     virtual void Draw(Shader& shader);
@@ -54,6 +55,24 @@ private:
     // checks all material textures of a given type and loads the textures if they're not loaded yet.
     // the required info is returned as a Texture struct.
     vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
+};
+
+class DynamicModel : public Object3D
+{
+public:
+    DynamicModel(string const& fragpath, int amount, float fps);
+    void Draw(Shader& shader, float time);
+    void setPosition(glm::vec3 ps);
+    void setRotation(glm::quat rt);
+    void setScale(glm::vec3 sc);
+
+private:
+    glm::vec3 globalPosition = { 0.0f, 0.0f, 0.0f };
+    glm::quat globalRotation = { 1.0f, 0.0f, 0.0f, 0.0f };
+    glm::vec3 globalScale = { 1.0f, 1.0f, 1.0f };
+    int amount;
+    float dt;
+    vector<Model> m;
 };
 
 
