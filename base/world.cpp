@@ -1,9 +1,4 @@
 #include "world.h"
-#include <windows.h>������������������������������// Header File For Windows
-#include <stdio.h>��������������������������������// Header File For Standard Input/Output
-#include <gl/gl.h>��������������������������������// Header File For The OpenGL32 Library
-#include <gl/glu.h>����
-#pragma comment(lib,"glu32.lib")
 
 world::world() {
 	this->_windowTitle = std::string("World Rendering");
@@ -20,34 +15,34 @@ world::world() {
 	skyBox.reset(new SkyBox());	
 
 	nanosuit.reset(new Model("./data/nanosuit_model/nanosuit.obj"));
-	nanosuit->position = glm::vec3(0.0f, 0.0f, -25.0f);
+	nanosuit->position = glm::vec3(0.0f, 40.0f, -25.0f);
 	nanosuit->rotation = glm::quat(cos(PI/2), glm::vec3(0, 1.0f, 0) * sin(PI/2));
 	nanosuit->colli_box.update_box(nanosuit->getModelMatrix());
 	colli_box.push_back(nanosuit->colli_box);
 
 	bunny.reset(new Model("./data/bunny_model/bunny.obj"));
-	bunny->position = glm::vec3(0.0f, 0.0f, 0.0f);
+	bunny->position = glm::vec3(0.0f, 40.0f, 0.0f);
 	bunny->colli_box.update_box(bunny->getModelMatrix());
 	colli_box.push_back(bunny->colli_box);
 
 
 	cube.reset(new Cube());
-	cube->position = glm::vec3(0.0f, 0.0f, -40.0f);
+	cube->position = glm::vec3(0.0f, 40.0f, -40.0f);
 
 	square_pyramid.reset(new Square_pyramid());
-	square_pyramid->position = glm::vec3(0.0f, 0.0f, 20.0f);
+	square_pyramid->position = glm::vec3(0.0f, 40.0f, 20.0f);
 
 	prism.reset(new Prism());
-	prism->position = glm::vec3(0.0f, 0.0f, 40.0f);
+	prism->position = glm::vec3(0.0f, 40.0f, 40.0f);
 
 	sphere.reset(new Sphere());
-	//sphere->position = glm::vec3(0.0f, 0.0f, 50.0f);
+	sphere->position = glm::vec3(0.0f, 40.0f, 50.0f);
 
 	cone.reset(new Cone());
-	cone->position = glm::vec3(0.0f, 0.0f, 50.0f);
+	cone->position = glm::vec3(0.0f, 40.0f, 50.0f);
 
 	cylinder.reset(new Cylinder());
-	cylinder->position = glm::vec3(0.0f, 0.0f, 70.0f);
+	cylinder->position = glm::vec3(0.0f, 40.0f, 70.0f);
 
 	sun.reset(new Model("./data/sphere_model/sphere.obj"));
 	sunLight.reset(new SunLight(70, 15));
@@ -148,7 +143,6 @@ void world::renderFrame() {
 	cube->position = glm::vec3(-10.0f, 20.0f, -100.0f);
 	cube->Draw(*basicShader); //后方边界
 
-
 	cube->scale = glm::vec3(100.0f, 30.0f, 1.0f);
 	cube->position = glm::vec3(10.0f, 20.0f, 100.0f);
 	cube->Draw(*basicShader); //前方边界
@@ -164,20 +158,20 @@ void world::renderFrame() {
 	//之后是内部的迷宫
 	for (int i = 0; i < 100; i += 10)
 	{
-		cube->scale = glm::vec3(100.0f - i, 10.0f, 1.0f);
+		cube->scale = glm::vec3(100.0f - i, 4.0f, 1.0f);
 		cube->position = glm::vec3(-10.0f, 1.0f, -100.0f + i);
 		cube->Draw(*basicShader); //后方矮墙
 
 
-		cube->scale = glm::vec3(100.0f - i, 10.0f, 1.0f);
+		cube->scale = glm::vec3(100.0f - i, 4.0f, 1.0f);
 		cube->position = glm::vec3(10.0f, 1.0f, 100.0f - i);
 		cube->Draw(*basicShader); //前方矮墙
 
-		cube->scale = glm::vec3(1.0f, 10.0f, 100.0f - i);
+		cube->scale = glm::vec3(1.0f, 4.0f, 100.0f - i);
 		cube->position = glm::vec3(-100.0f + i, 1.0f, 10.0f);
 		cube->Draw(*basicShader); //左方矮墙
 
-		cube->scale = glm::vec3(1.0f, 10.0f, 100.0f - i);
+		cube->scale = glm::vec3(1.0f, 4.0f, 100.0f - i);
 		cube->position = glm::vec3(100.0f - i, 1.0f, -10.0f);
 		cube->Draw(*basicShader); //右方矮墙
 

@@ -1,179 +1,185 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="源文件">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="头文件">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="资源文件">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Shader">
-      <UniqueIdentifier>{11843d00-a2c4-4578-a3b0-7c289e699aad}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Basic Models">
-      <UniqueIdentifier>{42d0583f-8c6a-42d8-a304-024e6420f5c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Basic Models\source">
-      <UniqueIdentifier>{18f5953f-533e-4852-85ba-bc0859937979}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Basic Models\include">
-      <UniqueIdentifier>{130379b3-8399-4a8e-b39a-572cf43f1439}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="base\application.cpp">
-      <Filter>源文件</Filter>
+      <Filter>Base\source</Filter>
     </ClCompile>
     <ClCompile Include="base\camera.cpp">
-      <Filter>源文件</Filter>
+      <Filter>Base\source</Filter>
     </ClCompile>
-    <ClCompile Include="base\object3d.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="base\shader.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="base\mesh.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="base\model.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="base\skybox.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="base\manualtexture.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="base\world.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="base\collision.cpp">
+      <Filter>Base\source</Filter>
     </ClCompile>
     <ClCompile Include="base\light.cpp">
-      <Filter>源文件</Filter>
+      <Filter>Base\source</Filter>
     </ClCompile>
-    <ClCompile Include="basic_models\source\cube.cpp">
-      <Filter>Basic Models\source</Filter>
+    <ClCompile Include="base\world.cpp">
+      <Filter>Base\source</Filter>
     </ClCompile>
-    <ClCompile Include="basic_models\source\square_pyramid.cpp">
-      <Filter>Basic Models\source</Filter>
+    <ClCompile Include="base\skybox.cpp">
+      <Filter>Base\source</Filter>
     </ClCompile>
-    <ClCompile Include="basic_models\source\prism.cpp">
-      <Filter>Basic Models\source</Filter>
+    <ClCompile Include="base\shader.cpp">
+      <Filter>Base\source</Filter>
     </ClCompile>
-    <ClCompile Include="basic_models\source\sphere.cpp">
-      <Filter>Basic Models\source</Filter>
+    <ClCompile Include="base\object3d.cpp">
+      <Filter>Base\source</Filter>
     </ClCompile>
-    <ClCompile Include="basic_models\source\cylinder.cpp">
-      <Filter>Basic Models\source</Filter>
+    <ClCompile Include="base\model.cpp">
+      <Filter>Base\source</Filter>
+    </ClCompile>
+    <ClCompile Include="base\mesh.cpp">
+      <Filter>Base\source</Filter>
+    </ClCompile>
+    <ClCompile Include="base\manualtexture.cpp">
+      <Filter>Base\source</Filter>
     </ClCompile>
     <ClCompile Include="basic_models\source\cone.cpp">
-      <Filter>Basic Models\source</Filter>
-    <ClCompile Include="base\collision.cpp">
-      <Filter>源文件</Filter>
+      <Filter>Basic_model\source</Filter>
+    </ClCompile>
+    <ClCompile Include="basic_models\source\cube.cpp">
+      <Filter>Basic_model\source</Filter>
+    </ClCompile>
+    <ClCompile Include="basic_models\source\cylinder.cpp">
+      <Filter>Basic_model\source</Filter>
+    </ClCompile>
+    <ClCompile Include="basic_models\source\prism.cpp">
+      <Filter>Basic_model\source</Filter>
+    </ClCompile>
+    <ClCompile Include="basic_models\source\sphere.cpp">
+      <Filter>Basic_model\source</Filter>
+    </ClCompile>
+    <ClCompile Include="basic_models\source\square_pyramid.cpp">
+      <Filter>Basic_model\source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="base\application.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="base\collision.h">
+      <Filter>Base\include</Filter>
     </ClInclude>
     <ClInclude Include="base\camera.h">
-      <Filter>头文件</Filter>
+      <Filter>Base\include</Filter>
+    </ClInclude>
+    <ClInclude Include="base\application.h">
+      <Filter>Base\include</Filter>
     </ClInclude>
     <ClInclude Include="base\input.h">
-      <Filter>头文件</Filter>
+      <Filter>Base\include</Filter>
     </ClInclude>
     <ClInclude Include="base\light.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="base\object3d.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="base\shader.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="base\model.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="base\mesh.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="base\skybox.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="base\manualtexture.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="base\world.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="basic_models\include\cube.h">
-      <Filter>Basic Models\include</Filter>
+      <Filter>Base\include</Filter>
     </ClInclude>
     <ClInclude Include="base\stb_image.h">
-      <Filter>头文件</Filter>
+      <Filter>External</Filter>
+    </ClInclude>
+    <ClInclude Include="base\manualtexture.h">
+      <Filter>Base\include</Filter>
     </ClInclude>
     <ClInclude Include="base\material.h">
-      <Filter>头文件</Filter>
+      <Filter>Base\include</Filter>
     </ClInclude>
-    <ClInclude Include="basic_models\include\square_pyramid.h">
-      <Filter>Basic Models\include</Filter>
+    <ClInclude Include="base\mesh.h">
+      <Filter>Base\include</Filter>
     </ClInclude>
-    <ClInclude Include="basic_models\include\prism.h">
-      <Filter>Basic Models\include</Filter>
+    <ClInclude Include="base\model.h">
+      <Filter>Base\include</Filter>
     </ClInclude>
-    <ClInclude Include="basic_models\include\sphere.h">
-      <Filter>Basic Models\include</Filter>
+    <ClInclude Include="base\object3d.h">
+      <Filter>Base\include</Filter>
     </ClInclude>
-    <ClInclude Include="basic_models\include\cylinder.h">
-      <Filter>Basic Models\include</Filter>
+    <ClInclude Include="base\shader.h">
+      <Filter>Base\include</Filter>
+    </ClInclude>
+    <ClInclude Include="base\skybox.h">
+      <Filter>Base\include</Filter>
+    </ClInclude>
+    <ClInclude Include="base\world.h">
+      <Filter>Base\include</Filter>
     </ClInclude>
     <ClInclude Include="basic_models\include\cone.h">
-      <Filter>Basic Models\include</Filter>
-    <ClInclude Include="base\collision.h">
-      <Filter>头文件</Filter>
+      <Filter>Basic_model\include</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_models\include\cube.h">
+      <Filter>Basic_model\include</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_models\include\cylinder.h">
+      <Filter>Basic_model\include</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_models\include\prism.h">
+      <Filter>Basic_model\include</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_models\include\sphere.h">
+      <Filter>Basic_model\include</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_models\include\square_pyramid.h">
+      <Filter>Basic_model\include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="shader\default_frag_shader.frag">
-      <Filter>Shader</Filter>
-    </Text>
+    <None Include="shader\bunny_shader.frag">
+      <Filter>Shader\frag</Filter>
+    </None>
+    <None Include="shader\basic_shader.frag">
+      <Filter>Shader\frag</Filter>
+    </None>
+    <None Include="shader\basic_shader.vert">
+      <Filter>Shader\vertex</Filter>
+    </None>
+    <None Include="shader\bunny_shader.vert">
+      <Filter>Shader\vertex</Filter>
+    </None>
+    <None Include="shader\default_phong_vertex_shader.vert">
+      <Filter>Shader\vertex</Filter>
+    </None>
+    <None Include="shader\default_phong_frag_shader.frag">
+      <Filter>Shader\frag</Filter>
+    </None>
+    <None Include="shader\sun_frag_shader.frag">
+      <Filter>Shader\frag</Filter>
+    </None>
+    <None Include="shader\sun_vertex_shader.vert">
+      <Filter>Shader\vertex</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <Text Include="shader\default_vertex_shader.vert">
-      <Filter>Shader</Filter>
+      <Filter>Shader\vertex</Filter>
+    </Text>
+    <Text Include="shader\default_frag_shader.frag">
+      <Filter>Shader\frag</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shader\sun_frag_shader.frag">
-      <Filter>Shader</Filter>
-    </None>
-    <None Include="shader\sun_vertex_shader.vert">
-      <Filter>Shader</Filter>
-    </None>
-    <None Include="shader\default_phong_frag_shader.frag">
-      <Filter>Shader</Filter>
-    </None>
-    <None Include="shader\default_phong_vertex_shader.vert">
-      <Filter>Shader</Filter>
-    </None>
-    <None Include="shader\basic_shader.vert">
-      <Filter>Shader</Filter>
-    </None>
-    <None Include="shader\basic_shader.frag">
-      <Filter>Shader</Filter>
-    </None>
-    <None Include="shader\bunny_shader.vert">
-      <Filter>Shader</Filter>
-    </None>
-    <None Include="shader\bunny_shader.frag">
-      <Filter>Shader</Filter>
-    </None>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{61e7bd3d-7c87-41a9-ba87-f52f3613fe54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\vertex">
+      <UniqueIdentifier>{a8a0a5e2-6ed1-4edd-be9e-82db7ff16aa7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\frag">
+      <UniqueIdentifier>{f8a58311-6c24-415d-89f5-efb798b0102f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base">
+      <UniqueIdentifier>{37fc47b6-d75e-4ea6-b751-90f23ab10cd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\include">
+      <UniqueIdentifier>{0464a2ff-bade-450e-83f0-ab08d29e181f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\source">
+      <UniqueIdentifier>{7b84e9a9-3543-41ab-8e2e-2abe12b6b592}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External">
+      <UniqueIdentifier>{a7f155c6-34d9-4b2b-984b-9325ae9a75ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Basic_model">
+      <UniqueIdentifier>{859ac0de-bd6d-43d0-aae3-506cf6448eb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Basic_model\include">
+      <UniqueIdentifier>{a9623109-a844-4d5f-82da-b8aad9f7cf7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Basic_model\source">
+      <UniqueIdentifier>{05caa011-6c5d-4a1d-9364-8d910a17d5ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
