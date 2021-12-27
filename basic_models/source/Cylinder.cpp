@@ -25,29 +25,6 @@ Cylinder::Cylinder() {
         around_vertices[i + 1] = up_vertices[(i + 1) / 2];
     }
 
-
-
-
-
-
-
-    // set up OpenGL src
-    /*
-    glGenVertexArrays(1, &vao);
-    glGenBuffers(1, &vbo);
-
-    glBindVertexArray(vao);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(up_vertices), &up_vertices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
-
-    glBindVertexArray(0);
-    */
-
     // first
     glGenVertexArrays(1, vao + 0);
     glGenBuffers(1, vbo + 0);
@@ -93,8 +70,6 @@ Cylinder::Cylinder() {
 
     glBindVertexArray(0);
 
-    // ...
-
 }
 
 void Cylinder::Draw(Shader& shader) {
@@ -115,12 +90,11 @@ void Cylinder::Draw(Shader& shader) {
     glBindVertexArray(0);
 
     glBindVertexArray(vao[2]);
-    glDrawArrays(GL_TRIANGLE_STRIP, 1, 726);  // to be update
+    glDrawArrays(GL_TRIANGLE_STRIP, 1, 726);
     glBindVertexArray(0);
 }
 
 Cylinder::~Cylinder() {
-    // to be deconstruct
     if (vbo[0] != 0) {
         glDeleteBuffers(1, &vbo[0]);
         vbo[0] = 0;
@@ -141,14 +115,14 @@ Cylinder::~Cylinder() {
         vao[1] = 0;
     }
 
-    if (vbo[1] != 0) {
-        glDeleteBuffers(1, &vbo[1]);
-        vbo[1] = 0;
+    if (vbo[2] != 0) {
+        glDeleteBuffers(1, &vbo[2]);
+        vbo[2] = 0;
     }
 
-    if (vao[1] != 0) {
-        glDeleteVertexArrays(1, &vao[1]);
-        vao[1] = 0;
+    if (vao[2] != 0) {
+        glDeleteVertexArrays(1, &vao[2]);
+        vao[2] = 0;
     }
 }
 
