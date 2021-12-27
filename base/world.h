@@ -30,6 +30,7 @@ private:
 
 	bool setTarget = false;
 	int state = 1; //游戏状态：0状态玩家不可进行上下移动，1状态玩家方可进行上下移动，按C切换
+	bool init_collision_box = false;
 
 	glm::vec3 target = { 0.0f, 0.0f, 0.0f };
 

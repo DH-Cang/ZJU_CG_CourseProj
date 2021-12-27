@@ -7,6 +7,8 @@ Prism::Prism() {
     mat.Ks = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
     mat.shininess = 10.0f;
 
+    collision.prism_box(2.0f, 2.0f);
+
     // set up OpenGL src
     glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vbo);

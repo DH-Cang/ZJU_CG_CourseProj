@@ -30,18 +30,28 @@ world::world() {
 
 	square_pyramid.reset(new Square_pyramid());
 	square_pyramid->position = glm::vec3(0.0f, 40.0f, 20.0f);
+	square_pyramid->collision.update_box(square_pyramid->getModelMatrix());
+	colli_box.push_back(square_pyramid->collision);
 
 	prism.reset(new Prism());
 	prism->position = glm::vec3(0.0f, 40.0f, 40.0f);
+	prism->collision.update_box(prism->getModelMatrix());
+	colli_box.push_back(prism->collision);
 
 	sphere.reset(new Sphere());
 	sphere->position = glm::vec3(0.0f, 40.0f, 50.0f);
+	sphere->collision.update_box(sphere->getModelMatrix());
+	colli_box.push_back(sphere->collision);
 
 	cone.reset(new Cone());
 	cone->position = glm::vec3(0.0f, 40.0f, 50.0f);
+	cone->collision.update_box(cone->getModelMatrix());
+	colli_box.push_back(cone->collision);
 
 	cylinder.reset(new Cylinder());
 	cylinder->position = glm::vec3(0.0f, 40.0f, 70.0f);
+	cylinder->collision.update_box(cylinder->getModelMatrix());
+	colli_box.push_back(cylinder->collision);
 
 	sun.reset(new Model("./data/sphere_model/sphere.obj"));
 	sunLight.reset(new SunLight(70, 15));
@@ -132,6 +142,10 @@ void world::renderFrame() {
 	cube->scale = glm::vec3(100.0f, 1.0f, 100.0f);
 	cube->position = glm::vec3(0.0f, -1.0f, 0.0f);
 	cube->Draw(*basicShader);
+	if (init_collision_box == false) {
+		cube->collision.update_box(cube->getModelMatrix());
+		colli_box.push_back(cube->collision);
+	}
 
 	cube->SetKa(glm::vec4(0x33 / 255.0f, 0x66 / 255.0f, 0x99 / 255.0f, 1.0f));
 	cube->SetKd(glm::vec4(0x33 / 255.0f, 0x66 / 255.0f, 0x99 / 255.0f, 1.0f));
@@ -140,18 +154,34 @@ void world::renderFrame() {
 	cube->scale = glm::vec3(100.0f, 10.0f, 1.0f);
 	cube->position = glm::vec3(-10.0f, 5.0f, -100.0f);
 	cube->Draw(*basicShader); //后方边界
+	if (init_collision_box == false) {
+		cube->collision.update_box(cube->getModelMatrix());
+		colli_box.push_back(cube->collision);
+	}
 
 	cube->scale = glm::vec3(100.0f, 10.0f, 1.0f);
 	cube->position = glm::vec3(10.0f, 5.0f, 100.0f);
 	cube->Draw(*basicShader); //前方边界
+	if (init_collision_box == false) {
+		cube->collision.update_box(cube->getModelMatrix());
+		colli_box.push_back(cube->collision);
+	}
 
 	cube->scale = glm::vec3(1.0f, 10.0f, 100.0f);
 	cube->position = glm::vec3(-100.0f, 5.0f, 10.0f);
 	cube->Draw(*basicShader); //左方边界
+	if (init_collision_box == false) {
+		cube->collision.update_box(cube->getModelMatrix());
+		colli_box.push_back(cube->collision);
+	}
 
 	cube->scale = glm::vec3(1.0f, 10.0f, 100.0f);
 	cube->position = glm::vec3(100.0f, 5.0f, -10.0f);
 	cube->Draw(*basicShader);//右方边界
+	if (init_collision_box == false) {
+		cube->collision.update_box(cube->getModelMatrix());
+		colli_box.push_back(cube->collision);
+	}
 
 	//之后是内部的迷宫
 	for (int i = 0; i < 100; i += 10)
@@ -159,25 +189,43 @@ void world::renderFrame() {
 		cube->scale = glm::vec3(100.0f - i, 4.0f, 1.0f);
 		cube->position = glm::vec3(-10.0f, 4.0f, -100.0f + i);
 		cube->Draw(*basicShader); //后方矮墙
+		if (init_collision_box == false) {
+			cube->collision.update_box(cube->getModelMatrix());
+			colli_box.push_back(cube->collision);
+		}
 
 
 		cube->scale = glm::vec3(100.0f - i, 4.0f, 1.0f);
 		cube->position = glm::vec3(10.0f, 4.0f, 100.0f - i);
 		cube->Draw(*basicShader); //前方矮墙
+		if (init_collision_box == false) {
+			cube->collision.update_box(cube->getModelMatrix());
+			colli_box.push_back(cube->collision);
+		}
 
 		cube->scale = glm::vec3(1.0f, 4.0f, 100.0f - i);
 		cube->position = glm::vec3(-100.0f + i, 4.0f, 10.0f);
 		cube->Draw(*basicShader); //左方矮墙
+		if (init_collision_box == false) {
+			cube->collision.update_box(cube->getModelMatrix());
+			colli_box.push_back(cube->collision);
+		}
 
 		cube->scale = glm::vec3(1.0f, 4.0f, 100.0f - i);
 		cube->position = glm::vec3(100.0f - i, 4.0f, -10.0f);
 		cube->Draw(*basicShader); //右方矮墙
+		if (init_collision_box == false) {
+			cube->collision.update_box(cube->getModelMatrix());
+			colli_box.push_back(cube->collision);
+		}
 
 
 	}
 
 	// TO DO: 不知为何天空盒必须放在最后显示
 	skyBox->Draw(projection, view, sunLight->getElevationAngle());
+
+	init_collision_box = true;
 }
 
 
@@ -248,8 +296,14 @@ void world::handleInput() {
 	}
 
 	if (_keyboardInput.keyStates[GLFW_KEY_C] == GLFW_PRESS) {
-		printf("state should to %d\n", state);
-		state = (state + 1) % 2;
+		if (state == 0) {	// game state
+			state = 1;
+		}
+		else {	// god state
+			state = 0;
+			camera->position = glm::vec3(0.0f, 4.0f, 0.0f);
+			camera->rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
+		}		
 		_keyboardInput.keyStates[GLFW_KEY_C] = GLFW_RELEASE;//注意这个语句的作用，是用来除去按键抖动的操作。
 	}
 
@@ -440,9 +494,9 @@ void world::CameraCollisionCheck(glm::vec3& camera_pos, glm::vec3 move)
 	
 	for (auto ibox = colli_box.begin(); ibox != colli_box.end(); ibox++) {
 		bool is_collision = 
-			(dest.x > ibox->get_x_range().x) && (dest.x < ibox->get_x_range().y) &&
-			(dest.y > ibox->get_y_range().x) && (dest.y < ibox->get_y_range().y) &&
-			(dest.z > ibox->get_z_range().x) && (dest.z < ibox->get_z_range().y);
+			(dest.x > ibox->get_x_range().x - camera->znear) && (dest.x < ibox->get_x_range().y + camera->znear) &&
+			(dest.y > ibox->get_y_range().x - camera->znear) && (dest.y < ibox->get_y_range().y + camera->znear) &&
+			(dest.z > ibox->get_z_range().x - camera->znear) && (dest.z < ibox->get_z_range().y + camera->znear);
 		if (is_collision) {
 			cout << "collision" << endl;
 			return;

@@ -7,6 +7,7 @@ Sphere::Sphere()
 	mat.Kd = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
 	mat.Ks = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	mat.shininess = 10.0f;
+	collision.sphere_box(5.0f);
 	Init();
 }
 

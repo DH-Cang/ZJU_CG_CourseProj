@@ -17,7 +17,8 @@ Cone::Cone() {
         vertices[i] = glm::vec3(cos(angle), -1.0f, sin(angle));
     }
 
-
+    // set up AABB
+    collision.cone_box(2.0f, 1.0f);
 
     glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vbo);
