@@ -37,6 +37,12 @@ world::world() {
 	sphere.reset(new Sphere());
 	//sphere->position = glm::vec3(0.0f, 0.0f, 50.0f);
 
+	cone.reset(new Cone());
+	cone->position = glm::vec3(0.0f, 0.0f, 50.0f);
+
+	cylinder.reset(new Cylinder());
+	cylinder->position = glm::vec3(0.0f, 0.0f, 70.0f);
+
 	sun.reset(new Model("./data/sphere_model/sphere.obj"));
 	sunLight.reset(new SunLight(70, 15));
 	sunLight->intensity = 0.1f;
@@ -106,6 +112,8 @@ void world::renderFrame() {
 	square_pyramid->Draw(*basicShader);
 	prism->Draw(*basicShader);
 	sphere->Draw(*basicShader);
+	cone->Draw(*basicShader);
+	cylinder->Draw(*basicShader);
 
 	//glColor3f(1, 0, 0);
 	//GLUquadric* quad;

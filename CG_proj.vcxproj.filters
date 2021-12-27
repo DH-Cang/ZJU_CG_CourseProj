@@ -75,6 +75,9 @@
     <ClCompile Include="basic_models\source\cylinder.cpp">
       <Filter>Basic Models\source</Filter>
     </ClCompile>
+    <ClCompile Include="basic_models\source\cone.cpp">
+      <Filter>Basic Models\source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\application.h">
@@ -129,6 +132,9 @@
       <Filter>Basic Models\include</Filter>
     </ClInclude>
     <ClInclude Include="basic_models\include\cylinder.h">
+      <Filter>Basic Models\include</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_models\include\cone.h">
       <Filter>Basic Models\include</Filter>
     </ClInclude>
   </ItemGroup>

@@ -8,7 +8,8 @@
 #include "../basic_models/include/square_pyramid.h"
 #include "../basic_models/include/prism.h"
 #include "../basic_models/include/sphere.h"
-#include "../basic_models/include/Cylinder.h" 
+#include "../basic_models/include/cylinder.h" 
+#include "../basic_models/include/cone.h" 
 
 
 
@@ -42,6 +43,10 @@ private:
 	unique_ptr<Cube> cube;
 
 	unique_ptr<Sphere> sphere;
+
+	unique_ptr<Cylinder> cylinder;
+
+	unique_ptr<Cone> cone;
 
 	unique_ptr<Square_pyramid> square_pyramid;
 

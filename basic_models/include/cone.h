@@ -9,10 +9,10 @@
 #include <vector>
 
 
-class Cylinder : public Object3D {
+class Cone : public Object3D {
 public:
-    Cylinder();
-    ~Cylinder();
+    Cone();
+    ~Cone();
 
     void Draw(Shader& shader);
 
@@ -21,8 +21,7 @@ private:
 
     struct Material mat;
 
-    GLuint vao[4], vbo[4];
-    glm::vec3 up_vertices[363];
-    glm::vec3 down_vertices[363];
-    glm::vec3 around_vertices[2180];
+    GLuint vao, vbo;
+    glm::vec3 vertices[363];
+    
 };
