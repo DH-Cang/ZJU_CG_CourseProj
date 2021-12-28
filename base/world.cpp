@@ -222,7 +222,6 @@ void world::renderFrame() {
 
 	}
 
-	// TO DO: 不知为何天空盒必须放在最后显示
 	skyBox->Draw(projection, view, sunLight->getElevationAngle());
 
 	init_collision_box = true;
@@ -231,7 +230,6 @@ void world::renderFrame() {
 
 
 void world::handleInput() {
-	// TO DO: 我们应当对视角的移动加以限制
 	const float cameraMoveSpeed = 0.04f;
 	const float cameraRotateSpeed = 0.25f;
 	const float deltaAngle = 0.001f;
@@ -442,17 +440,6 @@ void world::handleInput() {
 			exit(0);
 
 		fopen_s(&pDummyFile, "bitmapheader.bmp", "rb");
-
-		/*极小BUG待修改
-		* 令人费解阿
-		* 按理来说要检验一下这个拿来充当文件头的bmp是不是存在
-		* 如果不存在就会走入下面这个分支
-		* 目前是可以完美运行的 但是又是会走入这个分支的
-		* 如果我把下面那个exit的注释去掉
-		* 就会直接退出
-		*/
-		if (pDummyFile == 0);
-			//exit(0);
 
 		fopen_s(&pWritingFile, "snapshot.bmp", "wb");
 
