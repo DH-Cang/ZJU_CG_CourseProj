@@ -37,7 +37,7 @@ public:
 	float radius = 20.0f;
 
 private:
-	const float angularVelocity = 0.1f;
+	const float angularVelocity = 0.3f;
 
 	const float sunIntensityBase = 15.0f;
 

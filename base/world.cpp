@@ -54,7 +54,7 @@ world::world() {
 	colli_box.push_back(cylinder->collision);
 
 	sun.reset(new Model("./data/sphere_model/sphere.obj"));
-	sunLight.reset(new SunLight(70, 15));
+	sunLight.reset(new SunLight(70, 12));
 	sunLight->intensity = 0.1f;
 	
 	posture.reset(new DynamicModel("./data/postures/pose", 101, 20));
@@ -76,6 +76,7 @@ world::world() {
 		std::string("./shader/basic_shader.vert"),
 		std::string("./shader/basic_shader.frag")
 	));
+
 
 	bunnyShader.reset(new Shader(
 		std::string("./shader/bunny_shader.vert"),
@@ -119,12 +120,24 @@ void world::renderFrame() {
 	// update other shaders
 	nanosuitShader->loadCamera(view, projection);
 	nanosuitShader->loadDirectionalLight(*sunLight, eyes);
-	basicShader->loadCamera(view, projection);
-	basicShader->loadDirectionalLight(*sunLight, eyes);
+
 	bunnyShader->loadCamera(view, projection);
 	bunnyShader->loadDirectionalLight(*sunLight, eyes);
 	postureShader->loadCamera(view, projection);
 
+	basicShader->loadCamera(view, projection);
+	basicShader->loadDirectionalLight(*sunLight, eyes);
+
+	// 头灯位于眼睛上方，微微向下倾斜。如果恰在眼睛处，则视野中始终为正圆光斑，是不行的。
+	basicShader->setVec3("spotLight.position", eyes + 0.5f * glm::normalize(camera->getUp()));
+	basicShader->setVec3("spotLight.direction", camera->getFront() - 0.1f * glm::normalize(camera->getUp()));
+	// 头灯光照设定
+	basicShader->setFloat("spotLight.intensity", 10.0f);
+	basicShader->setVec3("spotLight.color", glm::vec3(1.0f, 1.0f, 1.0f));
+	basicShader->setFloat("spotLight.angle", 0.2f);
+	basicShader->setFloat("spotLight.kc", 1.0f);
+	basicShader->setFloat("spotLight.kl", 0.0f);
+	basicShader->setFloat("spotLight.kq", 0.2f);
 	
 	// draw other models
 	posture->Draw(*postureShader, _accumulatedTime);
@@ -137,7 +150,7 @@ void world::renderFrame() {
 	cylinder->Draw(*basicShader);
 
 	//这里绘制地板(感觉地板可以换成反射系数更加柔和的状态)
-	cube->SetKa(glm::vec4(0x99 / 255.0f, 0xCC / 255.0f, 0xCC / 255.0f, 1.0f));
+	cube->SetKa(glm::vec4(76.0f / 255.0f, 102.0f / 255.0f, 102.0f / 255.0f, 1.0f));
 	cube->SetKd(glm::vec4(0x99 / 255.0f, 0xCC / 255.0f, 0xCC / 255.0f, 1.0f));
 	cube->scale = glm::vec3(100.0f, 1.0f, 100.0f);
 	cube->position = glm::vec3(0.0f, -1.0f, 0.0f);
@@ -147,7 +160,7 @@ void world::renderFrame() {
 		colli_box.push_back(cube->collision);
 	}
 
-	cube->SetKa(glm::vec4(0x33 / 255.0f, 0x66 / 255.0f, 0x99 / 255.0f, 1.0f));
+	cube->SetKa(glm::vec4(25.0f / 255.0f, 51.0f / 255.0f, 76.0f / 255.0f, 1.0f));
 	cube->SetKd(glm::vec4(0x33 / 255.0f, 0x66 / 255.0f, 0x99 / 255.0f, 1.0f));
 	// 这里开始绘制由立方体搭建的迷宫
 	//下放四个语句是迷宫的界
