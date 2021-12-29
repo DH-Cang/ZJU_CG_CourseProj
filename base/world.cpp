@@ -28,6 +28,31 @@ world::world() {
 	bunny_obj.reset(new ObjModel("./data/bunny_model/bunny.obj"));
 	bunny_obj->position = glm::vec3(0.0f, 50.0f, 0.0f);
 
+	trophy[0].reset(new Model("./data/trophy_model/trophyexport.obj"));
+	trophy[0]->position = glm::vec3(95.0f, 6.0f, 95.0f);
+	trophy[0]->scale = glm::vec3(3.0f, 3.0f, 3.0f);
+	trophy[0]->colli_box.update_box(trophy[0]->getModelMatrix());
+	colli_box.push_back(trophy[0]->colli_box);
+
+	trophy[1].reset(new Model("./data/trophy_model/trophyexport.obj"));
+	trophy[1]->position = glm::vec3(-95.0f, 6.0f, 95.0f);
+	trophy[1]->scale = glm::vec3(3.0f, 3.0f, 3.0f);
+	trophy[1]->colli_box.update_box(trophy[1]->getModelMatrix());
+	colli_box.push_back(trophy[1]->colli_box);
+
+	trophy[2].reset(new Model("./data/trophy_model/trophyexport.obj"));
+	trophy[2]->position = glm::vec3(95.0f, 6.0f, -95.0f);
+	trophy[2]->scale = glm::vec3(3.0f, 3.0f, 3.0f);
+	trophy[2]->colli_box.update_box(trophy[2]->getModelMatrix());
+	colli_box.push_back(trophy[2]->colli_box);
+
+	trophy[3].reset(new Model("./data/trophy_model/trophyexport.obj"));
+	trophy[3]->position = glm::vec3(-95.0f, 6.0f, -95.0f);
+	trophy[3]->scale = glm::vec3(3.0f, 3.0f, 3.0f);
+	trophy[3]->colli_box.update_box(trophy[3]->getModelMatrix());
+	colli_box.push_back(trophy[3]->colli_box);
+
+
 	cube.reset(new Cube());
 
 	square_pyramid.reset(new Square_pyramid());
@@ -138,6 +163,10 @@ void world::renderFrame() {
 	sphere->Draw(*basicShader);
 	cone->Draw(*basicShader);
 	cylinder->Draw(*basicShader);
+	trophy[0]->Draw(*basicShader);
+	trophy[1]->Draw(*basicShader);
+	trophy[2]->Draw(*basicShader);
+	trophy[3]->Draw(*basicShader);
 
 	//这里绘制地板(感觉地板可以换成反射系数更加柔和的状态)
 	cube->SetKa(glm::vec4(0x99 / 255.0f, 0xCC / 255.0f, 0xCC / 255.0f, 1.0f));
@@ -225,7 +254,6 @@ void world::renderFrame() {
 
 	}
 
-	// TO DO: 不知为何天空盒必须放在最后显示
 	skyBox->Draw(projection, view, sunLight->getElevationAngle());
 
 	init_collision_box = true;
@@ -234,7 +262,6 @@ void world::renderFrame() {
 
 
 void world::handleInput() {
-	// TO DO: 我们应当对视角的移动加以限制
 	const float cameraMoveSpeed = 0.04f;
 	const float cameraRotateSpeed = 0.25f;
 	const float deltaAngle = 0.001f;
@@ -445,17 +472,6 @@ void world::handleInput() {
 			exit(0);
 
 		fopen_s(&pDummyFile, "bitmapheader.bmp", "rb");
-
-		/*极小BUG待修改
-		* 令人费解阿
-		* 按理来说要检验一下这个拿来充当文件头的bmp是不是存在
-		* 如果不存在就会走入下面这个分支
-		* 目前是可以完美运行的 但是又是会走入这个分支的
-		* 如果我把下面那个exit的注释去掉
-		* 就会直接退出
-		*/
-		if (pDummyFile == 0);
-			//exit(0);
 
 		fopen_s(&pWritingFile, "snapshot.bmp", "wb");
 

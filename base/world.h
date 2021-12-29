@@ -41,6 +41,8 @@ private:
 
     unique_ptr<PerspectiveCamera> camera;
 
+
+
 	unique_ptr<SkyBox> skyBox;
 
 	unique_ptr<SunLight> sunLight;
@@ -52,6 +54,8 @@ private:
 	unique_ptr<Model> bunny;
 
 	unique_ptr<ObjModel> bunny_obj;
+
+	unique_ptr<Model> trophy[4];
 
 	unique_ptr<DynamicModel> posture;
 
