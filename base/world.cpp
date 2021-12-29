@@ -25,6 +25,30 @@ world::world() {
 	bunny->colli_box.update_box(bunny->getModelMatrix());
 	colli_box.push_back(bunny->colli_box);
 
+	trophy[0].reset(new Model("./data/trophy_model/trophyexport.obj"));
+	trophy[0]->position = glm::vec3(95.0f, 6.0f, 95.0f);
+	trophy[0]->scale = glm::vec3(3.0f, 3.0f, 3.0f);
+	trophy[0]->colli_box.update_box(trophy[0]->getModelMatrix());
+	colli_box.push_back(trophy[0]->colli_box);
+
+	trophy[1].reset(new Model("./data/trophy_model/trophyexport.obj"));
+	trophy[1]->position = glm::vec3(-95.0f, 6.0f, 95.0f);
+	trophy[1]->scale = glm::vec3(3.0f, 3.0f, 3.0f);
+	trophy[1]->colli_box.update_box(trophy[1]->getModelMatrix());
+	colli_box.push_back(trophy[1]->colli_box);
+
+	trophy[2].reset(new Model("./data/trophy_model/trophyexport.obj"));
+	trophy[2]->position = glm::vec3(95.0f, 6.0f, -95.0f);
+	trophy[2]->scale = glm::vec3(3.0f, 3.0f, 3.0f);
+	trophy[2]->colli_box.update_box(trophy[2]->getModelMatrix());
+	colli_box.push_back(trophy[2]->colli_box);
+
+	trophy[3].reset(new Model("./data/trophy_model/trophyexport.obj"));
+	trophy[3]->position = glm::vec3(-95.0f, 6.0f, -95.0f);
+	trophy[3]->scale = glm::vec3(3.0f, 3.0f, 3.0f);
+	trophy[3]->colli_box.update_box(trophy[3]->getModelMatrix());
+	colli_box.push_back(trophy[3]->colli_box);
+
 
 	cube.reset(new Cube());
 
@@ -57,9 +81,9 @@ world::world() {
 	sunLight.reset(new SunLight(70, 15));
 	sunLight->intensity = 0.1f;
 	
-	posture.reset(new DynamicModel("./data/postures/pose", 101, 20));
+	/*posture.reset(new DynamicModel("./data/postures/pose", 101, 20));
 	posture->setPosition(glm::vec3(0.0f, 40.0f, -40.0f));
-	posture->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
+	posture->setScale(glm::vec3(0.1f, 0.1f, 0.1f));*/
 	
 	// set shaders
 	nanosuitShader.reset(new Shader(
@@ -127,7 +151,7 @@ void world::renderFrame() {
 
 	
 	// draw other models
-	posture->Draw(*postureShader, _accumulatedTime);
+	//posture->Draw(*postureShader, _accumulatedTime);
 	bunny->Draw(*bunnyShader);
 	nanosuit->Draw(*nanosuitShader);
 	square_pyramid->Draw(*basicShader);
@@ -135,6 +159,10 @@ void world::renderFrame() {
 	sphere->Draw(*basicShader);
 	cone->Draw(*basicShader);
 	cylinder->Draw(*basicShader);
+	trophy[0]->Draw(*basicShader);
+	trophy[1]->Draw(*basicShader);
+	trophy[2]->Draw(*basicShader);
+	trophy[3]->Draw(*basicShader);
 
 	//这里绘制地板(感觉地板可以换成反射系数更加柔和的状态)
 	cube->SetKa(glm::vec4(0x99 / 255.0f, 0xCC / 255.0f, 0xCC / 255.0f, 1.0f));
