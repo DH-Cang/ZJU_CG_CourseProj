@@ -84,9 +84,9 @@ world::world() {
 	sunLight.reset(new SunLight(70, 15));
 	sunLight->intensity = 0.1f;
 	
-	posture.reset(new DynamicModel("./data/postures/pose", 101, 20));
-	posture->setPosition(glm::vec3(0.0f, 40.0f, -40.0f));
-	posture->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
+	//posture.reset(new DynamicModel("./data/postures/pose", 101, 20));
+	//posture->setPosition(glm::vec3(0.0f, 40.0f, -40.0f));
+	//posture->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
 	
 	// set shaders
 	nanosuitShader.reset(new Shader(
@@ -150,11 +150,11 @@ void world::renderFrame() {
 	basicShader->loadDirectionalLight(*sunLight, eyes);
 	bunnyShader->loadCamera(view, projection);
 	bunnyShader->loadDirectionalLight(*sunLight, eyes);
-	postureShader->loadCamera(view, projection);
+	//postureShader->loadCamera(view, projection);
 
 	
 	// draw other models
-	posture->Draw(*postureShader, _accumulatedTime);
+	//posture->Draw(*postureShader, _accumulatedTime);
 	bunny->Draw(*bunnyShader);
 	bunny_obj->Draw(*bunnyShader);
 	nanosuit->Draw(*nanosuitShader);
@@ -215,44 +215,60 @@ void world::renderFrame() {
 		colli_box.push_back(cube->collision);
 	}
 
-	//之后是内部的迷宫
-	for (int i = 0; i < 100; i += 10)
+	
+	cube->scale = glm::vec3(5.0f, 4.0f, 5.0f);
+	for (int i = -100; i < 90; i += 10)
 	{
-		cube->scale = glm::vec3(100.0f - i, 4.0f, 1.0f);
-		cube->position = glm::vec3(-10.0f, 4.0f, -100.0f + i);
-		cube->Draw(*basicShader); //后方矮墙
-		if (init_collision_box == false) {
-			cube->collision.update_box(cube->getModelMatrix());
-			colli_box.push_back(cube->collision);
+		for (int j = -100; j < 90; j += 10) {
+			cube->position = glm::vec3(1.0f+j, 4.0f, 1.0f + i);
+			if (((i + 100)/ 10) % 2 == ((j + 100) / 10) % 2) {
+				cube->SetKa(glm::vec4(0xBB / 255.0f, 0xCC / 255.0f, 0xCC / 255.0f, 1.0f));
+				cube->Draw(*basicShader);
+			}
+			else
+			{
+				//cube->SetKa(glm::vec4(0x00 / 255.0f, 0xCC / 255.0f, 0xCC / 255.0f, 1.0f));
+				//cube->Draw(*basicShader);
+			}
 		}
-
-
-		cube->scale = glm::vec3(100.0f - i, 4.0f, 1.0f);
-		cube->position = glm::vec3(10.0f, 4.0f, 100.0f - i);
-		cube->Draw(*basicShader); //前方矮墙
-		if (init_collision_box == false) {
-			cube->collision.update_box(cube->getModelMatrix());
-			colli_box.push_back(cube->collision);
-		}
-
-		cube->scale = glm::vec3(1.0f, 4.0f, 100.0f - i);
-		cube->position = glm::vec3(-100.0f + i, 4.0f, 10.0f);
-		cube->Draw(*basicShader); //左方矮墙
-		if (init_collision_box == false) {
-			cube->collision.update_box(cube->getModelMatrix());
-			colli_box.push_back(cube->collision);
-		}
-
-		cube->scale = glm::vec3(1.0f, 4.0f, 100.0f - i);
-		cube->position = glm::vec3(100.0f - i, 4.0f, -10.0f);
-		cube->Draw(*basicShader); //右方矮墙
-		if (init_collision_box == false) {
-			cube->collision.update_box(cube->getModelMatrix());
-			colli_box.push_back(cube->collision);
-		}
-
-
 	}
+
+	//之后是内部的迷宫
+	//for (int i = 0; i < 100; i += 10)
+	//{
+	//	cube->scale = glm::vec3(100.0f - i, 4.0f, 1.0f);
+	//	cube->position = glm::vec3(-10.0f, 4.0f, -100.0f + i);
+	//	cube->Draw(*basicShader); //后方矮墙
+	//	if (init_collision_box == false) {
+	//		cube->collision.update_box(cube->getModelMatrix());
+	//		colli_box.push_back(cube->collision);
+	//	}
+
+
+	//	cube->scale = glm::vec3(100.0f - i, 4.0f, 1.0f);
+	//	cube->position = glm::vec3(10.0f, 4.0f, 100.0f - i);
+	//	cube->Draw(*basicShader); //前方矮墙
+	//	if (init_collision_box == false) {
+	//		cube->collision.update_box(cube->getModelMatrix());
+	//		colli_box.push_back(cube->collision);
+	//	}
+
+	//	cube->scale = glm::vec3(1.0f, 4.0f, 100.0f - i);
+	//	cube->position = glm::vec3(-100.0f + i, 4.0f, 10.0f);
+	//	cube->Draw(*basicShader); //左方矮墙
+	//	if (init_collision_box == false) {
+	//		cube->collision.update_box(cube->getModelMatrix());
+	//		colli_box.push_back(cube->collision);
+	//	}
+
+	//	cube->scale = glm::vec3(1.0f, 4.0f, 100.0f - i);
+	//	cube->position = glm::vec3(100.0f - i, 4.0f, -10.0f);
+	//	cube->Draw(*basicShader); //右方矮墙
+	//	if (init_collision_box == false) {
+	//		cube->collision.update_box(cube->getModelMatrix());
+	//		colli_box.push_back(cube->collision);
+	//	}
+	//}
 
 	skyBox->Draw(projection, view, sunLight->getElevationAngle());
 
