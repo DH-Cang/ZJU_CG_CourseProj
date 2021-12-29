@@ -81,9 +81,9 @@ world::world() {
 	sunLight.reset(new SunLight(70, 15));
 	sunLight->intensity = 0.1f;
 	
-	/*posture.reset(new DynamicModel("./data/postures/pose", 101, 20));
+	posture.reset(new DynamicModel("./data/postures/pose", 101, 20));
 	posture->setPosition(glm::vec3(0.0f, 40.0f, -40.0f));
-	posture->setScale(glm::vec3(0.1f, 0.1f, 0.1f));*/
+	posture->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
 	
 	// set shaders
 	nanosuitShader.reset(new Shader(
@@ -151,7 +151,7 @@ void world::renderFrame() {
 
 	
 	// draw other models
-	//posture->Draw(*postureShader, _accumulatedTime);
+	posture->Draw(*postureShader, _accumulatedTime);
 	bunny->Draw(*bunnyShader);
 	nanosuit->Draw(*nanosuitShader);
 	square_pyramid->Draw(*basicShader);
