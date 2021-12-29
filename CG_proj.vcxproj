@@ -147,6 +147,7 @@
     <ClCompile Include="base\mesh.cpp" />
     <ClCompile Include="base\model.cpp" />
     <ClCompile Include="base\object3d.cpp" />
+    <ClCompile Include="base\objmodel.cpp" />
     <ClCompile Include="base\shader.cpp" />
     <ClCompile Include="base\skybox.cpp" />
     <ClCompile Include="base\world.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="base\mesh.h" />
     <ClInclude Include="base\model.h" />
     <ClInclude Include="base\object3d.h" />
+    <ClInclude Include="base\objmodel.h" />
     <ClInclude Include="base\shader.h" />
     <ClInclude Include="base\skybox.h" />
     <ClInclude Include="base\world.h" />

@@ -25,6 +25,8 @@ world::world() {
 	bunny->colli_box.update_box(bunny->getModelMatrix());
 	colli_box.push_back(bunny->colli_box);
 
+	bunny_obj.reset(new ObjModel("./data/bunny_model/bunny.obj"));
+	bunny_obj->position = glm::vec3(0.0f, 50.0f, 0.0f);
 
 	cube.reset(new Cube());
 
@@ -129,6 +131,7 @@ void world::renderFrame() {
 	// draw other models
 	posture->Draw(*postureShader, _accumulatedTime);
 	bunny->Draw(*bunnyShader);
+	bunny_obj->Draw(*bunnyShader);
 	nanosuit->Draw(*nanosuitShader);
 	square_pyramid->Draw(*basicShader);
 	prism->Draw(*basicShader);

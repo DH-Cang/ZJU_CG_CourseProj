@@ -53,6 +53,9 @@
     <ClCompile Include="basic_models\source\square_pyramid.cpp">
       <Filter>Basic_model\source</Filter>
     </ClCompile>
+    <ClCompile Include="base\objmodel.cpp">
+      <Filter>Base\source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\collision.h">
@@ -114,6 +117,9 @@
     </ClInclude>
     <ClInclude Include="basic_models\include\square_pyramid.h">
       <Filter>Basic_model\include</Filter>
+    </ClInclude>
+    <ClInclude Include="base\objmodel.h">
+      <Filter>Base\include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
