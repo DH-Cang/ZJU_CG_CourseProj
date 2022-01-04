@@ -156,15 +156,29 @@ void world::renderFrame() {
 	basicShader->loadDirectionalLight(*sunLight, eyes);
 
 	// 头灯位于眼睛上方，微微向下倾斜。如果恰在眼睛处，则视野中始终为正圆光斑，是不行的。
-	basicShader->setVec3("spotLight.position", eyes + 0.5f * glm::normalize(camera->getUp()));
-	basicShader->setVec3("spotLight.direction", camera->getFront() - 0.1f * glm::normalize(camera->getUp()));
-	// 头灯光照设定
-	basicShader->setFloat("spotLight.intensity", 10.0f);
-	basicShader->setVec3("spotLight.color", glm::vec3(1.0f, 1.0f, 1.0f));
-	basicShader->setFloat("spotLight.angle", 0.2f);
-	basicShader->setFloat("spotLight.kc", 1.0f);
-	basicShader->setFloat("spotLight.kl", 0.0f);
-	basicShader->setFloat("spotLight.kq", 0.2f);
+	if (switch_on) {
+		basicShader->setVec3("spotLight.position", eyes + 0.5f * glm::normalize(camera->getUp()));
+		basicShader->setVec3("spotLight.direction", camera->getFront() - 0.1f * glm::normalize(camera->getUp()));
+		// 头灯光照设定
+		basicShader->setFloat("spotLight.intensity", 10.0f);
+		basicShader->setVec3("spotLight.color", glm::vec3(1.0f, 1.0f, 1.0f));
+		basicShader->setFloat("spotLight.angle", 0.2f);
+		basicShader->setFloat("spotLight.kc", 1.0f);
+		basicShader->setFloat("spotLight.kl", 0.0f);
+		basicShader->setFloat("spotLight.kq", 0.2f);
+	}
+	else
+	{
+		basicShader->setVec3("spotLight.position", eyes + 0.5f * glm::normalize(camera->getUp()));
+		basicShader->setVec3("spotLight.direction", camera->getFront() - 0.1f * glm::normalize(camera->getUp()));
+		// 头灯光照设定
+		basicShader->setFloat("spotLight.intensity", 0.0f); //-1.0f + 0.0f
+		basicShader->setVec3("spotLight.color", glm::vec3(1.0f, 1.0f, 1.0f));
+		basicShader->setFloat("spotLight.angle", 0.2f);
+		basicShader->setFloat("spotLight.kc", 1.0f);
+		basicShader->setFloat("spotLight.kl", 0.0f);
+		basicShader->setFloat("spotLight.kq", 0.2f);
+	}
 	
 	// draw other models
 	posture->Draw(*postureShader, _accumulatedTime);
@@ -348,6 +362,15 @@ void world::handleInput() {
 			camera->rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
 		}		
 		_keyboardInput.keyStates[GLFW_KEY_C] = GLFW_RELEASE;//注意这个语句的作用，是用来除去按键抖动的操作。
+	}
+	if (_keyboardInput.keyStates[GLFW_KEY_O] == GLFW_PRESS) {
+		if (switch_on == 0) {	// turn on the headlight
+			switch_on = 1;
+		}
+		else {	// turn off the headlight
+			switch_on = 0;
+		}
+		_keyboardInput.keyStates[GLFW_KEY_O] = GLFW_RELEASE;//注意这个语句的作用，是用来除去按键抖动的操作。
 	}
 
 	
