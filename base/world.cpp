@@ -73,7 +73,7 @@ world::world() {
 	colli_box.push_back(sphere->collision);
 
 	cone.reset(new Cone());
-	cone->position = glm::vec3(0.0f, 40.0f, 50.0f);
+	cone->position = glm::vec3(0.0f, 40.0f, 60.0f);
 	cone->collision.update_box(cone->getModelMatrix());
 	colli_box.push_back(cone->collision);
 
@@ -157,11 +157,11 @@ void world::renderFrame() {
 	basicShader->loadCamera(view, projection);
 	basicShader->loadDirectionalLight(*sunLight, eyes);
 
-	// 头灯位于眼睛上方，微微向下倾斜。如果恰在眼睛处，则视野中始终为正圆光斑，是不行的。
+	// 点灯位于眼睛上方，微微向下倾斜。如果恰在眼睛处，则视野中始终为正圆光斑，是不行的。
 	if (switch_on) {
 		basicShader->setVec3("spotLight.position", eyes + 0.5f * glm::normalize(camera->getUp()));
 		basicShader->setVec3("spotLight.direction", camera->getFront() - 0.1f * glm::normalize(camera->getUp()));
-		// 头灯光照设定
+		// 光照设定
 		basicShader->setFloat("spotLight.intensity", 10.0f);
 		basicShader->setVec3("spotLight.color", glm::vec3(1.0f, 1.0f, 1.0f));
 		basicShader->setFloat("spotLight.angle", 0.2f);
@@ -173,7 +173,7 @@ void world::renderFrame() {
 	{
 		basicShader->setVec3("spotLight.position", eyes + 0.5f * glm::normalize(camera->getUp()));
 		basicShader->setVec3("spotLight.direction", camera->getFront() - 0.1f * glm::normalize(camera->getUp()));
-		// 头灯光照设定
+		// 光照设定
 		basicShader->setFloat("spotLight.intensity", 0.0f); //-1.0f + 0.0f
 		basicShader->setVec3("spotLight.color", glm::vec3(1.0f, 1.0f, 1.0f));
 		basicShader->setFloat("spotLight.angle", 0.2f);
