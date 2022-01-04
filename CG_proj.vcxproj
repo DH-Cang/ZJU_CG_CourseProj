@@ -159,6 +159,7 @@
     <ClCompile Include="basic_models\source\square_pyramid.cpp" />
     <ClCompile Include="basic_models\source\prism.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="maze.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\application.h" />
@@ -182,6 +183,7 @@
     <ClInclude Include="basic_models\include\prism.h" />
     <ClInclude Include="basic_models\include\sphere.h" />
     <ClInclude Include="basic_models\include\square_pyramid.h" />
+    <ClInclude Include="maze.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\basic_shader.frag" />

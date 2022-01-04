@@ -215,11 +215,11 @@ void world::renderFrame() {
 		colli_box.push_back(cube->collision);
 	}
 
-	
+	//绘制棋盘格测试密铺
 	cube->scale = glm::vec3(5.0f, 4.0f, 5.0f);
-	for (int i = -100; i < 90; i += 10)
+	for (int i = -80; i < 90; i += 10)
 	{
-		for (int j = -100; j < 90; j += 10) {
+		for (int j = -80; j < 90; j += 10) {
 			cube->position = glm::vec3(1.0f+j, 4.0f, 1.0f + i);
 			if (((i + 100)/ 10) % 2 == ((j + 100) / 10) % 2) {
 				cube->SetKa(glm::vec4(0xBB / 255.0f, 0xCC / 255.0f, 0xCC / 255.0f, 1.0f));

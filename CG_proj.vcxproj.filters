@@ -56,6 +56,9 @@
     <ClCompile Include="base\objmodel.cpp">
       <Filter>Base\source</Filter>
     </ClCompile>
+    <ClCompile Include="maze.cpp">
+      <Filter>Basic_model\source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\collision.h">
@@ -120,6 +123,9 @@
     </ClInclude>
     <ClInclude Include="base\objmodel.h">
       <Filter>Base\include</Filter>
+    </ClInclude>
+    <ClInclude Include="maze.h">
+      <Filter>Basic_model\include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

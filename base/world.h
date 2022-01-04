@@ -11,6 +11,7 @@
 #include "../basic_models/include/sphere.h"
 #include "../basic_models/include/cylinder.h" 
 #include "../basic_models/include/cone.h" 
+#include "../basic_models/include/maze.h"
 
 #define BMP_Header_Length 54
 
