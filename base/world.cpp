@@ -3,6 +3,8 @@
 world::world() {
 	this->_windowTitle = std::string("World Rendering");
 
+	maze.reset(new RandomMaze());
+
 	// set input mode
 	glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	_mouseInput.move.xOld = _mouseInput.move.xCurrent = 0.5 * _windowWidth;

@@ -11,6 +11,7 @@
 #include "../basic_models/include/sphere.h"
 #include "../basic_models/include/cylinder.h" 
 #include "../basic_models/include/cone.h" 
+#include "../basic_models/include/random_maze.h"
 
 #define BMP_Header_Length 54
 
@@ -81,6 +82,8 @@ private:
 	unique_ptr<Shader> bunnyShader;
 
 	unique_ptr<Shader> postureShader;
+
+	unique_ptr<RandomMaze> maze;
 
 };
 
