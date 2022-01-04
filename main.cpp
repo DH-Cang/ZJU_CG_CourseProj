@@ -7,6 +7,7 @@
 
 int main() {
 	try {
+		srand((unsigned)time(NULL));
 		world game;
 		game.run();
 	}

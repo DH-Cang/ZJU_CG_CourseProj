@@ -244,44 +244,75 @@ void world::renderFrame() {
 		colli_box.push_back(cube->collision);
 	}
 
-	//之后是内部的迷宫
-	for (int i = 0; i < 100; i += 10)
+	//之后是内部的迷宫,测试密铺
+	//绘制棋盘格测试密铺
+	cube->scale = glm::vec3(5.0f, 4.0f, 5.0f);
+	for (int i = -80; i < 90; i += 10)
 	{
-		cube->scale = glm::vec3(100.0f - i, 4.0f, 1.0f);
-		cube->position = glm::vec3(-10.0f, 4.0f, -100.0f + i);
-		cube->Draw(*basicShader); //后方矮墙
-		if (init_collision_box == false) {
-			cube->collision.update_box(cube->getModelMatrix());
-			colli_box.push_back(cube->collision);
+		for (int j = -80; j < 90; j += 10) {
+			cube->position = glm::vec3(1.0f + j, 4.0f, 1.0f + i);
+			//if (((i + 100) / 10) % 2 == ((j + 100) / 10) % 2) {//
+			if (maze->getMazeInfo((int)((i + 80) / 10), int((j + 80) / 10))) {
+				if (i > -20 && i < 20 && j > -20 && j < 20) {//生存空间，防止开局卡死
+					// do nothing
+				}
+				else if (i == -80 || i == 80 || j == -80 || j == 80 )//边界上的块去掉，
+				{
+					//do nothing
+				}
+				else {
+					cube->SetKa(glm::vec4(0xBB / 255.0f, 0xCC / 255.0f, 0xCC / 255.0f, 1.0f));
+					cube->Draw(*basicShader);
+					if (init_collision_box == false) {
+						cube->collision.update_box(cube->getModelMatrix());
+						colli_box.push_back(cube->collision);
+					}
+				}
+			}
+			else
+			{
+				//cube->SetKa(glm::vec4(0x00 / 255.0f, 0xCC / 255.0f, 0xCC / 255.0f, 1.0f));
+				//cube->Draw(*basicShader);
+			}
 		}
-
-
-		cube->scale = glm::vec3(100.0f - i, 4.0f, 1.0f);
-		cube->position = glm::vec3(10.0f, 4.0f, 100.0f - i);
-		cube->Draw(*basicShader); //前方矮墙
-		if (init_collision_box == false) {
-			cube->collision.update_box(cube->getModelMatrix());
-			colli_box.push_back(cube->collision);
-		}
-
-		cube->scale = glm::vec3(1.0f, 4.0f, 100.0f - i);
-		cube->position = glm::vec3(-100.0f + i, 4.0f, 10.0f);
-		cube->Draw(*basicShader); //左方矮墙
-		if (init_collision_box == false) {
-			cube->collision.update_box(cube->getModelMatrix());
-			colli_box.push_back(cube->collision);
-		}
-
-		cube->scale = glm::vec3(1.0f, 4.0f, 100.0f - i);
-		cube->position = glm::vec3(100.0f - i, 4.0f, -10.0f);
-		cube->Draw(*basicShader); //右方矮墙
-		if (init_collision_box == false) {
-			cube->collision.update_box(cube->getModelMatrix());
-			colli_box.push_back(cube->collision);
-		}
-
-
 	}
+	//for (int i = 0; i < 100; i += 10)
+	//{
+	//	cube->scale = glm::vec3(100.0f - i, 4.0f, 1.0f);
+	//	cube->position = glm::vec3(-10.0f, 4.0f, -100.0f + i);
+	//	cube->Draw(*basicShader); //后方矮墙
+	//	if (init_collision_box == false) {
+	//		cube->collision.update_box(cube->getModelMatrix());
+	//		colli_box.push_back(cube->collision);
+	//	}
+
+
+	//	cube->scale = glm::vec3(100.0f - i, 4.0f, 1.0f);
+	//	cube->position = glm::vec3(10.0f, 4.0f, 100.0f - i);
+	//	cube->Draw(*basicShader); //前方矮墙
+	//	if (init_collision_box == false) {
+	//		cube->collision.update_box(cube->getModelMatrix());
+	//		colli_box.push_back(cube->collision);
+	//	}
+
+	//	cube->scale = glm::vec3(1.0f, 4.0f, 100.0f - i);
+	//	cube->position = glm::vec3(-100.0f + i, 4.0f, 10.0f);
+	//	cube->Draw(*basicShader); //左方矮墙
+	//	if (init_collision_box == false) {
+	//		cube->collision.update_box(cube->getModelMatrix());
+	//		colli_box.push_back(cube->collision);
+	//	}
+
+	//	cube->scale = glm::vec3(1.0f, 4.0f, 100.0f - i);
+	//	cube->position = glm::vec3(100.0f - i, 4.0f, -10.0f);
+	//	cube->Draw(*basicShader); //右方矮墙
+	//	if (init_collision_box == false) {
+	//		cube->collision.update_box(cube->getModelMatrix());
+	//		colli_box.push_back(cube->collision);
+	//	}
+
+
+	//}
 
 	skyBox->Draw(projection, view, sunLight->getElevationAngle());
 

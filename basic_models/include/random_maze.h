@@ -2,12 +2,15 @@
 #include <cstdio>
 #include <iostream>
 #include <vector>
+#include <random>
 
 class RandomMaze
 {
 public:
 	RandomMaze();
 	~RandomMaze();
+	void constructRandomMaze();
+	int getMazeInfo(int i, int j);
 
 private:
 	int row = 8;
