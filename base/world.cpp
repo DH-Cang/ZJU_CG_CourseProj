@@ -3,6 +3,8 @@
 world::world() {
 	this->_windowTitle = std::string("World Rendering");
 
+	maze.reset(new RandomMaze());
+
 	// set input mode
 	glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	_mouseInput.move.xOld = _mouseInput.move.xCurrent = 0.5 * _windowWidth;
@@ -71,7 +73,7 @@ world::world() {
 	colli_box.push_back(sphere->collision);
 
 	cone.reset(new Cone());
-	cone->position = glm::vec3(0.0f, 40.0f, 50.0f);
+	cone->position = glm::vec3(0.0f, 40.0f, 60.0f);
 	cone->collision.update_box(cone->getModelMatrix());
 	colli_box.push_back(cone->collision);
 
@@ -155,16 +157,30 @@ void world::renderFrame() {
 	basicShader->loadCamera(view, projection);
 	basicShader->loadDirectionalLight(*sunLight, eyes);
 
-	// 头灯位于眼睛上方，微微向下倾斜。如果恰在眼睛处，则视野中始终为正圆光斑，是不行的。
-	basicShader->setVec3("spotLight.position", eyes + 0.5f * glm::normalize(camera->getUp()));
-	basicShader->setVec3("spotLight.direction", camera->getFront() - 0.1f * glm::normalize(camera->getUp()));
-	// 头灯光照设定
-	basicShader->setFloat("spotLight.intensity", 10.0f);
-	basicShader->setVec3("spotLight.color", glm::vec3(1.0f, 1.0f, 1.0f));
-	basicShader->setFloat("spotLight.angle", 0.2f);
-	basicShader->setFloat("spotLight.kc", 1.0f);
-	basicShader->setFloat("spotLight.kl", 0.0f);
-	basicShader->setFloat("spotLight.kq", 0.2f);
+	// 点灯位于眼睛上方，微微向下倾斜。如果恰在眼睛处，则视野中始终为正圆光斑，是不行的。
+	if (switch_on) {
+		basicShader->setVec3("spotLight.position", eyes + 0.5f * glm::normalize(camera->getUp()));
+		basicShader->setVec3("spotLight.direction", camera->getFront() - 0.1f * glm::normalize(camera->getUp()));
+		// 光照设定
+		basicShader->setFloat("spotLight.intensity", 10.0f);
+		basicShader->setVec3("spotLight.color", glm::vec3(1.0f, 1.0f, 1.0f));
+		basicShader->setFloat("spotLight.angle", 0.2f);
+		basicShader->setFloat("spotLight.kc", 1.0f);
+		basicShader->setFloat("spotLight.kl", 0.0f);
+		basicShader->setFloat("spotLight.kq", 0.2f);
+	}
+	else
+	{
+		basicShader->setVec3("spotLight.position", eyes + 0.5f * glm::normalize(camera->getUp()));
+		basicShader->setVec3("spotLight.direction", camera->getFront() - 0.1f * glm::normalize(camera->getUp()));
+		// 光照设定
+		basicShader->setFloat("spotLight.intensity", 0.0f); //-1.0f + 0.0f
+		basicShader->setVec3("spotLight.color", glm::vec3(1.0f, 1.0f, 1.0f));
+		basicShader->setFloat("spotLight.angle", 0.2f);
+		basicShader->setFloat("spotLight.kc", 1.0f);
+		basicShader->setFloat("spotLight.kl", 0.0f);
+		basicShader->setFloat("spotLight.kq", 0.2f);
+	}
 	
 	// draw other models
 	posture->Draw(*postureShader, _accumulatedTime);
@@ -228,44 +244,75 @@ void world::renderFrame() {
 		colli_box.push_back(cube->collision);
 	}
 
-	//之后是内部的迷宫
-	for (int i = 0; i < 100; i += 10)
+	//之后是内部的迷宫,测试密铺
+	//绘制棋盘格测试密铺
+	cube->scale = glm::vec3(5.0f, 4.0f, 5.0f);
+	for (int i = -80; i < 90; i += 10)
 	{
-		cube->scale = glm::vec3(100.0f - i, 4.0f, 1.0f);
-		cube->position = glm::vec3(-10.0f, 4.0f, -100.0f + i);
-		cube->Draw(*basicShader); //后方矮墙
-		if (init_collision_box == false) {
-			cube->collision.update_box(cube->getModelMatrix());
-			colli_box.push_back(cube->collision);
+		for (int j = -80; j < 90; j += 10) {
+			cube->position = glm::vec3(1.0f + j, 4.0f, 1.0f + i);
+			//if (((i + 100) / 10) % 2 == ((j + 100) / 10) % 2) {//
+			if (maze->getMazeInfo((int)((i + 80) / 10), int((j + 80) / 10))) {
+				if (i > -20 && i < 20 && j > -20 && j < 20) {//生存空间，防止开局卡死
+					// do nothing
+				}
+				else if (i == -80 || i == 80 || j == -80 || j == 80 )//边界上的块去掉，
+				{
+					//do nothing
+				}
+				else {
+					cube->SetKa(glm::vec4(0xBB / 255.0f, 0xCC / 255.0f, 0xCC / 255.0f, 1.0f));
+					cube->Draw(*basicShader);
+					if (init_collision_box == false) {
+						cube->collision.update_box(cube->getModelMatrix());
+						colli_box.push_back(cube->collision);
+					}
+				}
+			}
+			else
+			{
+				//cube->SetKa(glm::vec4(0x00 / 255.0f, 0xCC / 255.0f, 0xCC / 255.0f, 1.0f));
+				//cube->Draw(*basicShader);
+			}
 		}
-
-
-		cube->scale = glm::vec3(100.0f - i, 4.0f, 1.0f);
-		cube->position = glm::vec3(10.0f, 4.0f, 100.0f - i);
-		cube->Draw(*basicShader); //前方矮墙
-		if (init_collision_box == false) {
-			cube->collision.update_box(cube->getModelMatrix());
-			colli_box.push_back(cube->collision);
-		}
-
-		cube->scale = glm::vec3(1.0f, 4.0f, 100.0f - i);
-		cube->position = glm::vec3(-100.0f + i, 4.0f, 10.0f);
-		cube->Draw(*basicShader); //左方矮墙
-		if (init_collision_box == false) {
-			cube->collision.update_box(cube->getModelMatrix());
-			colli_box.push_back(cube->collision);
-		}
-
-		cube->scale = glm::vec3(1.0f, 4.0f, 100.0f - i);
-		cube->position = glm::vec3(100.0f - i, 4.0f, -10.0f);
-		cube->Draw(*basicShader); //右方矮墙
-		if (init_collision_box == false) {
-			cube->collision.update_box(cube->getModelMatrix());
-			colli_box.push_back(cube->collision);
-		}
-
-
 	}
+	//for (int i = 0; i < 100; i += 10)
+	//{
+	//	cube->scale = glm::vec3(100.0f - i, 4.0f, 1.0f);
+	//	cube->position = glm::vec3(-10.0f, 4.0f, -100.0f + i);
+	//	cube->Draw(*basicShader); //后方矮墙
+	//	if (init_collision_box == false) {
+	//		cube->collision.update_box(cube->getModelMatrix());
+	//		colli_box.push_back(cube->collision);
+	//	}
+
+
+	//	cube->scale = glm::vec3(100.0f - i, 4.0f, 1.0f);
+	//	cube->position = glm::vec3(10.0f, 4.0f, 100.0f - i);
+	//	cube->Draw(*basicShader); //前方矮墙
+	//	if (init_collision_box == false) {
+	//		cube->collision.update_box(cube->getModelMatrix());
+	//		colli_box.push_back(cube->collision);
+	//	}
+
+	//	cube->scale = glm::vec3(1.0f, 4.0f, 100.0f - i);
+	//	cube->position = glm::vec3(-100.0f + i, 4.0f, 10.0f);
+	//	cube->Draw(*basicShader); //左方矮墙
+	//	if (init_collision_box == false) {
+	//		cube->collision.update_box(cube->getModelMatrix());
+	//		colli_box.push_back(cube->collision);
+	//	}
+
+	//	cube->scale = glm::vec3(1.0f, 4.0f, 100.0f - i);
+	//	cube->position = glm::vec3(100.0f - i, 4.0f, -10.0f);
+	//	cube->Draw(*basicShader); //右方矮墙
+	//	if (init_collision_box == false) {
+	//		cube->collision.update_box(cube->getModelMatrix());
+	//		colli_box.push_back(cube->collision);
+	//	}
+
+
+	//}
 
 	skyBox->Draw(projection, view, sunLight->getElevationAngle());
 
@@ -348,6 +395,15 @@ void world::handleInput() {
 			camera->rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
 		}		
 		_keyboardInput.keyStates[GLFW_KEY_C] = GLFW_RELEASE;//注意这个语句的作用，是用来除去按键抖动的操作。
+	}
+	if (_keyboardInput.keyStates[GLFW_KEY_O] == GLFW_PRESS) {
+		if (switch_on == 0) {	// turn on the headlight
+			switch_on = 1;
+		}
+		else {	// turn off the headlight
+			switch_on = 0;
+		}
+		_keyboardInput.keyStates[GLFW_KEY_O] = GLFW_RELEASE;//注意这个语句的作用，是用来除去按键抖动的操作。
 	}
 
 	

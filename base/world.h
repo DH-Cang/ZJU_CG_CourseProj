@@ -11,6 +11,7 @@
 #include "../basic_models/include/sphere.h"
 #include "../basic_models/include/cylinder.h" 
 #include "../basic_models/include/cone.h" 
+#include "../basic_models/include/random_maze.h"
 
 #define BMP_Header_Length 54
 
@@ -31,6 +32,7 @@ private:
 
 	bool setTarget = false;
 	int state = 1; //游戏状态：0状态玩家不可进行上下移动，1状态玩家方可进行上下移动，按C切换
+	int switch_on = 0; //游戏状态：0关闭手电，1打开手电
 	bool init_collision_box = false;
 
 	glm::vec3 target = { 0.0f, 0.0f, 0.0f };
@@ -80,6 +82,8 @@ private:
 	unique_ptr<Shader> bunnyShader;
 
 	unique_ptr<Shader> postureShader;
+
+	unique_ptr<RandomMaze> maze;
 
 };
 
